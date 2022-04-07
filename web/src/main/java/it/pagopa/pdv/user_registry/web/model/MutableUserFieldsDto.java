@@ -9,12 +9,6 @@ public class MutableUserFieldsDto {
 
     private String givenName;
     private String familyName;
-    private Map<String, UserResource.WorkContactResource> workContacts;
-
-
-    @Data
-    public static class WorkContactResource {
-        private String email;
-    }
+    private Map<String, WorkContactResource> workContacts;
 
 }

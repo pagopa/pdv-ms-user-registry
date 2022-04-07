@@ -14,9 +14,4 @@ public class PersonResource {
     //TODO certification field
 
 
-    @Data
-    public static class WorkContactResource {
-        private String email;
-    }
-
 }

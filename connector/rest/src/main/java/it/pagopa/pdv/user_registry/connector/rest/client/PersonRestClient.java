@@ -2,6 +2,7 @@ package it.pagopa.pdv.user_registry.connector.rest.client;
 
 import it.pagopa.pdv.user_registry.connector.PersonConnector;
 import it.pagopa.pdv.user_registry.connector.model.PersonResource;
+import it.pagopa.pdv.user_registry.connector.model.SavePersonDto;
 import it.pagopa.pdv.user_registry.connector.model.SavePersonNamespaceDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -16,6 +17,12 @@ public interface PersonRestClient extends PersonConnector {
                           @PathVariable("namespace") String namespace,
                           @RequestBody
                                   SavePersonNamespaceDto request);
+
+    @PatchMapping(value = "${rest-client.person.save.path}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    void save(@PathVariable("id") String id,
+              @RequestBody
+                      SavePersonDto request);
 
     @GetMapping(value = "${rest-client.person.getUserById.path}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

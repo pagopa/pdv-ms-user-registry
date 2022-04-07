@@ -4,12 +4,10 @@ import it.pagopa.pdv.user_registry.connector.PersonConnector;
 import it.pagopa.pdv.user_registry.connector.TokenizerConnector;
 import it.pagopa.pdv.user_registry.connector.model.*;
 import it.pagopa.pdv.user_registry.core.model.User;
+import it.pagopa.pdv.user_registry.core.model.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -27,22 +25,24 @@ class UserServiceImpl implements UserService {
 
 
     @Override
-    public String upsertUser(String fiscalCode, String namespace) {
+    public String upsert(String fiscalCode, String namespace) {
         CreateTokenDto createTokenDto = new CreateTokenDto();
         createTokenDto.setPii(fiscalCode);
-        TokenResource tokenResource = tokenizerConnector.save(createTokenDto, namespace);
-        SavePersonNamespaceDto request = new SavePersonNamespaceDto();
-        request.setNamespacedId(tokenResource.getToken());
-        personConnector.saveNamespacedId(tokenResource.getRootToken(), namespace, request);
+        TokenResource tokenResource = tokenizerConnector.save(namespace, createTokenDto);
+        SavePersonNamespaceDto savePersonNamespaceDto = new SavePersonNamespaceDto();
+        savePersonNamespaceDto.setNamespacedId(tokenResource.getToken());
+        personConnector.saveNamespacedId(tokenResource.getRootToken(), namespace, savePersonNamespaceDto);
+        SavePersonDto savePersonDto = new SavePersonDto();
+        personConnector.save(tokenResource.getRootToken(), savePersonDto);
         return tokenResource.getToken();
     }
 
 
     @Override
-    public User getUserById(String id, Optional<List<String>> fields) {
+    public User findById(String id, boolean fetchFiscalCode) {
         PersonResource person = personConnector.getUserById(id, true);
-        User user = new User(person);
-        if (fields.isEmpty() || fields.get().contains("fiscalCode")) {
+        User user = UserMapper.map(person);
+        if (fetchFiscalCode) {
             PiiResource pii = tokenizerConnector.findPiiByToken(id);
             user.setFiscalCode(pii.getPii());
         }
@@ -51,33 +51,21 @@ class UserServiceImpl implements UserService {
     }
 
 
-    //    @Override
-//    public String save(String pii, Namespace namespace) {
-//        Assert.hasText(pii, "A Private Data is required");
-//        Assert.notNull(namespace, "A Namespace is required");
-//        log.debug(LogUtils.CONFIDENTIAL_MARKER, "save input: pii = {}, namespace = {}", pii, namespace);
-//        String token = tokenizerConnector.save(pii, namespace);
-//        log.debug("save output: token = {}", token);
-//        return token;
-//    }
-//
-//    @Override
-//    public String findById(String pii, Namespace namespace) {
-//        Assert.hasText(pii, "A Private Data is required");
-//        Assert.notNull(namespace, "A Namespace is required");
-//        log.debug(LogUtils.CONFIDENTIAL_MARKER, "findById input: pii = {}, namespace = {}", pii, namespace);
-//        String token = tokenizerConnector.findById(pii, namespace);
-//        log.debug("findById output: token = {}", token);
-//        return token;
-//    }
-//
-//    @Override
-//    public String findPiiByToken(String token) {
-//        Assert.hasText(token, "A token is required");
-//        log.debug("findPiiByToken input: token = {}", token);
-//        String pii = tokenizerConnector.findPiiByToken(token);
-//        log.debug(LogUtils.CONFIDENTIAL_MARKER, "findById output: pii = {}", pii);
-//        return pii;
-//    }
+    @Override
+    public void save(String id, User user) {
+        SavePersonDto request = UserMapper.map(user);
+        personConnector.save(id, request);
+    }
+
+
+    @Override
+    public User search(String fiscalCode, String namespace) {
+        SearchTokenFilterCriteria filterCriteria = new SearchTokenFilterCriteria();
+        filterCriteria.setPii(fiscalCode);
+        TokenResource resource = tokenizerConnector.search(namespace, filterCriteria);
+        PersonResource person = personConnector.getUserById(resource.getRootToken(), false);
+        User user = UserMapper.map(person);
+        return user;
+    }
 
 }

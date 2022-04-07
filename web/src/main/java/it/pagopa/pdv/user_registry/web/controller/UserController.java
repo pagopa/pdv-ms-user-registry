@@ -42,58 +42,31 @@ public class UserController {
                                     @ApiParam(value = "${swagger.model.user.fl}")
                                     @RequestParam(value = "fl", required = false)
                                             Optional<List<String>> fields) {
-        User user = userService.getUserById(id.toString(), fields);
-        return UserMapper.toResource(user);
+        //TODO: manage fields
+        User user = userService.findById(id.toString(), fields.isEmpty() || fields.get().contains("fiscalCode"));
+        return UserMapper.map(user);
     }
-
-
-//    @ApiOperation(value = "${swagger.users.api.getFiscalCodeById.summary}",
-//            notes = "${swagger.users.api.getFiscalCodeById.notes}")
-//    @GetMapping(value = "/{id}/fiscal-code")
-//    @ResponseStatus(HttpStatus.OK)
-//    public UserExternalId getFiscalCodeById(@ApiParam("${swagger.model.user.id}")
-//                                                    @PathVariable("id")
-//                                                            UUID id,
-//                                                    @ApiParam("${swagger.model.user.fl}")
-//                                                    @RequestParam("fl")
-//                                                            Optional<List<String>> fields) {//FIXME: remove
-//        //TODO useless?! can use getUserById with fl=id
-//        return null;
-//    }
-
-
-//    @ApiOperation(value = "${swagger.users.api.getIdByFiscalCode.summary}",
-//            notes = "${swagger.users.api.getIdByFiscalCode.notes}")
-//    @PostMapping(value = "/token/search")
-//    @ResponseStatus(HttpStatus.OK)
-//    public UserInternalId getIdByFiscalCode(@ApiParam("${swagger.model.user.namespace}")
-//                                                    @RequestHeader("x-pagopa-namespace")
-//                                                            String namespace,
-//                                                    @ApiParam("${swagger.model.user.fl}")
-//                                                    @RequestParam("fl")
-//                                                            Optional<List<String>> fields,//FIXME: remove
-//                                                    @RequestBody
-//                                                            UserSearchDto request) {
-//        //TODO useless?! can use searchUser with fl=id
-//        return null;
-//    }
 
 
     @ApiOperation(value = "${swagger.users.api.searchUser.summary}",
             notes = "${swagger.users.api.searchUser.notes}")
     @PostMapping(value = "search")
     @ResponseStatus(HttpStatus.OK)
-    public UserResource searchUser(@ApiParam("${swagger.model.user.fl}")
+    public UserResource searchUser(@RequestHeader("x-pagopa-namespace")
+                                           String namespace,
+                                   @ApiParam("${swagger.model.user.fl}")
                                    @RequestParam("fl")
                                            Optional<List<String>> fields,
                                    @RequestBody
                                            UserSearchDto request) {
-        return null;
+        //TODO: manage fields
+        User user = userService.search(request.getFiscalCode(), namespace);
+        return UserMapper.map(user);
     }
 
 
-    @ApiOperation(value = "${swagger.users.api.updateUserById.summary}",
-            notes = "${swagger.users.api.updateUserById.notes}")
+    @ApiOperation(value = "${swagger.users.api.saveUserById.summary}",
+            notes = "${swagger.users.api.saveUserById.notes}")
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void saveUserById(@ApiParam("${swagger.model.user.id}")
@@ -101,17 +74,20 @@ public class UserController {
                                      UUID id,
                              @RequestBody
                                      MutableUserFieldsDto request) {
+        User user = UserMapper.map(request);
+        userService.save(id.toString(), user);
     }
 
-    @ApiOperation(value = "${swagger.users.api.updateUserById.summary}",
-            notes = "${swagger.users.api.updateUserById.notes}")
+
+    @ApiOperation(value = "${swagger.users.api.createUser.summary}",
+            notes = "${swagger.users.api.createUser.notes}")
     @PutMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public UserInternalId upsertUser(@RequestBody
+    public UserInternalId createUser(@RequestBody
                                              UserExternalId request,
-                                     @RequestHeader("namespace")
+                                     @RequestHeader("x-pagopa-namespace")
                                              String namespace) {
-        String id = userService.upsertUser(request.getFiscalCode(), namespace);
+        String id = userService.upsert(request.getFiscalCode(), namespace);
         UserInternalId userInternalId = new UserInternalId();
         userInternalId.setInternalId(UUID.fromString(id));
         return userInternalId;
@@ -125,6 +101,7 @@ public class UserController {
     public void deleteById(@ApiParam("${swagger.model.user.id}")
                            @PathVariable("id")
                                    UUID id) {
+        throw new UnsupportedOperationException();
     }
 
 }

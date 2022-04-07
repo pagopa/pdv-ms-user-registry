@@ -23,14 +23,14 @@
         "tags": [
           "users"
         ],
-        "summary": "Update user by internal UUID",
-        "description": "Update an existing user by internal UUID",
-        "operationId": "upsertUserUsingPUT",
+        "summary": "Create user by external ID",
+        "description": "Create user by provided external ID, if already exists do nothing",
+        "operationId": "createUserUsingPUT",
         "parameters": [
           {
-            "name": "namespace",
+            "name": "x-pagopa-namespace",
             "in": "header",
-            "description": "namespace",
+            "description": "x-pagopa-namespace",
             "required": true,
             "schema": {
               "type": "string"
@@ -81,6 +81,15 @@
         "description": "Retrieve the user for the given external id",
         "operationId": "searchUserUsingPOST",
         "parameters": [
+          {
+            "name": "x-pagopa-namespace",
+            "in": "header",
+            "description": "x-pagopa-namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "fl",
             "in": "query",
@@ -218,8 +227,8 @@
         "tags": [
           "users"
         ],
-        "summary": "Update user by internal UUID",
-        "description": "Update an existing user by internal UUID",
+        "summary": "Update a subset of user fields by internal UUID",
+        "description": "Update a subset of fields of an existing user by external id, if not present an error is returned",
         "operationId": "saveUserByIdUsingPATCH",
         "parameters": [
           {

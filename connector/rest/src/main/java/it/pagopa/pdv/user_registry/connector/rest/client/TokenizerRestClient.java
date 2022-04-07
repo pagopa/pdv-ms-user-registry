@@ -3,6 +3,7 @@ package it.pagopa.pdv.user_registry.connector.rest.client;
 import it.pagopa.pdv.user_registry.connector.TokenizerConnector;
 import it.pagopa.pdv.user_registry.connector.model.CreateTokenDto;
 import it.pagopa.pdv.user_registry.connector.model.PiiResource;
+import it.pagopa.pdv.user_registry.connector.model.SearchTokenFilterCriteria;
 import it.pagopa.pdv.user_registry.connector.model.TokenResource;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -13,10 +14,18 @@ public interface TokenizerRestClient extends TokenizerConnector {
 
     @PutMapping(value = "${rest-client.tokenizer.save.path}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    TokenResource save(@RequestBody CreateTokenDto request, @RequestHeader("namespace") String namespace);
+    TokenResource save(@RequestHeader("x-pagopa-namespace") String namespace,
+                       @RequestBody CreateTokenDto request);
+
 
     @GetMapping(value = "${rest-client.tokenizer.findPiiByToken.path}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     PiiResource findPiiByToken(@PathVariable("token") String token);
+
+
+    @PostMapping(value = "${rest-client.tokenizer.search.path}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    TokenResource search(@RequestHeader("x-pagopa-namespace") String namespace,
+                         @RequestBody SearchTokenFilterCriteria request);
 
 }
