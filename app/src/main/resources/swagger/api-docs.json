@@ -19,13 +19,13 @@
   ],
   "paths": {
     "/users": {
-      "put": {
+      "patch": {
         "tags": [
           "users"
         ],
-        "summary": "Create user by external ID",
-        "description": "Create user by provided external ID, if already exists do nothing",
-        "operationId": "createUserUsingPUT",
+        "summary": "Update or create user by external id",
+        "description": "Update an existing user by external id, if not present create a new one",
+        "operationId": "upsertUserUsingPATCH",
         "parameters": [
           {
             "name": "x-pagopa-namespace",
@@ -41,7 +41,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserExternalId"
+                "$ref": "#/components/schemas/SaveUserDto"
               }
             }
           }
@@ -57,17 +57,14 @@
               }
             }
           },
-          "201": {
-            "description": "Created"
+          "204": {
+            "description": "No Content"
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
           }
         }
       }
@@ -161,7 +158,7 @@
             "name": "fl",
             "in": "query",
             "description": "${swagger.model.user.fl}",
-            "required": false,
+            "required": true,
             "style": "form",
             "explode": true,
             "schema": {
@@ -229,7 +226,7 @@
         ],
         "summary": "Update a subset of user fields by internal UUID",
         "description": "Update a subset of fields of an existing user by external id, if not present an error is returned",
-        "operationId": "saveUserByIdUsingPATCH",
+        "operationId": "updateUserUsingPATCH",
         "parameters": [
           {
             "name": "id",
@@ -286,16 +283,24 @@
           }
         }
       },
-      "UserExternalId": {
-        "title": "UserExternalId",
-        "required": [
-          "fiscalCode"
-        ],
+      "SaveUserDto": {
+        "title": "SaveUserDto",
         "type": "object",
         "properties": {
+          "familyName": {
+            "type": "string"
+          },
           "fiscalCode": {
-            "type": "string",
-            "description": "${swagger.model.user.fiscalCode}"
+            "type": "string"
+          },
+          "givenName": {
+            "type": "string"
+          },
+          "workContacts": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/WorkContactResource"
+            }
           }
         }
       },

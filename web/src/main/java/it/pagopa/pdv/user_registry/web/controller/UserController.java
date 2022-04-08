@@ -40,7 +40,7 @@ public class UserController {
                                     @PathVariable("id")
                                             UUID id,
                                     @ApiParam(value = "${swagger.model.user.fl}")
-                                    @RequestParam(value = "fl", required = false)
+                                    @RequestParam(value = "fl", required = true)
                                             Optional<List<String>> fields) {
         //TODO: manage fields
         User user = userService.findById(id.toString(), fields.isEmpty() || fields.get().contains("fiscalCode"));
@@ -65,29 +65,30 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "${swagger.users.api.saveUserById.summary}",
-            notes = "${swagger.users.api.saveUserById.notes}")
+    @ApiOperation(value = "${swagger.users.api.updateUser.summary}",
+            notes = "${swagger.users.api.updateUser.notes}")
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void saveUserById(@ApiParam("${swagger.model.user.id}")
-                             @PathVariable("id")
-                                     UUID id,
-                             @RequestBody
-                                     MutableUserFieldsDto request) {
+    public void updateUser(@ApiParam("${swagger.model.user.id}")
+                           @PathVariable("id")
+                                   UUID id,
+                           @RequestBody
+                                   MutableUserFieldsDto request) {
         User user = UserMapper.map(request);
         userService.save(id.toString(), user);
     }
 
 
-    @ApiOperation(value = "${swagger.users.api.createUser.summary}",
-            notes = "${swagger.users.api.createUser.notes}")
-    @PutMapping("")
+    @ApiOperation(value = "${swagger.users.api.upsertUser.summary}",
+            notes = "${swagger.users.api.upsertUser.notes}")
+    @PatchMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public UserInternalId createUser(@RequestBody
-                                             UserExternalId request,
-                                     @RequestHeader("x-pagopa-namespace")
-                                             String namespace) {
-        String id = userService.upsert(request.getFiscalCode(), namespace);
+    public UserInternalId upsertUser(@RequestHeader("x-pagopa-namespace")
+                                             String namespace,
+                                     @RequestBody
+                                             SaveUserDto request) {
+        User user = UserMapper.map(request);
+        String id = userService.upsert(user, namespace);
         UserInternalId userInternalId = new UserInternalId();
         userInternalId.setInternalId(UUID.fromString(id));
         return userInternalId;

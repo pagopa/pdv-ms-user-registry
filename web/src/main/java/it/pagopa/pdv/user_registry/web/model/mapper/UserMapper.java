@@ -2,6 +2,7 @@ package it.pagopa.pdv.user_registry.web.model.mapper;
 
 import it.pagopa.pdv.user_registry.core.model.User;
 import it.pagopa.pdv.user_registry.web.model.MutableUserFieldsDto;
+import it.pagopa.pdv.user_registry.web.model.SaveUserDto;
 import it.pagopa.pdv.user_registry.web.model.UserResource;
 import it.pagopa.pdv.user_registry.web.model.WorkContactResource;
 
@@ -59,6 +60,16 @@ public class UserMapper {
                         .map(entry -> Map.entry(entry.getKey(), map(entry.getValue())))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
             }
+        }
+        return user;
+    }
+
+
+    public static User map(SaveUserDto saveUserDto) {
+        User user = null;
+        if (saveUserDto != null) {
+            user = map((MutableUserFieldsDto) saveUserDto);
+            user.setFiscalCode(saveUserDto.getFiscalCode());
         }
         return user;
     }

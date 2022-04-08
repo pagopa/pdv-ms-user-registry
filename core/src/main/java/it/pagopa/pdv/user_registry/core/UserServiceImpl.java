@@ -25,14 +25,14 @@ class UserServiceImpl implements UserService {
 
 
     @Override
-    public String upsert(String fiscalCode, String namespace) {
+    public String upsert(User user, String namespace) {
         CreateTokenDto createTokenDto = new CreateTokenDto();
-        createTokenDto.setPii(fiscalCode);
-        TokenResource tokenResource = tokenizerConnector.save(namespace, createTokenDto);
+        createTokenDto.setPii(user.getFiscalCode());
+        TokenResource tokenResource = tokenizerConnector.save(namespace, createTokenDto);//TODO: is correct to call tokenizer before?!?
         SavePersonNamespaceDto savePersonNamespaceDto = new SavePersonNamespaceDto();
         savePersonNamespaceDto.setNamespacedId(tokenResource.getToken());
         personConnector.saveNamespacedId(tokenResource.getRootToken(), namespace, savePersonNamespaceDto);
-        SavePersonDto savePersonDto = new SavePersonDto();
+        SavePersonDto savePersonDto = UserMapper.map(user);
         personConnector.save(tokenResource.getRootToken(), savePersonDto);
         return tokenResource.getToken();
     }
@@ -53,8 +53,9 @@ class UserServiceImpl implements UserService {
 
     @Override
     public void save(String id, User user) {
-        SavePersonDto request = UserMapper.map(user);
-        personConnector.save(id, request);
+        PersonGlobalId personGlobalId = personConnector.getUserId(id);
+        SavePersonDto savePersonDto = UserMapper.map(user);
+        personConnector.save(personGlobalId.getId(), savePersonDto);
     }
 
 
