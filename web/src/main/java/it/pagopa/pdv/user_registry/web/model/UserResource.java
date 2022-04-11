@@ -3,7 +3,7 @@ package it.pagopa.pdv.user_registry.web.model;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.UUID;
 
@@ -11,7 +11,8 @@ import java.util.UUID;
 public class UserResource {
 
     @ApiModelProperty(value = "${swagger.model.user.id}", required = true)
-    @NotEmpty
+    @
+    @NotNull
     private UUID id;
     @ApiModelProperty(value = "${swagger.model.user.fiscalCode}")
     private String fiscalCode;
