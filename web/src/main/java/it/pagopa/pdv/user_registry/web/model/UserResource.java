@@ -11,7 +11,6 @@ import java.util.UUID;
 public class UserResource {
 
     @ApiModelProperty(value = "${swagger.model.user.id}", required = true)
-    @
     @NotNull
     private UUID id;
     @ApiModelProperty(value = "${swagger.model.user.fiscalCode}")

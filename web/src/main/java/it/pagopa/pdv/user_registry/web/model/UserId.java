@@ -10,7 +10,6 @@ import java.util.UUID;
 public class UserId {
 
     @ApiModelProperty(value = "${swagger.model.user.id}", required = true)
-    @
     @NotNull
     private UUID id;
 
