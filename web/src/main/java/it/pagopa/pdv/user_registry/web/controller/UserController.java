@@ -14,14 +14,15 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
 @RestController
 @RequestMapping(value = "users", produces = MediaType.APPLICATION_JSON_VALUE)
-@Api(tags = "users")
+@Api(tags = "user")
 public class UserController {
+
+    private static final String NAMESPACE_HEADER_NAME = "x-pagopa-namespace";
 
     private final UserService userService;
 
@@ -32,71 +33,73 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "${swagger.users.api.getUserById.summary}",
-            notes = "${swagger.users.api.getUserById.notes}")
+    @ApiOperation(value = "${swagger.api.user.findById.summary}",
+            notes = "${swagger.api.user.findById.notes}")
     @GetMapping(value = "{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserResource getUserById(@ApiParam("${swagger.model.user.id}")
-                                    @PathVariable("id")
-                                            UUID id,
-                                    @ApiParam(value = "${swagger.model.user.fl}")
-                                    @RequestParam(value = "fl", required = true)
-                                            Optional<List<String>> fields) {
+    public UserResource findById(@ApiParam("${swagger.model.user.id}")
+                                 @PathVariable("id")
+                                         UUID id,
+                                 @ApiParam(value = "${swagger.model.user.fl}")
+                                 @RequestParam(value = "fl")
+                                         List<String> fields) {
         //TODO: manage fields
-        User user = userService.findById(id.toString(), fields.isEmpty() || fields.get().contains("fiscalCode"));
+        User user = userService.findById(id.toString(), fields.isEmpty() || fields.contains("fiscalCode"));
         return UserMapper.map(user);
     }
 
 
-    @ApiOperation(value = "${swagger.users.api.searchUser.summary}",
-            notes = "${swagger.users.api.searchUser.notes}")
+    @ApiOperation(value = "${swagger.api.user.search.summary}",
+            notes = "${swagger.api.user.search.notes}")
     @PostMapping(value = "search")
     @ResponseStatus(HttpStatus.OK)
-    public UserResource searchUser(@RequestHeader("x-pagopa-namespace")
-                                           String namespace,
-                                   @ApiParam("${swagger.model.user.fl}")
-                                   @RequestParam("fl")
-                                           Optional<List<String>> fields,
-                                   @RequestBody
-                                           UserSearchDto request) {
+    public UserResource search(@ApiParam("${swagger.model.namespace}")
+                               @RequestHeader(NAMESPACE_HEADER_NAME)
+                                       String namespace,
+                               @ApiParam("${swagger.model.user.fl}")
+                               @RequestParam("fl")
+                                       List<String> fields,
+                               @RequestBody
+                                       UserSearchDto request) {
         //TODO: manage fields
         User user = userService.search(request.getFiscalCode(), namespace);
         return UserMapper.map(user);
     }
 
 
-    @ApiOperation(value = "${swagger.users.api.updateUser.summary}",
-            notes = "${swagger.users.api.updateUser.notes}")
+    @ApiOperation(value = "${swagger.api.user.update.summary}",
+            notes = "${swagger.api.user.update.notes}")
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@ApiParam("${swagger.model.user.id}")
-                           @PathVariable("id")
-                                   UUID id,
-                           @RequestBody
-                                   MutableUserFieldsDto request) {
+    public void update(@ApiParam("${swagger.model.user.id}")
+                       @PathVariable("id")
+                               UUID id,
+                       @RequestBody
+                               MutableUserFieldsDto request) {
         User user = UserMapper.map(request);
         userService.save(id.toString(), user);
     }
 
 
-    @ApiOperation(value = "${swagger.users.api.upsertUser.summary}",
-            notes = "${swagger.users.api.upsertUser.notes}")
+    @ApiOperation(value = "${swagger.api.user.upsert.summary}",
+            notes = "${swagger.api.user.upsert.notes}")
     @PatchMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public UserInternalId upsertUser(@RequestHeader("x-pagopa-namespace")
-                                             String namespace,
-                                     @RequestBody
-                                             SaveUserDto request) {
+    public UserId upsert(@ApiParam("${swagger.model.namespace}")
+                         @RequestHeader(NAMESPACE_HEADER_NAME)
+                                 String namespace,
+                         @RequestBody
+                                 SaveUserDto request) {
         User user = UserMapper.map(request);
         String id = userService.upsert(user, namespace);
-        UserInternalId userInternalId = new UserInternalId();
-        userInternalId.setInternalId(UUID.fromString(id));
-        return userInternalId;
+        UserId userId = new UserId();
+        userId.setId(UUID.fromString(id));
+        return userId;
     }
 
 
-    @ApiOperation(value = "${swagger.users.api.deleteById.summary}",
-            notes = "${swagger.users.api.deleteById.notes}")
+    @ApiOperation(value = "${swagger.api.user.deleteById.summary}",
+            notes = "${swagger.api.user.deleteById.notes}")
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@ApiParam("${swagger.model.user.id}")

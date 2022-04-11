@@ -7,6 +7,7 @@ import it.pagopa.pdv.user_registry.web.model.UserResource;
 import it.pagopa.pdv.user_registry.web.model.WorkContactResource;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class UserMapper {
@@ -15,7 +16,7 @@ public class UserMapper {
         UserResource userResource = null;
         if (user != null) {
             userResource = new UserResource();
-            userResource.setId(user.getId());
+            userResource.setId(UUID.fromString(user.getId()));
             userResource.setFiscalCode(user.getFiscalCode());
             userResource.setGivenName(user.getGivenName());
             userResource.setFamilyName(user.getFamilyName());

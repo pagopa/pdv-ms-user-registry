@@ -4,12 +4,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.UUID;
 
 @Data
-public class SaveUserDto extends MutableUserFieldsDto {
+public class UserId {
 
-    @ApiModelProperty(value = "${swagger.model.user.fiscalCode}", required = true)
+    @ApiModelProperty(value = "${swagger.model.user.id}", required = true)
     @NotEmpty
-    private String fiscalCode;
+    private UUID id;
 
 }
