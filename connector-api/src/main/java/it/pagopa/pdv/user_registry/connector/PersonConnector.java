@@ -11,8 +11,8 @@ public interface PersonConnector {
 
     void save(String id, SavePersonDto request);
 
-    PersonResource getUserById(String id, boolean isNamespaced);
+    PersonResource findById(String id, boolean isNamespaced);
 
-    PersonGlobalId getUserId(String namespacedId);
+    PersonGlobalId findIdByNamespacedId(String namespacedId);
 
 }

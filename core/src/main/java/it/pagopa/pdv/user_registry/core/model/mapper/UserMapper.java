@@ -14,8 +14,10 @@ public class UserMapper {
         SavePersonDto savePersonDto = null;
         if (user != null) {
             savePersonDto = new SavePersonDto();
-            savePersonDto.setGivenName(user.getGivenName());
+            savePersonDto.setName(user.getName());
             savePersonDto.setFamilyName(user.getFamilyName());
+            savePersonDto.setEmail(user.getEmail());
+            savePersonDto.setBirthDate(user.getBirthDate());
             if (user.getWorkContacts() != null) {
                 savePersonDto.setWorkContacts(user.getWorkContacts().entrySet().stream()
                         .map(entry -> Map.entry(entry.getKey(), map(entry.getValue())))
@@ -31,8 +33,10 @@ public class UserMapper {
         if (personResource != null) {
             user = new User();
             user.setId(personResource.getId());
-            user.setGivenName(personResource.getGivenName());
+            user.setName(personResource.getName());
             user.setFamilyName(personResource.getFamilyName());
+            user.setEmail(personResource.getEmail());
+            user.setBirthDate(personResource.getBirthDate());
             if (personResource.getWorkContacts() != null) {
                 user.setWorkContacts(personResource.getWorkContacts().entrySet().stream()
                         .map(entry -> Map.entry(entry.getKey(), map(entry.getValue())))

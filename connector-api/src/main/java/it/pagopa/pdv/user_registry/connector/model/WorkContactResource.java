@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class WorkContactResource {
 
-    private String email;
+    private CertifiableField<String> email;
 
 }

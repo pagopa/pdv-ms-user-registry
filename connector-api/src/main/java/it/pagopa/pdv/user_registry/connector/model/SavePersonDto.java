@@ -2,13 +2,16 @@ package it.pagopa.pdv.user_registry.connector.model;
 
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 @Data
 public class SavePersonDto {
 
-    private String givenName;
-    private String familyName;
+    private CertifiableField<String> name;
+    private CertifiableField<String> familyName;
+    private CertifiableField<String> email;
+    private CertifiableField<LocalDate> birthDate;
     private Map<String, WorkContactResource> workContacts;
 
 }

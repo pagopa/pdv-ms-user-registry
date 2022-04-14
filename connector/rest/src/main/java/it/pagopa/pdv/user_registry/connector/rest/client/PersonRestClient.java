@@ -16,25 +16,23 @@ public interface PersonRestClient extends PersonConnector {
     @ResponseBody
     void saveNamespacedId(@PathVariable("id") String id,
                           @PathVariable("namespace") String namespace,
-                          @RequestBody
-                                  SavePersonNamespaceDto request);
+                          @RequestBody SavePersonNamespaceDto request);
 
 
     @PatchMapping(value = "${rest-client.person.save.path}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     void save(@PathVariable("id") String id,
-              @RequestBody
-                      SavePersonDto request);
+              @RequestBody SavePersonDto request);
 
 
-    @GetMapping(value = "${rest-client.person.getUserById.path}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "${rest-client.person.findById.path}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    PersonResource getUserById(@PathVariable("id") String id,
-                               @RequestParam("isNamespaced") boolean isNamespaced);
+    PersonResource findById(@PathVariable("id") String id,
+                            @RequestParam("isNamespaced") boolean isNamespaced);
 
 
-    @GetMapping(value = "${rest-client.person.getUserId.path}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "${rest-client.person.findIdByNamespacedId.path}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    PersonGlobalId getUserId(@RequestParam("namespacedId") String namespacedId);
+    PersonGlobalId findIdByNamespacedId(@RequestParam("namespacedId") String namespacedId);
 
 }
