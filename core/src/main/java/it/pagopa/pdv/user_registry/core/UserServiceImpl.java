@@ -52,7 +52,7 @@ class UserServiceImpl implements UserService {
         log.debug("[findById] inputs: id = {}, fetchFiscalCode = {}", id, fetchFiscalCode);
         Assert.hasText(id, "A user id is required");
         PersonResource person = personConnector.findById(id, true);
-        User user = UserMapper.map(person);
+        User user = UserMapper.assembles(id, person);
         if (fetchFiscalCode) {
             PiiResource pii = tokenizerConnector.findPiiByToken(id);
             user.setFiscalCode(pii.getPii());
@@ -82,7 +82,7 @@ class UserServiceImpl implements UserService {
         filterCriteria.setPii(fiscalCode);
         TokenResource resource = tokenizerConnector.search(namespace, filterCriteria);
         PersonResource person = personConnector.findById(resource.getRootToken(), false);
-        User user = UserMapper.map(person);
+        User user = UserMapper.assembles(resource.getToken(), person);
         log.debug(LogUtils.CONFIDENTIAL_MARKER, "[search] output = {}", user);
         log.trace("[search] end");
         return user;

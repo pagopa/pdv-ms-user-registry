@@ -28,11 +28,11 @@ public class UserMapper {
     }
 
 
-    public static User map(PersonResource personResource) {
+    public static User assembles(String id, PersonResource personResource) {
         User user = null;
         if (personResource != null) {
             user = new User();
-            user.setId(personResource.getId());
+            user.setId(id);
             user.setName(personResource.getName());
             user.setFamilyName(personResource.getFamilyName());
             user.setEmail(personResource.getEmail());
