@@ -67,6 +67,8 @@ public class UserMapper {
             user = new User();
             user.setName(map(mutableUserFieldsDto.getName()));
             user.setFamilyName(map(mutableUserFieldsDto.getFamilyName()));
+            user.setEmail(map(mutableUserFieldsDto.getEmail()));
+            user.setBirthDate(map(mutableUserFieldsDto.getBirthDate()));
             if (mutableUserFieldsDto.getWorkContacts() != null) {
                 user.setWorkContacts(mutableUserFieldsDto.getWorkContacts().entrySet().stream()
                         .map(entry -> Map.entry(entry.getKey(), map(entry.getValue())))
