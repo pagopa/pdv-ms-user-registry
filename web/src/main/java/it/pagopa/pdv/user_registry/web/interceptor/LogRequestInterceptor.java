@@ -30,6 +30,9 @@ public class LogRequestInterceptor implements HandlerInterceptor {
                 .anyMatch(request.getRequestURI()::startsWith);
         if (!skipLog) {
             log.info("Requested {} {}", request.getMethod(), request.getRequestURI());
+            if (!request.getParameterMap().isEmpty()) {
+                log.debug("Requested {} {}?{}", request.getMethod(), request.getRequestURI(), request.getQueryString());
+            }
         }
 
         return true;
