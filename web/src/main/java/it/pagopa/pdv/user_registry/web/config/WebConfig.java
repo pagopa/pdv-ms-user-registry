@@ -9,9 +9,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -21,7 +20,7 @@ import java.util.TimeZone;
 
 @Slf4j
 @Configuration
-//@ComponentScan(basePackages = {"it.pagopa.private_data_vault.web.interceptor", "it.pagopa.private_data_vault.web.handler"})
+@PropertySource("classpath:/config/web.properties")
 class WebConfig implements WebMvcConfigurer {
 
 
@@ -42,8 +41,8 @@ class WebConfig implements WebMvcConfigurer {
     }
 
 
-    @Bean
-    @Primary
+    //    @Bean
+//    @Primary
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());

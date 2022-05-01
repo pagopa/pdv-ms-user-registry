@@ -60,13 +60,13 @@ public class UserController {
     @PostMapping(value = "search")
     @ResponseStatus(HttpStatus.OK)
     public UserResource search(@ApiParam("${swagger.model.namespace}")
-                                   @RequestHeader(NAMESPACE_HEADER_NAME)
-                                           String namespace,
+                               @RequestHeader(NAMESPACE_HEADER_NAME)
+                                       String namespace,
                                @ApiParam("${swagger.model.user.fl}")
-                                   @RequestParam("fl")
-                                           EnumSet<UserResource.Fields> fields,
+                               @RequestParam("fl")
+                                       EnumSet<UserResource.Fields> fields,
                                @RequestBody
-                                           UserSearchDto request) {
+                                       UserSearchDto request) {
         log.trace("[search] start");
         log.debug(CONFIDENTIAL_MARKER, "[search] inputs: namespace = {}, fields = {}, request = {}", namespace, fields, request);
         User user = userService.search(request.getFiscalCode(), namespace);

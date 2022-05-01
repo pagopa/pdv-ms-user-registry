@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -12,7 +11,7 @@ import javax.validation.constraints.NotNull;
 public class CertifiableFieldResource<T> {
 
     @ApiModelProperty(value = "${swagger.model.certifiableField.certification}", required = true)
-    @NotBlank
+    @NotNull
     private Certification certification;
 
     @ApiModelProperty(value = "${swagger.model.certifiableField.value}", required = true)

@@ -52,10 +52,12 @@ class UserServiceImpl implements UserService {
         log.debug("[findById] inputs: id = {}, fetchFiscalCode = {}", id, fetchFiscalCode);
         Assert.hasText(id, "A user id is required");
         PersonResource person = personConnector.findById(id, true);
-        User user = UserMapper.assembles(id, person);
+        User user;
         if (fetchFiscalCode) {
             PiiResource pii = tokenizerConnector.findPiiByToken(id);
-            user.setFiscalCode(pii.getPii());
+            user = UserMapper.assembles(id, person, pii.getPii());
+        } else {
+            user = UserMapper.assembles(id, person);
         }
         log.debug(LogUtils.CONFIDENTIAL_MARKER, "[findById] output = {}", user);
         log.trace("[findById] end");
@@ -67,6 +69,8 @@ class UserServiceImpl implements UserService {
     public void update(String id, User user) {
         log.trace("[update] start");
         log.debug(LogUtils.CONFIDENTIAL_MARKER, "[update] inputs: id = {}, user = {}", id, user);
+        Assert.hasText(id, "A user id is required");
+        Assert.notNull(user, "A user is required");
         PersonGlobalId personGlobalId = personConnector.findIdByNamespacedId(id);
         SavePersonDto savePersonDto = UserMapper.map(user);
         personConnector.save(personGlobalId.getId(), savePersonDto);
@@ -78,11 +82,13 @@ class UserServiceImpl implements UserService {
     public User search(String fiscalCode, String namespace) {
         log.trace("[search] start");
         log.debug(LogUtils.CONFIDENTIAL_MARKER, "[search] inputs: fiscalCode = {}, namespace = {}", fiscalCode, namespace);
+        Assert.hasText(fiscalCode, "A fiscal code is required");
+        Assert.hasText(namespace, "A namespace is required");
         SearchTokenFilterCriteria filterCriteria = new SearchTokenFilterCriteria();
         filterCriteria.setPii(fiscalCode);
         TokenResource resource = tokenizerConnector.search(namespace, filterCriteria);
         PersonResource person = personConnector.findById(resource.getRootToken(), false);
-        User user = UserMapper.assembles(resource.getToken(), person);
+        User user = UserMapper.assembles(resource.getToken(), person, fiscalCode);
         log.debug(LogUtils.CONFIDENTIAL_MARKER, "[search] output = {}", user);
         log.trace("[search] end");
         return user;

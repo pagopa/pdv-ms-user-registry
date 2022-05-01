@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "${rest-client.tokenizer.serviceCode}", url = "${rest-client.tokenizer.base-url}")
 public interface TokenizerRestClient extends TokenizerConnector {
 
+    String NAMESPACE_HEADER_NAME = "x-pagopa-namespace";
+
+
     @PutMapping(value = "${rest-client.tokenizer.save.path}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    TokenResource save(@RequestHeader("x-pagopa-namespace") String namespace,
+    TokenResource save(@RequestHeader(NAMESPACE_HEADER_NAME) String namespace,
                        @RequestBody CreateTokenDto request);
 
 
@@ -25,7 +28,7 @@ public interface TokenizerRestClient extends TokenizerConnector {
 
     @PostMapping(value = "${rest-client.tokenizer.search.path}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    TokenResource search(@RequestHeader("x-pagopa-namespace") String namespace,
+    TokenResource search(@RequestHeader(NAMESPACE_HEADER_NAME) String namespace,
                          @RequestBody SearchTokenFilterCriteria request);
 
 }

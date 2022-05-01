@@ -29,10 +29,16 @@ public class UserMapper {
 
 
     public static User assembles(String id, PersonResource personResource) {
+        return assembles(id, personResource, null);
+    }
+
+
+    public static User assembles(String id, PersonResource personResource, String fiscalCode) {
         User user = null;
         if (personResource != null) {
             user = new User();
             user.setId(id);
+            user.setFiscalCode(fiscalCode);
             user.setName(personResource.getName());
             user.setFamilyName(personResource.getFamilyName());
             user.setEmail(personResource.getEmail());
