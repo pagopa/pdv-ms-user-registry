@@ -74,19 +74,6 @@
                 <artifactId>logstash-logback-encoder</artifactId>
                 <version>7.0.1</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-dynamodb -->
-            <dependency>
-                <groupId>com.amazonaws</groupId>
-                <artifactId>aws-java-sdk-dynamodb</artifactId>
-                <version>1.12.172</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/com.amazonaws/DynamoDBLocal -->
-            <dependency>
-                <groupId>com.amazonaws</groupId>
-                <artifactId>DynamoDBLocal</artifactId>
-                <version>1.15.0</version>
-                <scope>test</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
