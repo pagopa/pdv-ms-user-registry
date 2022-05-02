@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/tokens/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/pii"
+  },
+  "response": {
+    "status": "200",
+    "jsonBody": {
+      "pii": "string"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+

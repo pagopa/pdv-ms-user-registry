@@ -1,0 +1,57 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/people/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+    "queryParameters": {
+      "isNamespaced": {
+        "equalTo": "true"
+      }
+    }
+  },
+  "response": {
+    "status": "200",
+    "jsonBody": {
+      "birthDate": {
+        "certification": "string",
+        "value": "2022-05-02"
+      },
+      "email": {
+        "certification": "string",
+        "value": "string"
+      },
+      "familyName": {
+        "certification": "string",
+        "value": "string"
+      },
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "name": {
+        "certification": "string",
+        "value": "string"
+      },
+      "workContacts": {
+        "additionalProp1": {
+          "email": {
+            "certification": "string",
+            "value": "string"
+          }
+        },
+        "additionalProp2": {
+          "email": {
+            "certification": "string",
+            "value": "string"
+          }
+        },
+        "additionalProp3": {
+          "email": {
+            "certification": "string",
+            "value": "string"
+          }
+        }
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+
