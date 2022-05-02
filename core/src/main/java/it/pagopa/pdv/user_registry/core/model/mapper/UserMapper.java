@@ -53,7 +53,7 @@ public class UserMapper {
     }
 
 
-    public static WorkContactResource map(WorkContactResource workContactResource) {
+    private static WorkContactResource map(WorkContactResource workContactResource) {
         WorkContactResource workContact = null;
         if (workContactResource != null) {
             workContact = new WorkContactResource();

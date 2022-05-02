@@ -16,32 +16,38 @@ public class UserMapper {
         if (user != null) {
             userResource = new UserResource();
             userResource.setId(UUID.fromString(user.getId()));
-            if (fields == null || fields.contains(UserResource.Fields.fiscalCode)) {
-                userResource.setFiscalCode(user.getFiscalCode());
-            }
-            if (fields == null || fields.contains(UserResource.Fields.name)) {
-                userResource.setName(map(user.getName()));
-            }
-            if (fields == null || fields.contains(UserResource.Fields.familyName)) {
-                userResource.setFamilyName(map(user.getFamilyName()));
-            }
-            if (fields == null || fields.contains(UserResource.Fields.email)) {
-                userResource.setEmail(map(user.getEmail()));
-            }
-            if (fields == null || fields.contains(UserResource.Fields.birthDate)) {
-                userResource.setBirthDate(map(user.getBirthDate()));
-            }
-            if (fields == null || (fields.contains(UserResource.Fields.workContacts) && user.getWorkContacts() != null)) {
-                userResource.setWorkContacts(user.getWorkContacts().entrySet().stream()
-                        .map(entry -> Map.entry(entry.getKey(), map(entry.getValue())))
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+            if (fields != null) {
+                for (UserResource.Fields field : fields) {
+                    switch (field) {
+                        case fiscalCode:
+                            userResource.setFiscalCode(user.getFiscalCode());
+                            break;
+                        case name:
+                            userResource.setName(map(user.getName()));
+                            break;
+                        case familyName:
+                            userResource.setFamilyName(map(user.getFamilyName()));
+                            break;
+                        case email:
+                            userResource.setEmail(map(user.getEmail()));
+                            break;
+                        case birthDate:
+                            userResource.setBirthDate(map(user.getBirthDate()));
+                            break;
+                        case workContacts:
+                            userResource.setWorkContacts(user.getWorkContacts().entrySet().stream()
+                                    .map(entry -> Map.entry(entry.getKey(), map(entry.getValue())))
+                                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+                            break;
+                    }
+                }
             }
         }
         return userResource;
     }
 
 
-    public static WorkContactResource map(it.pagopa.pdv.user_registry.connector.model.WorkContactResource workContact) {
+    private static WorkContactResource map(it.pagopa.pdv.user_registry.connector.model.WorkContactResource workContact) {
         WorkContactResource workContactResource = null;
         if (workContact != null) {
             workContactResource = new WorkContactResource();
@@ -51,7 +57,7 @@ public class UserMapper {
     }
 
 
-    public static it.pagopa.pdv.user_registry.connector.model.WorkContactResource map(WorkContactResource workContact) {
+    private static it.pagopa.pdv.user_registry.connector.model.WorkContactResource map(WorkContactResource workContact) {
         it.pagopa.pdv.user_registry.connector.model.WorkContactResource workContactResource = null;
         if (workContact != null) {
             workContactResource = new it.pagopa.pdv.user_registry.connector.model.WorkContactResource();
@@ -88,6 +94,7 @@ public class UserMapper {
         return user;
     }
 
+
     private static <T> CertifiableFieldResource<T> map(CertifiableField<T> certifiableField) {
         CertifiableFieldResource<T> certifiableFieldResource = null;
         if (certifiableField != null) {
@@ -97,6 +104,7 @@ public class UserMapper {
         }
         return certifiableFieldResource;
     }
+
 
     private static <T> CertifiableField<T> map(CertifiableFieldResource<T> certifiableFieldResource) {
         CertifiableField<T> certifiableField = null;
