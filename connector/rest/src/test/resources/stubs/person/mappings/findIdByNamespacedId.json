@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/people/id",
+    "queryParameters": {
+      "namespacedId": {
+        "matches": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+      }
+    }
+  },
+  "response": {
+    "status": "200",
+    "jsonBody": {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
+

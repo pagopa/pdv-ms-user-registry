@@ -1,0 +1,38 @@
+{
+  "birthDate": {
+    "certification": "NONE",
+    "value": "2022-05-01"
+  },
+  "email": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "familyName": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "name": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "workContacts": {
+    "additionalProp1": {
+      "email": {
+        "certification": "NONE",
+        "value": "string"
+      }
+    },
+    "additionalProp2": {
+      "email": {
+        "certification": "NONE",
+        "value": "string"
+      }
+    },
+    "additionalProp3": {
+      "email": {
+        "certification": "NONE",
+        "value": "string"
+      }
+    }
+  }
+}
