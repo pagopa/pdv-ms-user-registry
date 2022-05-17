@@ -4,10 +4,13 @@ import it.pagopa.pdv.user_registry.connector.model.PersonResource;
 import it.pagopa.pdv.user_registry.connector.model.SavePersonDto;
 import it.pagopa.pdv.user_registry.connector.model.WorkContactResource;
 import it.pagopa.pdv.user_registry.core.model.User;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserMapper {
 
     public static SavePersonDto map(User user) {
