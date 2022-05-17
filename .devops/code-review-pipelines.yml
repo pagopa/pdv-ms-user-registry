@@ -9,12 +9,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  - name: AWS_ACCESS_KEY_ID
-    value: 'key'
-  - name: AWS_SECRET_KEY
-    value: 'secret-key'
-
 steps:
   - task: SonarCloudPrepare@1
     displayName: 'Prepare SonarCloud analysis configuration'

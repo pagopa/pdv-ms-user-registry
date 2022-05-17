@@ -16,6 +16,7 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -33,8 +34,7 @@ import org.springframework.test.context.support.TestPropertySourceUtils;
 import java.util.TimeZone;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ContextConfiguration(initializers = PersonRestClientTest.RandomPortInitializer.class,
         classes = {
@@ -113,8 +113,9 @@ class PersonRestClientTest {
         String id = UUID.randomUUID().toString();
         SavePersonDto request = new DummySavePersonDto();
         // when
-        restClient.save(id, request);
+        final Executable executable = () -> restClient.save(id, request);
         // then do nothing
+        assertDoesNotThrow(executable);
     }
 
 

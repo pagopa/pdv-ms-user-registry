@@ -3,15 +3,18 @@ package it.pagopa.pdv.user_registry.web.model.mapper;
 import it.pagopa.pdv.user_registry.connector.model.CertifiableField;
 import it.pagopa.pdv.user_registry.core.model.User;
 import it.pagopa.pdv.user_registry.web.model.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-import java.util.EnumSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserMapper {
 
-    public static UserResource map(User user, EnumSet<UserResource.Fields> fields) {
+    public static UserResource map(User user, Set<UserResource.Fields> fields) {
         UserResource userResource = null;
         if (user != null) {
             userResource = new UserResource();
