@@ -38,9 +38,11 @@ public class UserMapper {
                             userResource.setBirthDate(map(user.getBirthDate()));
                             break;
                         case workContacts:
-                            userResource.setWorkContacts(user.getWorkContacts().entrySet().stream()
-                                    .map(entry -> Map.entry(entry.getKey(), map(entry.getValue())))
-                                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+                            if (user.getWorkContacts() != null) {
+                                userResource.setWorkContacts(user.getWorkContacts().entrySet().stream()
+                                        .map(entry -> Map.entry(entry.getKey(), map(entry.getValue())))
+                                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+                            }
                             break;
                     }
                 }
