@@ -20,6 +20,7 @@ import static it.pagopa.pdv.user_registry.core.logging.LogUtils.CONFIDENTIAL_MAR
 @RestController
 @RequestMapping(value = "users", produces = MediaType.APPLICATION_JSON_VALUE)
 @Api(tags = "user")
+@ApiResponses({@ApiResponse(code = 400, message = "Bad Request")})
 public class UserController {
 
     private static final String NAMESPACE_HEADER_NAME = "x-pagopa-namespace";
@@ -55,6 +56,7 @@ public class UserController {
 
     @ApiOperation(value = "${swagger.api.user.search.summary}",
             notes = "${swagger.api.user.search.notes}")
+    @ApiResponses({@ApiResponse(code = 404, message = "Not Found")})
     @PostMapping(value = "search")
     @ResponseStatus(HttpStatus.OK)
     public UserResource search(@ApiParam("${swagger.model.namespace}")
@@ -77,9 +79,9 @@ public class UserController {
 
     @ApiOperation(value = "${swagger.api.user.update.summary}",
             notes = "${swagger.api.user.update.notes}")
+    @ApiResponses({@ApiResponse(code = 409, message = "Conflict")})
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ApiResponses({@ApiResponse(code = 409, message = "Conflict")})
     public void update(@ApiParam("${swagger.model.user.id}")
                        @PathVariable("id")
                                UUID id,
@@ -95,9 +97,9 @@ public class UserController {
 
     @ApiOperation(value = "${swagger.api.user.save.summary}",
             notes = "${swagger.api.user.save.notes}")
+    @ApiResponses({@ApiResponse(code = 409, message = "Conflict")})
     @PatchMapping("")
     @ResponseStatus(HttpStatus.OK)
-    @ApiResponses({@ApiResponse(code = 409, message = "Conflict")})
     public UserId save(@ApiParam("${swagger.model.namespace}")
                        @RequestHeader(NAMESPACE_HEADER_NAME)
                                String namespace,
