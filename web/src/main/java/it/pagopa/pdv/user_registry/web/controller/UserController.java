@@ -1,8 +1,6 @@
 package it.pagopa.pdv.user_registry.web.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import it.pagopa.pdv.user_registry.core.UserService;
 import it.pagopa.pdv.user_registry.core.model.User;
 import it.pagopa.pdv.user_registry.web.model.*;
@@ -81,6 +79,7 @@ public class UserController {
             notes = "${swagger.api.user.update.notes}")
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiResponses({@ApiResponse(code = 409, message = "Conflict")})
     public void update(@ApiParam("${swagger.model.user.id}")
                        @PathVariable("id")
                                UUID id,
@@ -98,6 +97,7 @@ public class UserController {
             notes = "${swagger.api.user.save.notes}")
     @PatchMapping("")
     @ResponseStatus(HttpStatus.OK)
+    @ApiResponses({@ApiResponse(code = 409, message = "Conflict")})
     public UserId save(@ApiParam("${swagger.model.namespace}")
                        @RequestHeader(NAMESPACE_HEADER_NAME)
                                String namespace,
