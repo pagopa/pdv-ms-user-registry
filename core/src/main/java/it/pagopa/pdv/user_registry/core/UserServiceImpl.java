@@ -73,7 +73,6 @@ class UserServiceImpl implements UserService {
         Assert.notNull(user, "A user is required");
         PersonGlobalId personGlobalId = personConnector.findIdByNamespacedId(id);
         SavePersonDto savePersonDto = UserMapper.map(user);
-        //TODO: call findById to check existence
         personConnector.save(personGlobalId.getId(), savePersonDto);
         log.trace("[update] end");
     }
