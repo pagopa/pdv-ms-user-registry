@@ -5,14 +5,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Slf4j
 @Configuration
@@ -53,6 +57,11 @@ class SwaggerConfig {
                 .select().apis(RequestHandlerSelectors.basePackage("it.pagopa.pdv.user_registry.web.controller")).build()
                 .tags(new Tag("user", environment.getProperty("swagger.tag.user.description")))
                 .directModelSubstitute(LocalTime.class, String.class)
+                .useDefaultResponseMessages(false)
+                .globalResponses(HttpMethod.GET, List.of(new ResponseBuilder()
+                        .code(String.valueOf(HttpStatus.NOT_FOUND.value()))
+                        .description(HttpStatus.NOT_FOUND.getReasonPhrase())
+                        .build()))
                 .forCodeGeneration(true);
     }
 
