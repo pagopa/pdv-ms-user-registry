@@ -37,14 +37,16 @@ variables:
       value: Prod
 
 
+pool:
+  vmImage: ubuntu-latest
+
+
 stages:
   - stage: Build
     displayName: Build image
     jobs:
     - job: Build
       displayName: Build
-      pool:
-        vmImage: ubuntu-latest
       steps:
       - task: Maven@3
         inputs:
@@ -72,16 +74,18 @@ stages:
     displayName: "Deploy in AWS" 
     condition: succeeded()
     jobs:
-      - ${{ each tag in parameters.tags }}:
-        - task: ECRPushImage@1
-          displayName: Push $(envFull) tag $(DOCKER_IMAGE) :${{ tag }}
-          inputs:
-            awsCredentials: ${{ parameters.SERVICECONN}}
-            regionName: 'eu-south-1'
-            imageSource: 'imagename'
-            sourceImageName: $(DOCKER_IMAGE)
-            pushTag: ${{ tag }}
-            repositoryName: 'pdv-$(envShort)-user-registry'
+      - job: Deploy
+        steps: 
+        - ${{ each tag in parameters.tags }}:
+          - task: ECRPushImage@1
+            displayName: Push $(envFull) tag $(DOCKER_IMAGE) :${{ tag }}
+            inputs:
+              awsCredentials: ${{ parameters.SERVICECONN}}
+              regionName: 'eu-south-1'
+              imageSource: 'imagename'
+              sourceImageName: $(DOCKER_IMAGE)
+              pushTag: ${{ tag }}
+              repositoryName: 'pdv-$(envShort)-user-registry'
         - task: AWSCLI@1
           displayName: Deploy $(envFull) tag $(DOCKER_IMAGE)
           inputs:
