@@ -36,6 +36,8 @@ variables:
     ${{ if eq( parameters['SERVICECONN'], 'AWS Prod') }}:
       value: Prod
 
+pool:
+  vmImage: ubuntu-latest
 
 stages:
 - stage: Build
@@ -43,9 +45,6 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    pool:
-      vmImage: ubuntu-latest
-    environment: $(envFull)
     steps:
     - task: Maven@3
       inputs:
