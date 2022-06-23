@@ -18,7 +18,7 @@
       "patch" : {
         "tags" : [ "user" ],
         "summary" : "Upsert user",
-        "description" : "Update the given subset fields of an existing user by external id, if not present create a new one",
+        "description" : "Update the given subset fields of an existing user by its fiscal code, if not present create a new one. The fiscal code will always be converted in uppercase.",
         "operationId" : "saveUsingPATCH",
         "parameters" : [ {
           "name" : "x-pagopa-namespace",
@@ -86,7 +86,7 @@
       "post" : {
         "tags" : [ "user" ],
         "summary" : "Search user",
-        "description" : "Search a user given its fiscal code",
+        "description" : "Search a user given its fiscal code. The fiscal code will always be converted in uppercase.",
         "operationId" : "searchUsingPOST",
         "parameters" : [ {
           "name" : "x-pagopa-namespace",

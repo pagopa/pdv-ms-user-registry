@@ -146,7 +146,7 @@ class UserControllerTest {
         // then
         String stubbedFiscalCode = JsonPath.parse(userSearchDto.getInputStream()).read("$.fiscalCode", String.class);
         verify(userServiceMock, times(1))
-                .search(stubbedFiscalCode, namespace);
+                .search(stubbedFiscalCode.toUpperCase(), namespace);
         verifyNoMoreInteractions(userServiceMock);
     }
 
