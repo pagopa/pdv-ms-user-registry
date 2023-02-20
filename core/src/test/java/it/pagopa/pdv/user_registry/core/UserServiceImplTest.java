@@ -99,7 +99,7 @@ class UserServiceImplTest {
         String id = null;
         boolean fetchFiscalCode = true;
         // when
-        Executable executable = () -> userService.findById(id, fetchFiscalCode);
+        Executable executable = () -> userService.findById(id, namespace, fetchFiscalCode);
         // then
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, executable);
         assertEquals("A user id is required", e.getMessage());
@@ -116,7 +116,7 @@ class UserServiceImplTest {
         when(personConnectorMock.findById(any(), anyBoolean()))
                 .thenReturn(personResource);
         // when
-        User user = userService.findById(id, fetchFiscalCode);
+        User user = userService.findById(id, namespace, fetchFiscalCode);
         // then
         assertNotNull(user);
         verify(personConnectorMock, times(1))
@@ -135,17 +135,17 @@ class UserServiceImplTest {
         when(personConnectorMock.findById(any(), anyBoolean()))
                 .thenReturn(personResource);
         PiiResource piiResource = TestUtils.mockInstance(new PiiResource());
-        when(tokenizerConnectorMock.findPiiByToken(any()))
+        when(tokenizerConnectorMock.findPiiByToken(any(), ))
                 .thenReturn(piiResource);
         // when
-        User user = userService.findById(id, fetchFiscalCode);
+        User user = userService.findById(id, namespace, fetchFiscalCode);
         // then
         assertNotNull(user);
         assertEquals(user.getFiscalCode(), piiResource.getPii());
         verify(personConnectorMock, times(1))
                 .findById(id, true);
         verify(tokenizerConnectorMock, times(1))
-                .findPiiByToken(id);
+                .findPiiByToken(id, );
         verifyNoMoreInteractions(personConnectorMock, tokenizerConnectorMock);
     }
 

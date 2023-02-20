@@ -55,7 +55,7 @@ class UserControllerTest {
         UUID id = UUID.randomUUID();
         EnumSet<UserResource.Fields> fields = EnumSet.of(UserResource.Fields.name);
         User user = new DummyUser();
-        Mockito.when(userServiceMock.findById(Mockito.anyString(), Mockito.anyBoolean()))
+        Mockito.when(userServiceMock.findById(Mockito.anyString(), namespace, Mockito.anyBoolean()))
                 .thenReturn(user);
         // when
         mvc.perform(MockMvcRequestBuilders
@@ -77,7 +77,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$", not(hasProperty("workContacts"))));
         // then
         verify(userServiceMock, times(1))
-                .findById(id.toString(), false);
+                .findById(id.toString(), namespace, false);
         verifyNoMoreInteractions(userServiceMock);
     }
 
@@ -88,7 +88,7 @@ class UserControllerTest {
         UUID id = UUID.randomUUID();
         EnumSet<UserResource.Fields> fields = EnumSet.of(UserResource.Fields.name, UserResource.Fields.fiscalCode);
         User user = new DummyUser();
-        Mockito.when(userServiceMock.findById(Mockito.anyString(), Mockito.anyBoolean()))
+        Mockito.when(userServiceMock.findById(Mockito.anyString(), namespace, Mockito.anyBoolean()))
                 .thenReturn(user);
         // when
         mvc.perform(MockMvcRequestBuilders
@@ -111,7 +111,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$", not(hasProperty("workContacts"))));
         // then
         verify(userServiceMock, times(1))
-                .findById(id.toString(), true);
+                .findById(id.toString(), namespace, true);
         verifyNoMoreInteractions(userServiceMock);
     }
 

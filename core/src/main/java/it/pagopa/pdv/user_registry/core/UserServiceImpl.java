@@ -47,14 +47,14 @@ class UserServiceImpl implements UserService {
 
 
     @Override
-    public User findById(String id, boolean fetchFiscalCode) {
+    public User findById(String id, String namespace, boolean fetchFiscalCode) {
         log.trace("[findById] start");
         log.debug("[findById] inputs: id = {}, fetchFiscalCode = {}", id, fetchFiscalCode);
         Assert.hasText(id, "A user id is required");
         PersonResource person = personConnector.findById(id, true);
         User user;
         if (fetchFiscalCode) {
-            PiiResource pii = tokenizerConnector.findPiiByToken(id);
+            PiiResource pii = tokenizerConnector.findPiiByToken(id, namespace);
             user = UserMapper.assembles(id, person, pii.getPii());
         } else {
             user = UserMapper.assembles(id, person);
