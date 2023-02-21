@@ -8,7 +8,7 @@ public interface UserService {
 
     User findById(String id, String namespace, boolean fetchFiscalCode);
 
-    void update(String id, User user);
+    void update(String id, User user, String namespace);
 
     User search(String fiscalCode, String namespace);
 

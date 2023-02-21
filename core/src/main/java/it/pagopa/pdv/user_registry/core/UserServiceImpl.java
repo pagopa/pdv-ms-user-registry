@@ -18,6 +18,8 @@ class UserServiceImpl implements UserService {
     private final PersonConnector personConnector;
     private final TokenizerConnector tokenizerConnector;
 
+    public static final String GLOBAL_NAMESPACE = "GLOBAL";
+
 
     @Autowired
     UserServiceImpl(PersonConnector personConnector, TokenizerConnector tokenizerConnector) {
@@ -51,7 +53,7 @@ class UserServiceImpl implements UserService {
         log.trace("[findById] start");
         log.debug("[findById] inputs: id = {}, fetchFiscalCode = {}", id, fetchFiscalCode);
         Assert.hasText(id, "A user id is required");
-        PersonResource person = personConnector.findById(id, true);
+        PersonResource person = personConnector.findById(id, namespace);
         User user;
         if (fetchFiscalCode) {
             PiiResource pii = tokenizerConnector.findPiiByToken(id, namespace);
@@ -66,12 +68,12 @@ class UserServiceImpl implements UserService {
 
 
     @Override
-    public void update(String id, User user) {
+    public void update(String id, User user, String namespace) {
         log.trace("[update] start");
         log.debug(LogUtils.CONFIDENTIAL_MARKER, "[update] inputs: id = {}, user = {}", id, user);
         Assert.hasText(id, "A user id is required");
         Assert.notNull(user, "A user is required");
-        PersonGlobalId personGlobalId = personConnector.findIdByNamespacedId(id);
+        PersonGlobalId personGlobalId = personConnector.findIdByNamespacedId(id,namespace);
         SavePersonDto savePersonDto = UserMapper.map(user);
         personConnector.save(personGlobalId.getId(), savePersonDto);
         log.trace("[update] end");
@@ -87,7 +89,7 @@ class UserServiceImpl implements UserService {
         SearchTokenFilterCriteria filterCriteria = new SearchTokenFilterCriteria();
         filterCriteria.setPii(fiscalCode);
         TokenResource resource = tokenizerConnector.search(namespace, filterCriteria);
-        PersonResource person = personConnector.findById(resource.getRootToken(), false);
+        PersonResource person = personConnector.findById(resource.getRootToken(), GLOBAL_NAMESPACE);
         User user = UserMapper.assembles(resource.getToken(), person, fiscalCode);
         log.debug(LogUtils.CONFIDENTIAL_MARKER, "[search] output = {}", user);
         log.trace("[search] end");

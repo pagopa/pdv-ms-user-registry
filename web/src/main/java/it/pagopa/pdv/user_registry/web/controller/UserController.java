@@ -101,7 +101,10 @@ public class UserController {
             })
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@ApiParam("${swagger.model.user.id}")
+    public void update(@ApiParam("${swagger.model.namespace}")
+                           @RequestHeader(NAMESPACE_HEADER_NAME)
+                           String namespace,
+                       @ApiParam("${swagger.model.user.id}")
                        @PathVariable("id")
                        UUID id,
                        @RequestBody
@@ -110,7 +113,7 @@ public class UserController {
         log.trace("[update] start");
         log.debug("[update] inputs: id = {}, request = {}", id, request);
         User user = UserMapper.map(request);
-        userService.update(id.toString(), user);
+        userService.update(id.toString(), user, namespace);
         log.trace("[update] end");
     }
 

@@ -123,8 +123,9 @@ class PersonRestClientTest {
     void findById() {
         // given
         String id = UUID.randomUUID().toString();
+        String namespace = "namespace";
         // when
-        PersonResource response = restClient.findById(id, true);
+        PersonResource response = restClient.findById(id, namespace);
         // then
         assertNotNull(response);
         assertNotNull(response.getId());
@@ -148,8 +149,9 @@ class PersonRestClientTest {
     void findIdByNamespacedId() {
         // given
         String namespacedId = UUID.randomUUID().toString();
+        String namespace = "namespace";
         // when
-        PersonGlobalId response = restClient.findIdByNamespacedId(namespacedId);
+        PersonGlobalId response = restClient.findIdByNamespacedId(namespacedId, namespace);
         // then
         assertNotNull(response);
         assertNotNull(response.getId());
