@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "${rest-client.person.serviceCode}", url = "${rest-client.person.base-url}")
 public interface PersonRestClient extends PersonConnector {
-    String NAMESPACE_HEADER_NAME = "x-pagopa-namespace";
 
     @PutMapping(value = "${rest-client.person.saveNamespacedId.path}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -29,11 +28,11 @@ public interface PersonRestClient extends PersonConnector {
     @GetMapping(value = "${rest-client.person.findById.path}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     PersonResource findById(@PathVariable("id") String id,
-                            @RequestHeader(NAMESPACE_HEADER_NAME) String namespace);
+                            @RequestParam("namespace") String namespace);
 
 
     @GetMapping(value = "${rest-client.person.findIdByNamespacedId.path}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    PersonGlobalId findIdByNamespacedId(@RequestParam("namespacedId") String namespacedId,@RequestHeader(NAMESPACE_HEADER_NAME) String namespace);
+    PersonGlobalId findIdByNamespacedId(@RequestParam("namespacedId") String namespacedId,@RequestParam("namespace") String namespace);
 
 }

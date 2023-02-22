@@ -51,8 +51,9 @@ class UserServiceImpl implements UserService {
     @Override
     public User findById(String id, String namespace, boolean fetchFiscalCode) {
         log.trace("[findById] start");
-        log.debug("[findById] inputs: id = {}, fetchFiscalCode = {}", id, fetchFiscalCode);
+        log.debug("[findById] inputs: id = {}, namespace = {}, fetchFiscalCode = {}", id, namespace, fetchFiscalCode);
         Assert.hasText(id, "A user id is required");
+        Assert.hasText(namespace,"A namespace is required");
         PersonResource person = personConnector.findById(id, namespace);
         User user;
         if (fetchFiscalCode) {
@@ -73,6 +74,7 @@ class UserServiceImpl implements UserService {
         log.debug(LogUtils.CONFIDENTIAL_MARKER, "[update] inputs: id = {}, user = {}", id, user);
         Assert.hasText(id, "A user id is required");
         Assert.notNull(user, "A user is required");
+        Assert.hasText(namespace,"A namespace is required");
         PersonGlobalId personGlobalId = personConnector.findIdByNamespacedId(id,namespace);
         SavePersonDto savePersonDto = UserMapper.map(user);
         personConnector.save(personGlobalId.getId(), savePersonDto);
