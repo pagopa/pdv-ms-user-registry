@@ -45,7 +45,7 @@ jobs:
             target/*.jar
 
       - name: Release
-        if: github.ref == 'refs/heads/main'
+        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' }}
         id: release
         # from https://github.com/cycjimmy/semantic-release-action/commits/main
         uses: cycjimmy/semantic-release-action@bdd914ff2423e2792c73475f11e8da603182f32d
