@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static it.pagopa.pdv.user_registry.core.UserServiceImpl.GLOBAL_NAMESPACE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -242,7 +241,7 @@ class UserServiceImplTest {
         when(tokenizerConnectorMock.search(any(), any()))
                 .thenReturn(tokenResource);
         DummyPersonResource personResource = new DummyPersonResource();
-        when(personConnectorMock.findById(any(), any()))
+        when(personConnectorMock.findById(any()))
                 .thenReturn(personResource);
         // when
         User user = userService.search(fiscalCode, namespace);
@@ -253,7 +252,7 @@ class UserServiceImplTest {
         verify(tokenizerConnectorMock, times(1))
                 .search(eq(namespace), searchTokenFilterCriteriaCaptor.capture());
         verify(personConnectorMock, times(1))
-                .findById(tokenResource.getRootToken(), GLOBAL_NAMESPACE);
+                .findById(tokenResource.getRootToken());
         assertEquals(fiscalCode, searchTokenFilterCriteriaCaptor.getValue().getPii());
         verifyNoMoreInteractions(tokenizerConnectorMock, personConnectorMock);
     }

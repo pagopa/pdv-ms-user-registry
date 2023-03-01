@@ -13,6 +13,8 @@ public interface PersonConnector {
 
     PersonResource findById(String id, String namespace);
 
+    PersonResource findById(String id);
+
     PersonGlobalId findIdByNamespacedId(String namespacedId, String namespace);
 
 }
