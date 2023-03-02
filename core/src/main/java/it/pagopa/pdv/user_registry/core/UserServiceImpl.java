@@ -18,9 +18,6 @@ class UserServiceImpl implements UserService {
     private final PersonConnector personConnector;
     private final TokenizerConnector tokenizerConnector;
 
-    public static final String GLOBAL_NAMESPACE = "GLOBAL";
-
-
     @Autowired
     UserServiceImpl(PersonConnector personConnector, TokenizerConnector tokenizerConnector) {
         this.personConnector = personConnector;
