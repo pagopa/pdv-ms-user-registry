@@ -138,6 +138,24 @@ class PersonRestClientTest {
         response.getWorkContacts().values().forEach(workContactResource -> assertCertifiableFieldNotNull(workContactResource.getEmail()));
     }
 
+    @Test
+    void findById_nullNamespace() {
+        // given
+        String id = UUID.randomUUID().toString();
+        // when
+        PersonResource response = restClient.findById(id);
+        // then
+        assertNotNull(response);
+        assertNotNull(response.getId());
+        assertCertifiableFieldNotNull(response.getName());
+        assertCertifiableFieldNotNull(response.getFamilyName());
+        assertCertifiableFieldNotNull(response.getEmail());
+        assertCertifiableFieldNotNull(response.getBirthDate());
+        assertNotNull(response.getWorkContacts());
+        assertFalse(response.getWorkContacts().isEmpty());
+        response.getWorkContacts().values().forEach(workContactResource -> assertCertifiableFieldNotNull(workContactResource.getEmail()));
+    }
+
 
     private void assertCertifiableFieldNotNull(CertifiableField<?> actual) {
         assertNotNull(actual.getCertification());
