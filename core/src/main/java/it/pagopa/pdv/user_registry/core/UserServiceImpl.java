@@ -51,7 +51,7 @@ class UserServiceImpl implements UserService {
         log.debug("[findById] inputs: id = {}, namespace = {}, fetchFiscalCode = {}", id, namespace, fetchFiscalCode);
         Assert.hasText(id, "A user id is required");
         Assert.hasText(namespace,"A namespace is required");
-        PersonResource person = personConnector.findById(id, namespace);
+        PersonResource person = personConnector.findById(id, true, namespace);
         User user;
         if (fetchFiscalCode) {
             PiiResource pii = tokenizerConnector.findPiiByToken(id, namespace);
@@ -88,7 +88,7 @@ class UserServiceImpl implements UserService {
         SearchTokenFilterCriteria filterCriteria = new SearchTokenFilterCriteria();
         filterCriteria.setPii(fiscalCode);
         TokenResource resource = tokenizerConnector.search(namespace, filterCriteria);
-        PersonResource person = personConnector.findById(resource.getRootToken());
+        PersonResource person = personConnector.findById(resource.getRootToken(), false);
         User user = UserMapper.assembles(resource.getToken(), person, fiscalCode);
         log.debug(LogUtils.CONFIDENTIAL_MARKER, "[search] output = {}", user);
         log.trace("[search] end");

@@ -115,14 +115,14 @@ class UserServiceImplTest {
         String namespace = "namespace";
         boolean fetchFiscalCode = false;
         DummyPersonResource personResource = new DummyPersonResource();
-        when(personConnectorMock.findById(any(), any()))
+        when(personConnectorMock.findById(any(), anyBoolean(), any()))
                 .thenReturn(personResource);
         // when
         User user = userService.findById(id, namespace, fetchFiscalCode);
         // then
         assertNotNull(user);
         verify(personConnectorMock, times(1))
-                .findById(id, namespace);
+                .findById(id, true, namespace);
         verifyNoMoreInteractions(personConnectorMock);
         verifyNoInteractions(tokenizerConnectorMock);
     }
@@ -135,7 +135,7 @@ class UserServiceImplTest {
         String namespace = "namespace";
         boolean fetchFiscalCode = true;
         DummyPersonResource personResource = new DummyPersonResource();
-        when(personConnectorMock.findById(any(), any()))
+        when(personConnectorMock.findById(any(), anyBoolean(), any()))
                 .thenReturn(personResource);
         PiiResource piiResource = TestUtils.mockInstance(new PiiResource());
         when(tokenizerConnectorMock.findPiiByToken(any(), any()))
@@ -146,7 +146,7 @@ class UserServiceImplTest {
         assertNotNull(user);
         assertEquals(user.getFiscalCode(), piiResource.getPii());
         verify(personConnectorMock, times(1))
-                .findById(id, namespace);
+                .findById(id, true, namespace);
         verify(tokenizerConnectorMock, times(1))
                 .findPiiByToken(id, namespace);
         verifyNoMoreInteractions(personConnectorMock, tokenizerConnectorMock);
@@ -241,7 +241,7 @@ class UserServiceImplTest {
         when(tokenizerConnectorMock.search(any(), any()))
                 .thenReturn(tokenResource);
         DummyPersonResource personResource = new DummyPersonResource();
-        when(personConnectorMock.findById(any()))
+        when(personConnectorMock.findById(any(), anyBoolean()))
                 .thenReturn(personResource);
         // when
         User user = userService.search(fiscalCode, namespace);
@@ -252,7 +252,7 @@ class UserServiceImplTest {
         verify(tokenizerConnectorMock, times(1))
                 .search(eq(namespace), searchTokenFilterCriteriaCaptor.capture());
         verify(personConnectorMock, times(1))
-                .findById(tokenResource.getRootToken());
+                .findById(tokenResource.getRootToken(), false);
         assertEquals(fiscalCode, searchTokenFilterCriteriaCaptor.getValue().getPii());
         verifyNoMoreInteractions(tokenizerConnectorMock, personConnectorMock);
     }

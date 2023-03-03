@@ -28,10 +28,10 @@ public interface PersonRestClient extends PersonConnector {
     @GetMapping(value = "${rest-client.person.findById.path}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     PersonResource findById(@PathVariable("id") String id,
-                            @RequestParam(value = "namespace", required = false) String namespace);
+                            @RequestParam(value = "isNamespaced") boolean isNamespaced, @RequestParam(value = "namespace", required = false) String namespace);
 
-    default PersonResource findById(String id) {
-        return findById(id, null);
+    default PersonResource findById(String id, boolean isNamespaced) {
+        return findById(id, isNamespaced, null);
     }
 
     @GetMapping(value = "${rest-client.person.findIdByNamespacedId.path}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -125,7 +125,7 @@ class PersonRestClientTest {
         String id = UUID.randomUUID().toString();
         String namespace = "namespace";
         // when
-        PersonResource response = restClient.findById(id, namespace);
+        PersonResource response = restClient.findById(id, true, namespace);
         // then
         assertNotNull(response);
         assertNotNull(response.getId());
@@ -143,7 +143,7 @@ class PersonRestClientTest {
         // given
         String id = UUID.randomUUID().toString();
         // when
-        PersonResource response = restClient.findById(id);
+        PersonResource response = restClient.findById(id, true);
         // then
         assertNotNull(response);
         assertNotNull(response.getId());
