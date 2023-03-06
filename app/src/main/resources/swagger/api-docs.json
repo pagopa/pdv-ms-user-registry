@@ -168,6 +168,14 @@
         "description" : "Retrieve the user by its internal id",
         "operationId" : "findByIdUsingGET",
         "parameters" : [ {
+          "name" : "x-pagopa-namespace",
+          "in" : "header",
+          "description" : "Caller visibility context",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
           "name" : "id",
           "in" : "path",
           "description" : "User internal id",
@@ -280,6 +288,14 @@
         "description" : "Update the given subset fields of an existing user by its internal id, if not present an error is returned",
         "operationId" : "updateUsingPATCH",
         "parameters" : [ {
+          "name" : "x-pagopa-namespace",
+          "in" : "header",
+          "description" : "Caller visibility context",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
           "name" : "id",
           "in" : "path",
           "description" : "User internal id",

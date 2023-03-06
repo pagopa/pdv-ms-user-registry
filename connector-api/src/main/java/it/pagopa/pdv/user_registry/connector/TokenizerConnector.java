@@ -9,7 +9,7 @@ public interface TokenizerConnector {
 
     TokenResource save(String namespace, CreateTokenDto request);
 
-    PiiResource findPiiByToken(String token);
+    PiiResource findPiiByToken(String token, String namespace);
 
     TokenResource search(String namespace, SearchTokenFilterCriteria request);
 

@@ -97,9 +97,10 @@ class UserServiceImplTest {
     void findById_nullId() {
         // given
         String id = null;
+        String namespace = "namespace";
         boolean fetchFiscalCode = true;
         // when
-        Executable executable = () -> userService.findById(id, fetchFiscalCode);
+        Executable executable = () -> userService.findById(id, namespace, fetchFiscalCode);
         // then
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, executable);
         assertEquals("A user id is required", e.getMessage());
@@ -111,16 +112,17 @@ class UserServiceImplTest {
     void findById_doNotFetchFiscalCode() {
         // given
         String id = "id";
+        String namespace = "namespace";
         boolean fetchFiscalCode = false;
         DummyPersonResource personResource = new DummyPersonResource();
-        when(personConnectorMock.findById(any(), anyBoolean()))
+        when(personConnectorMock.findById(any(), anyBoolean(), any()))
                 .thenReturn(personResource);
         // when
-        User user = userService.findById(id, fetchFiscalCode);
+        User user = userService.findById(id, namespace, fetchFiscalCode);
         // then
         assertNotNull(user);
         verify(personConnectorMock, times(1))
-                .findById(id, true);
+                .findById(id, true, namespace);
         verifyNoMoreInteractions(personConnectorMock);
         verifyNoInteractions(tokenizerConnectorMock);
     }
@@ -130,22 +132,23 @@ class UserServiceImplTest {
     void findById_fetchFiscalCode() {
         // given
         String id = "id";
+        String namespace = "namespace";
         boolean fetchFiscalCode = true;
         DummyPersonResource personResource = new DummyPersonResource();
-        when(personConnectorMock.findById(any(), anyBoolean()))
+        when(personConnectorMock.findById(any(), anyBoolean(), any()))
                 .thenReturn(personResource);
         PiiResource piiResource = TestUtils.mockInstance(new PiiResource());
-        when(tokenizerConnectorMock.findPiiByToken(any()))
+        when(tokenizerConnectorMock.findPiiByToken(any(), any()))
                 .thenReturn(piiResource);
         // when
-        User user = userService.findById(id, fetchFiscalCode);
+        User user = userService.findById(id, namespace, fetchFiscalCode);
         // then
         assertNotNull(user);
         assertEquals(user.getFiscalCode(), piiResource.getPii());
         verify(personConnectorMock, times(1))
-                .findById(id, true);
+                .findById(id, true, namespace);
         verify(tokenizerConnectorMock, times(1))
-                .findPiiByToken(id);
+                .findPiiByToken(id, namespace);
         verifyNoMoreInteractions(personConnectorMock, tokenizerConnectorMock);
     }
 
@@ -154,9 +157,10 @@ class UserServiceImplTest {
     void update_nullId() {
         // given
         String id = null;
+        String namespace = "namespace";
         User user = new User();
         // when
-        Executable executable = () -> userService.update(id, user);
+        Executable executable = () -> userService.update(id, user, namespace);
         // then
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, executable);
         assertEquals("A user id is required", e.getMessage());
@@ -168,9 +172,10 @@ class UserServiceImplTest {
     void update_nullUser() {
         // given
         String id = "id";
+        String namespace = "namespace";
         User user = null;
         // when
-        Executable executable = () -> userService.update(id, user);
+        Executable executable = () -> userService.update(id, user, namespace);
         // then
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class, executable);
         assertEquals("A user is required", e.getMessage());
@@ -182,15 +187,16 @@ class UserServiceImplTest {
     void update() {
         // given
         String id = "id";
+        String namespace = "namespace";
         User user = new DummyUser();
         PersonGlobalId personGlobalId = TestUtils.mockInstance(new PersonGlobalId());
-        when(personConnectorMock.findIdByNamespacedId(any()))
+        when(personConnectorMock.findIdByNamespacedId(any(),any()))
                 .thenReturn(personGlobalId);
         // when
-        userService.update(id, user);
+        userService.update(id, user, namespace);
         // then
         verify(personConnectorMock, times(1))
-                .findIdByNamespacedId(id);
+                .findIdByNamespacedId(id,namespace);
         verify(personConnectorMock, times(1))
                 .save(eq(personGlobalId.getId()), any(SavePersonDto.class));
         verifyNoMoreInteractions(personConnectorMock);

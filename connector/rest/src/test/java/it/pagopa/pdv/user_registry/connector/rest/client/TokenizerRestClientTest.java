@@ -115,8 +115,9 @@ class TokenizerRestClientTest {
     void findPiiByToken() {
         // given
         String token = UUID.randomUUID().toString();
+        String namespace = "namespace";
         // when
-        PiiResource response = restClient.findPiiByToken(token);
+        PiiResource response = restClient.findPiiByToken(token, namespace);
         // then
         assertNotNull(response);
         assertNotNull(response.getPii());
