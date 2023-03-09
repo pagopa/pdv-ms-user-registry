@@ -54,20 +54,18 @@ So, first step if you want to test it locally, run these two microservices follo
 
 Then, set the following Environment Variables:
 
-| **Key**         | **Value**      |
-|-----------------|----------------|
-| APP_SERVER_PORT | default: 8080  |
-| APP_LOG_LEVEL   | default: DEBUG |
+| **Key**         | **Value**                |
+|-----------------|--------------------------|
+| APP_SERVER_PORT | default: 8080[^app_port] |
+| APP_LOG_LEVEL   | default: DEBUG           |
+
+[^app_port]: When running multiple microservices simultaneously, a different port must be chosen for each one.
 
 From terminal, inside the **app** package:
 
 ```
 ./mvnw spring-boot:run
 ```
-
-Notes: *When choosing the **port number** for this microservice, take into account that it needs **pdv-ms-person**
-and **pdv-ms-user-registry**, you'll need to choose a different port for each
-microservice.*
 
 ---
 
