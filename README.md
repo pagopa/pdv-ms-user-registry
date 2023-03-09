@@ -2,8 +2,14 @@
 
 Spring Application implementing the **User-Registry** microservice for the **Personal Data Vault** Project.
 
-This microservice works in conjunction with:
+---
 
+## Dependencies
+
+Upstream:
+- PagoPA products
+
+Downstream:
 - [pdv-ms-person](https://github.com/pagopa/pdv-ms-person)
 - [pdv-ms-tokenizer](https://github.com/pagopa/pdv-ms-tokenizer)
 
