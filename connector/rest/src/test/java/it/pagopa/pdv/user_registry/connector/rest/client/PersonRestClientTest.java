@@ -123,6 +123,25 @@ class PersonRestClientTest {
     void findById() {
         // given
         String id = UUID.randomUUID().toString();
+        String namespace = "namespace";
+        // when
+        PersonResource response = restClient.findById(id, true, namespace);
+        // then
+        assertNotNull(response);
+        assertNotNull(response.getId());
+        assertCertifiableFieldNotNull(response.getName());
+        assertCertifiableFieldNotNull(response.getFamilyName());
+        assertCertifiableFieldNotNull(response.getEmail());
+        assertCertifiableFieldNotNull(response.getBirthDate());
+        assertNotNull(response.getWorkContacts());
+        assertFalse(response.getWorkContacts().isEmpty());
+        response.getWorkContacts().values().forEach(workContactResource -> assertCertifiableFieldNotNull(workContactResource.getEmail()));
+    }
+
+    @Test
+    void findById_nullNamespace() {
+        // given
+        String id = UUID.randomUUID().toString();
         // when
         PersonResource response = restClient.findById(id, true);
         // then
@@ -148,8 +167,9 @@ class PersonRestClientTest {
     void findIdByNamespacedId() {
         // given
         String namespacedId = UUID.randomUUID().toString();
+        String namespace = "namespace";
         // when
-        PersonGlobalId response = restClient.findIdByNamespacedId(namespacedId);
+        PersonGlobalId response = restClient.findIdByNamespacedId(namespacedId, namespace);
         // then
         assertNotNull(response);
         assertNotNull(response.getId());

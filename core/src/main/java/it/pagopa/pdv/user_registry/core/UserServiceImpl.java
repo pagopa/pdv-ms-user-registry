@@ -18,7 +18,6 @@ class UserServiceImpl implements UserService {
     private final PersonConnector personConnector;
     private final TokenizerConnector tokenizerConnector;
 
-
     @Autowired
     UserServiceImpl(PersonConnector personConnector, TokenizerConnector tokenizerConnector) {
         this.personConnector = personConnector;
@@ -47,14 +46,15 @@ class UserServiceImpl implements UserService {
 
 
     @Override
-    public User findById(String id, boolean fetchFiscalCode) {
+    public User findById(String id, String namespace, boolean fetchFiscalCode) {
         log.trace("[findById] start");
-        log.debug("[findById] inputs: id = {}, fetchFiscalCode = {}", id, fetchFiscalCode);
+        log.debug("[findById] inputs: id = {}, namespace = {}, fetchFiscalCode = {}", id, namespace, fetchFiscalCode);
         Assert.hasText(id, "A user id is required");
-        PersonResource person = personConnector.findById(id, true);
+        Assert.hasText(namespace,"A namespace is required");
+        PersonResource person = personConnector.findById(id, true, namespace);
         User user;
         if (fetchFiscalCode) {
-            PiiResource pii = tokenizerConnector.findPiiByToken(id);
+            PiiResource pii = tokenizerConnector.findPiiByToken(id, namespace);
             user = UserMapper.assembles(id, person, pii.getPii());
         } else {
             user = UserMapper.assembles(id, person);
@@ -66,12 +66,13 @@ class UserServiceImpl implements UserService {
 
 
     @Override
-    public void update(String id, User user) {
+    public void update(String id, User user, String namespace) {
         log.trace("[update] start");
         log.debug(LogUtils.CONFIDENTIAL_MARKER, "[update] inputs: id = {}, user = {}", id, user);
         Assert.hasText(id, "A user id is required");
         Assert.notNull(user, "A user is required");
-        PersonGlobalId personGlobalId = personConnector.findIdByNamespacedId(id);
+        Assert.hasText(namespace,"A namespace is required");
+        PersonGlobalId personGlobalId = personConnector.findIdByNamespacedId(id,namespace);
         SavePersonDto savePersonDto = UserMapper.map(user);
         personConnector.save(personGlobalId.getId(), savePersonDto);
         log.trace("[update] end");

@@ -43,15 +43,18 @@ public class UserController {
             notes = "${swagger.api.user.findById.notes}")
     @GetMapping(value = "{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserResource findById(@ApiParam("${swagger.model.user.id}")
+    public UserResource findById(@ApiParam("${swagger.model.namespace}")
+                                 @RequestHeader(NAMESPACE_HEADER_NAME)
+                                 String namespace,
+                                 @ApiParam("${swagger.model.user.id}")
                                  @PathVariable("id")
-                                         UUID id,
+                                 UUID id,
                                  @ApiParam(value = "${swagger.model.user.fl}")
                                  @RequestParam(value = "fl")
-                                         EnumSet<UserResource.Fields> fields) {
+                                 EnumSet<UserResource.Fields> fields) {
         log.trace("[findById] start");
         log.debug("[findById] inputs: id = {}, fields = {}", id, fields);
-        User user = userService.findById(id.toString(), fields.contains(UserResource.Fields.fiscalCode));
+        User user = userService.findById(id.toString(), namespace, fields.contains(UserResource.Fields.fiscalCode));
         UserResource userResource = UserMapper.map(user, fields);
         log.debug(CONFIDENTIAL_MARKER, "[findById] output = {}", userResource);
         log.trace("[findById] end");
@@ -71,13 +74,13 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public UserResource search(@ApiParam("${swagger.model.namespace}")
                                @RequestHeader(NAMESPACE_HEADER_NAME)
-                                       String namespace,
+                               String namespace,
                                @ApiParam("${swagger.model.user.fl}")
                                @RequestParam("fl")
-                                       EnumSet<UserResource.Fields> fields,
+                               EnumSet<UserResource.Fields> fields,
                                @RequestBody
                                @Valid
-                                       UserSearchDto request) {
+                               UserSearchDto request) {
         log.trace("[search] start");
         log.debug(CONFIDENTIAL_MARKER, "[search] inputs: namespace = {}, fields = {}, request = {}", namespace, fields, request);
         User user = userService.search(request.getFiscalCode(), namespace);
@@ -98,16 +101,19 @@ public class UserController {
             })
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@ApiParam("${swagger.model.user.id}")
+    public void update(@ApiParam("${swagger.model.namespace}")
+                           @RequestHeader(NAMESPACE_HEADER_NAME)
+                           String namespace,
+                       @ApiParam("${swagger.model.user.id}")
                        @PathVariable("id")
-                               UUID id,
+                       UUID id,
                        @RequestBody
                        @Valid
-                               MutableUserFieldsDto request) {
+                       MutableUserFieldsDto request) {
         log.trace("[update] start");
         log.debug("[update] inputs: id = {}, request = {}", id, request);
         User user = UserMapper.map(request);
-        userService.update(id.toString(), user);
+        userService.update(id.toString(), user, namespace);
         log.trace("[update] end");
     }
 
@@ -124,10 +130,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public UserId save(@ApiParam("${swagger.model.namespace}")
                        @RequestHeader(NAMESPACE_HEADER_NAME)
-                               String namespace,
+                       String namespace,
                        @RequestBody
                        @Valid
-                               SaveUserDto request) {
+                       SaveUserDto request) {
         log.trace("[save] start");
         log.debug(CONFIDENTIAL_MARKER, "[save] inputs: namespace = {}, request = {}", namespace, request);
         User user = UserMapper.map(request);
@@ -146,7 +152,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@ApiParam("${swagger.model.user.id}")
                            @PathVariable("id")
-                                   UUID id) {
+                           UUID id) {
         //TODO
         throw new UnsupportedOperationException();
     }

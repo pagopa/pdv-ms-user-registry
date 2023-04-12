@@ -53,14 +53,16 @@ class UserControllerTest {
     void findById_noFiscalCodeRequested_flAsCsvFormat() throws Exception {
         // given
         UUID id = UUID.randomUUID();
+        String namespace = "namespace";
         EnumSet<UserResource.Fields> fields = EnumSet.of(UserResource.Fields.name);
         User user = new DummyUser();
-        Mockito.when(userServiceMock.findById(Mockito.anyString(), Mockito.anyBoolean()))
+        Mockito.when(userServiceMock.findById(Mockito.anyString(), Mockito.anyString(), Mockito.anyBoolean()))
                 .thenReturn(user);
         // when
         mvc.perform(MockMvcRequestBuilders
                 .get(BASE_URL + "/{id}", id)
-                .queryParam("fl", fields.stream()
+                        .header(NAMESPACE_HEADER_NAME, namespace)
+                        .queryParam("fl", fields.stream()
                         .map(Enum::toString)
                         .collect(Collectors.joining(",")))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -77,7 +79,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$", not(hasProperty("workContacts"))));
         // then
         verify(userServiceMock, times(1))
-                .findById(id.toString(), false);
+                .findById(id.toString(), namespace, false);
         verifyNoMoreInteractions(userServiceMock);
     }
 
@@ -86,14 +88,16 @@ class UserControllerTest {
     void findById_fiscalCodeRequested_flAsMultiValueFormat() throws Exception {
         // given
         UUID id = UUID.randomUUID();
+        String namespace = "namespace";
         EnumSet<UserResource.Fields> fields = EnumSet.of(UserResource.Fields.name, UserResource.Fields.fiscalCode);
         User user = new DummyUser();
-        Mockito.when(userServiceMock.findById(Mockito.anyString(), Mockito.anyBoolean()))
+        Mockito.when(userServiceMock.findById(Mockito.anyString(), Mockito.anyString(), Mockito.anyBoolean()))
                 .thenReturn(user);
         // when
         mvc.perform(MockMvcRequestBuilders
                 .get(BASE_URL + "/{id}", id)
-                .queryParam("fl", fields.stream()
+                        .header(NAMESPACE_HEADER_NAME, namespace)
+                        .queryParam("fl", fields.stream()
                         .map(Enum::toString)
                         .collect(Collectors.toList())
                         .toArray(new String[fields.size()]))
@@ -111,7 +115,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$", not(hasProperty("workContacts"))));
         // then
         verify(userServiceMock, times(1))
-                .findById(id.toString(), true);
+                .findById(id.toString(), namespace, true);
         verifyNoMoreInteractions(userServiceMock);
     }
 
@@ -155,18 +159,20 @@ class UserControllerTest {
     void update(@Value("classpath:stubs/mutableUserFieldsDto.json") Resource mutableUserFieldsDto) throws Exception {
         // given
         UUID uuid = UUID.randomUUID();
+        String namespace = "namespace";
         Mockito.doNothing().when(userServiceMock)
-                .update(any(), any());
+                .update(any(), any(), any());
         // when
         mvc.perform(MockMvcRequestBuilders
                 .patch(BASE_URL + "/{id}", uuid)
-                .content(mutableUserFieldsDto.getInputStream().readAllBytes())
+                        .header(NAMESPACE_HEADER_NAME, namespace)
+                        .content(mutableUserFieldsDto.getInputStream().readAllBytes())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNoContent());
         // then
         verify(userServiceMock, times(1))
-                .update(eq(uuid.toString()), any(User.class));
+                .update(eq(uuid.toString()), any(User.class),eq(namespace));
         verifyNoMoreInteractions(userServiceMock);
     }
 

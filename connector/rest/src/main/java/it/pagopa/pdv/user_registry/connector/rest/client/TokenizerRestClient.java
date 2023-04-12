@@ -23,7 +23,7 @@ public interface TokenizerRestClient extends TokenizerConnector {
 
     @GetMapping(value = "${rest-client.tokenizer.findPiiByToken.path}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    PiiResource findPiiByToken(@PathVariable("token") String token);
+    PiiResource findPiiByToken(@PathVariable("token") String token, @RequestHeader(NAMESPACE_HEADER_NAME) String namespace);
 
 
     @PostMapping(value = "${rest-client.tokenizer.search.path}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
