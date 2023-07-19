@@ -1,6 +1,6 @@
 package it.pagopa.pdv.user_registry.web.model;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 
@@ -14,31 +14,31 @@ import java.util.UUID;
 @FieldNameConstants(asEnum = true)
 public class UserResource {
 
-    @ApiModelProperty(value = "${swagger.model.user.id}", required = true)
+    @Schema(description = "${swagger.model.user.id}", required = true)
     @NotNull
     @FieldNameConstants.Exclude
     private UUID id;
 
-    @ApiModelProperty(value = "${swagger.model.user.fiscalCode}")
+    @Schema(description = "${swagger.model.user.fiscalCode}")
     private String fiscalCode;
 
-    @ApiModelProperty(value = "${swagger.model.user.name}")
+    @Schema(description = "${swagger.model.user.name}")
     @Valid
     private CertifiableFieldResource<String> name;
 
-    @ApiModelProperty(value = "${swagger.model.user.familyName}")
+    @Schema(description = "${swagger.model.user.familyName}")
     @Valid
     private CertifiableFieldResource<String> familyName;
 
-    @ApiModelProperty(value = "${swagger.model.user.email}")
+    @Schema(description = "${swagger.model.user.email}")
     @Valid
     private CertifiableFieldResource<String> email;
 
-    @ApiModelProperty(value = "${swagger.model.user.birthDate}")
+    @Schema(description = "${swagger.model.user.birthDate}")
     @Valid
     private CertifiableFieldResource<LocalDate> birthDate;
 
-    @ApiModelProperty(value = "${swagger.model.user.workContacts}")
+    @Schema(description = "${swagger.model.user.workContacts}")
     @Valid
     private Map<String, WorkContactResource> workContacts;
 

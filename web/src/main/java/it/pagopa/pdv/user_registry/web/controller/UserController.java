@@ -1,11 +1,12 @@
 package it.pagopa.pdv.user_registry.web.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import it.pagopa.pdv.user_registry.core.UserService;
 import it.pagopa.pdv.user_registry.core.model.User;
 import it.pagopa.pdv.user_registry.web.model.*;
@@ -25,7 +26,7 @@ import static it.pagopa.pdv.user_registry.core.logging.LogUtils.CONFIDENTIAL_MAR
 @Slf4j
 @RestController
 @RequestMapping(value = "users", produces = MediaType.APPLICATION_JSON_VALUE)
-@Api(tags = "user")
+@Tag(name = "user")
 public class UserController {
 
     private static final String NAMESPACE_HEADER_NAME = "x-pagopa-namespace";
@@ -39,17 +40,17 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "${swagger.api.user.findById.summary}",
-            notes = "${swagger.api.user.findById.notes}")
+    @Operation(summary = "${swagger.api.user.findById.summary}",
+            description = "${swagger.api.user.findById.notes}")
     @GetMapping(value = "{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserResource findById(@ApiParam("${swagger.model.namespace}")
+    public UserResource findById(@Parameter(description = "${swagger.model.namespace}")
                                  @RequestHeader(NAMESPACE_HEADER_NAME)
                                  String namespace,
-                                 @ApiParam("${swagger.model.user.id}")
+                                 @Parameter(description = "${swagger.model.user.id}",in = ParameterIn.PATH)
                                  @PathVariable("id")
                                  UUID id,
-                                 @ApiParam(value = "${swagger.model.user.fl}")
+                                 @Parameter(description = "${swagger.model.user.fl}")
                                  @RequestParam(value = "fl")
                                  EnumSet<UserResource.Fields> fields) {
         log.trace("[findById] start");
@@ -62,8 +63,8 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "${swagger.api.user.search.summary}",
-            notes = "${swagger.api.user.search.notes}")
+    @Operation(summary = "${swagger.api.user.search.summary}",
+            description = "${swagger.api.user.search.notes}")
     @ApiResponse(responseCode = "404",
             description = "Not Found",
             content = {
@@ -72,10 +73,10 @@ public class UserController {
             })
     @PostMapping(value = "search")
     @ResponseStatus(HttpStatus.OK)
-    public UserResource search(@ApiParam("${swagger.model.namespace}")
+    public UserResource search(@Parameter(description = "${swagger.model.namespace}")
                                @RequestHeader(NAMESPACE_HEADER_NAME)
                                String namespace,
-                               @ApiParam("${swagger.model.user.fl}")
+                               @Parameter(description = "${swagger.model.user.fl}")
                                @RequestParam("fl")
                                EnumSet<UserResource.Fields> fields,
                                @RequestBody
@@ -91,8 +92,8 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "${swagger.api.user.update.summary}",
-            notes = "${swagger.api.user.update.notes}")
+    @Operation(summary = "${swagger.api.user.update.summary}",
+            description = "${swagger.api.user.update.notes}")
     @ApiResponse(responseCode = "409",
             description = "Conflict",
             content = {
@@ -101,10 +102,10 @@ public class UserController {
             })
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@ApiParam("${swagger.model.namespace}")
+    public void update(@Parameter(description = "${swagger.model.namespace}")
                            @RequestHeader(NAMESPACE_HEADER_NAME)
                            String namespace,
-                       @ApiParam("${swagger.model.user.id}")
+                       @Parameter(description = "${swagger.model.user.id}", in = ParameterIn.PATH)
                        @PathVariable("id")
                        UUID id,
                        @RequestBody
@@ -118,8 +119,8 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "${swagger.api.user.save.summary}",
-            notes = "${swagger.api.user.save.notes}")
+    @Operation(summary = "${swagger.api.user.save.summary}",
+            description = "${swagger.api.user.save.notes}")
     @ApiResponse(responseCode = "409",
             description = "Conflict",
             content = {
@@ -128,7 +129,7 @@ public class UserController {
             })
     @PatchMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public UserId save(@ApiParam("${swagger.model.namespace}")
+    public UserId save(@Parameter(description = "${swagger.model.namespace}")
                        @RequestHeader(NAMESPACE_HEADER_NAME)
                        String namespace,
                        @RequestBody
@@ -146,11 +147,11 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "${swagger.api.user.deleteById.summary}",
-            notes = "${swagger.api.user.deleteById.notes}")
+    @Operation(summary = "${swagger.api.user.deleteById.summary}",
+            description = "${swagger.api.user.deleteById.notes}")
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@ApiParam("${swagger.model.user.id}")
+    public void deleteById(@Parameter(description = "${swagger.model.user.id}",in = ParameterIn.PATH)
                            @PathVariable("id")
                            UUID id) {
         //TODO
