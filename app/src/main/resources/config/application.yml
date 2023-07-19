@@ -20,6 +20,12 @@ spring:
   sleuth:
     propagation:
       type: AWS
+  springdoc:
+    packagesToScan:
+      - pdv-ms-user-registry-web # TODO do we need other packages?
+    pathsToMatch:
+      - /v1
+      - /api/balance/** # TODO remove
 
 info:
   build:

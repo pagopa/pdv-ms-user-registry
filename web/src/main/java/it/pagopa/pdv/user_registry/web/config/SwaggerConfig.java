@@ -1,32 +1,21 @@
 package it.pagopa.pdv.user_registry.web.config;
 
-import com.fasterxml.classmate.TypeResolver;
-import it.pagopa.pdv.user_registry.web.model.Problem;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseBuilder;
-import springfox.documentation.service.Response;
-import springfox.documentation.service.Tag;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
 
-import java.time.LocalTime;
-import java.util.List;
 
 @Slf4j
 @Configuration
 @ComponentScan(basePackageClasses = SwaggerConfig.class)
 class SwaggerConfig {
 
-    public static final Response INTERNAL_SERVER_ERROR_RESPONSE = new ResponseBuilder()
+    /*public static final Response INTERNAL_SERVER_ERROR_RESPONSE = new ResponseBuilder()
             .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
             .description(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
             .representation(MediaType.APPLICATION_PROBLEM_JSON).apply(repBuilder ->
@@ -60,6 +49,8 @@ class SwaggerConfig {
                                                             .name(Problem.class.getSimpleName()))))))
             .build();
 
+     */
+
     @Configuration
     @Profile("swaggerIT")
     @PropertySource("classpath:/swagger/swagger_it.properties")
@@ -83,7 +74,7 @@ class SwaggerConfig {
     }
 
 
-    @Bean
+    /*@Bean
     public Docket swaggerSpringPlugin(@Autowired TypeResolver typeResolver) {
         return (new Docket(DocumentationType.OAS_30))
                 .apiInfo(new ApiInfoBuilder()
@@ -102,6 +93,15 @@ class SwaggerConfig {
                 .globalResponses(HttpMethod.PATCH, List.of(INTERNAL_SERVER_ERROR_RESPONSE, BAD_REQUEST_RESPONSE))
                 .additionalModels(typeResolver.resolve(Problem.class))
                 .forCodeGeneration(true);
+    }*/
+    @Bean
+    public OpenAPI springShopOpenAPI() {
+        return new OpenAPI()
+                .info(new Info().title(environment.getProperty("swagger.title", environment.getProperty("spring.application.name")))
+                        .description(environment.getProperty("swagger.description", "Api and Models"))
+                        .version(environment.getProperty("swagger.version", environment.getProperty("spring.application.version"))));
     }
+
+
 
 }
