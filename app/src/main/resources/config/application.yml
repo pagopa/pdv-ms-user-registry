@@ -20,12 +20,6 @@ spring:
   sleuth:
     propagation:
       type: AWS
-  springdoc:
-    packagesToScan:
-      - pdv-ms-user-registry-web # TODO do we need other packages?
-    pathsToMatch:
-      - /v1
-      - /api/balance/** # TODO remove
 
 info:
   build:
@@ -34,6 +28,12 @@ info:
     description: "@project.description@"
     version: "@project.version@"
 
+springdoc:
+  api-docs:
+    resolve-schema-properties: true
+  writer-with-order-by-keys: true
+
 logging:
   level:
     it.pagopa.pdv.user_registry: ${APP_LOG_LEVEL:DEBUG}
+
