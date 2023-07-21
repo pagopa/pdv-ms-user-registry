@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import it.pagopa.pdv.user_registry.core.UserService;
 import it.pagopa.pdv.user_registry.core.model.User;
+import it.pagopa.pdv.user_registry.web.annotations.CommonApiResponsesWrapper;
 import it.pagopa.pdv.user_registry.web.model.*;
 import it.pagopa.pdv.user_registry.web.model.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,15 @@ public class UserController {
 
     @Operation(summary = "${swagger.api.user.findById.summary}",
             description = "${swagger.api.user.findById.notes}")
+    @CommonApiResponsesWrapper
+    @ApiResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = {
+                    @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
+                            schema = @Schema(implementation = Problem.class))
+            }
+    )
     @GetMapping(value = "{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserResource findById(@Parameter(description = "${swagger.model.namespace}")
@@ -65,12 +75,15 @@ public class UserController {
 
     @Operation(summary = "${swagger.api.user.search.summary}",
             description = "${swagger.api.user.search.notes}")
-    @ApiResponse(responseCode = "404",
+    @CommonApiResponsesWrapper
+    @ApiResponse(
+            responseCode = "404",
             description = "Not Found",
             content = {
                     @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
                             schema = @Schema(implementation = Problem.class))
-            })
+            }
+    )
     @PostMapping(value = "search")
     @ResponseStatus(HttpStatus.OK)
     public UserResource search(@Parameter(description = "${swagger.model.namespace}")
@@ -94,7 +107,9 @@ public class UserController {
 
     @Operation(summary = "${swagger.api.user.update.summary}",
             description = "${swagger.api.user.update.notes}")
-    @ApiResponse(responseCode = "409",
+    @CommonApiResponsesWrapper
+    @ApiResponse(
+            responseCode = "409",
             description = "Conflict",
             content = {
                     @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
@@ -121,7 +136,9 @@ public class UserController {
 
     @Operation(summary = "${swagger.api.user.save.summary}",
             description = "${swagger.api.user.save.notes}")
-    @ApiResponse(responseCode = "409",
+    @CommonApiResponsesWrapper
+    @ApiResponse(
+            responseCode = "409",
             description = "Conflict",
             content = {
                     @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE,
@@ -149,6 +166,7 @@ public class UserController {
 
     @Operation(summary = "${swagger.api.user.deleteById.summary}",
             description = "${swagger.api.user.deleteById.notes}")
+    @CommonApiResponsesWrapper
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@Parameter(description = "${swagger.model.user.id}",in = ParameterIn.PATH)

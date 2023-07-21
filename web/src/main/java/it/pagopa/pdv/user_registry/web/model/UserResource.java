@@ -14,7 +14,7 @@ import java.util.UUID;
 @FieldNameConstants(asEnum = true)
 public class UserResource {
 
-    @Schema(description = "${swagger.model.user.id}", required = true)
+    @Schema(description = "${swagger.model.user.id}", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull
     @FieldNameConstants.Exclude
     private UUID id;
@@ -22,19 +22,19 @@ public class UserResource {
     @Schema(description = "${swagger.model.user.fiscalCode}")
     private String fiscalCode;
 
-    @Schema(description = "${swagger.model.user.name}")
+    @Schema(ref = "NameCertifiableSchema")
     @Valid
     private CertifiableFieldResource<String> name;
 
-    @Schema(description = "${swagger.model.user.familyName}")
+    @Schema(ref = "FamilyNameCertifiableSchema")
     @Valid
     private CertifiableFieldResource<String> familyName;
 
-    @Schema(description = "${swagger.model.user.email}")
+    @Schema(ref = "EmailCertifiableSchema")
     @Valid
     private CertifiableFieldResource<String> email;
 
-    @Schema(description = "${swagger.model.user.birthDate}")
+    @Schema(ref = "BirthDateCertifiableSchema")
     @Valid
     private CertifiableFieldResource<LocalDate> birthDate;
 

@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 public class UserId {
 
-    @Schema(description = "${swagger.model.user.id}", required = true)
+    @Schema(description = "${swagger.model.user.id}", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull
     private UUID id;
 

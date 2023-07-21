@@ -8,7 +8,7 @@ import javax.validation.Valid;
 @Data
 public class WorkContactResource {
 
-    @Schema(description = "${swagger.model.user.workContact.email}")
+    @Schema(ref = "EmailCertifiableSchema")
     @Valid
     private CertifiableFieldResource<String> email;
 

@@ -24,11 +24,11 @@ public class Problem implements Serializable {
     @Schema(description = "A URL to a page with more details regarding the problem.")
     private String type;
 
-    @Schema(description = "Short human-readable summary of the problem.", required = true)
+    @Schema(description = "Short human-readable summary of the problem.", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank
     private String title;
 
-    @Schema(description = "The HTTP status code.", required = true, example = "500")
+    @Schema(description = "The HTTP status code.", requiredMode = Schema.RequiredMode.REQUIRED, example = "500")
     @Min(100)
     @Max(599)
     private int status;
@@ -69,11 +69,11 @@ public class Problem implements Serializable {
     @AllArgsConstructor
     public static class InvalidParam {
 
-        @Schema(description = "Invalid parameter name.", required = true)
+        @Schema(description = "Invalid parameter name.", requiredMode = Schema.RequiredMode.REQUIRED)
         @NotBlank
         private String name;
 
-        @Schema(description = "Invalid parameter reason.", required = true)
+        @Schema(description = "Invalid parameter reason.", requiredMode = Schema.RequiredMode.REQUIRED)
         @NotBlank
         private String reason;
 

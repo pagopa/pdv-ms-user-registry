@@ -10,11 +10,11 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class CertifiableFieldResource<T> {
 
-    @Schema(description = "${swagger.model.certifiableField.certification}", required = true)
+    @Schema(description = "${swagger.model.certifiableField.certification}", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull
     private Certification certification;
 
-    @Schema(description = "${swagger.model.certifiableField.value}", required = true)
+    @Schema(description = "${swagger.model.certifiableField.value}", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull
     private T value;
 

@@ -10,19 +10,19 @@ import java.util.Map;
 @Data
 public class MutableUserFieldsDto {
 
-    @Schema(description = "${swagger.model.user.name}")
+    @Schema(ref = "NameCertifiableSchema")
     @Valid
     private CertifiableFieldResource<String> name;
 
-    @Schema(description = "${swagger.model.user.familyName}")
+    @Schema(ref = "FamilyNameCertifiableSchema")
     @Valid
     private CertifiableFieldResource<String> familyName;
 
-    @Schema(description = "${swagger.model.user.email}")
+    @Schema(ref = "EmailCertifiableSchema")
     @Valid
     private CertifiableFieldResource<String> email;
 
-    @Schema(description = "${swagger.model.user.birthDate}")
+    @Schema(ref = "BirthDateCertifiableSchema")
     @Valid
     private CertifiableFieldResource<LocalDate> birthDate;
 
