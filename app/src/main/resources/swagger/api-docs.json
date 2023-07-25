@@ -363,8 +363,9 @@
             "enum" : [ "NONE", "SPID" ]
           },
           "value" : {
-            "type" : "object",
-            "description" : "Field value"
+            "type" : "string",
+            "description" : "Field value",
+            "format" : "date"
           }
         },
         "required" : [ "certification", "value" ]
@@ -379,7 +380,7 @@
             "enum" : [ "NONE", "SPID" ]
           },
           "value" : {
-            "type" : "object",
+            "type" : "string",
             "description" : "Field value"
           }
         },
@@ -395,7 +396,7 @@
             "enum" : [ "NONE", "SPID" ]
           },
           "value" : {
-            "type" : "object",
+            "type" : "string",
             "description" : "Field value"
           }
         },
@@ -450,7 +451,7 @@
             "enum" : [ "NONE", "SPID" ]
           },
           "value" : {
-            "type" : "object",
+            "type" : "string",
             "description" : "Field value"
           }
         },
