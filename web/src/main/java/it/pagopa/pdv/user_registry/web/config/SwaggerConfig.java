@@ -15,6 +15,8 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
 
+import java.time.LocalDate;
+
 @Slf4j
 @Configuration
 @ComponentScan(basePackageClasses = SwaggerConfig.class)
@@ -31,6 +33,11 @@ class SwaggerConfig {
     @Profile("swaggerEN")
     @PropertySource("classpath:/swagger/swagger_en.properties")
     public static class EnConfig {
+    }
+
+    private static class CertifiableFieldResourceString extends CertifiableFieldResource<String>{
+    }
+    private static class CertifiableFieldResourceDate extends CertifiableFieldResource<LocalDate>{
     }
 
     private final Environment environment;
@@ -51,13 +58,12 @@ class SwaggerConfig {
                         .description(environment.getProperty("swagger.description", "Api and Models"))
                         .version(environment.getProperty("swagger.version", environment.getProperty("spring.application.version"))))
                 .components(new Components()
-                        .addSchemas("NameCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResource.class, "${swagger.model.user.name}" ))
-                        .addSchemas("FamilyNameCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResource.class, "${swagger.model.user.familyName}" ))
-                        .addSchemas("EmailCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResource.class, "${swagger.model.user.email}" ))
-                        .addSchemas("BirthDateCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResource.class, "${swagger.model.user.birthDate}" )));
+                        .addSchemas("NameCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceString.class, "${swagger.model.user.name}" ))
+                        .addSchemas("FamilyNameCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceString.class, "${swagger.model.user.familyName}" ))
+                        .addSchemas("EmailCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceString.class, "${swagger.model.user.email}" ))
+                        .addSchemas("BirthDateCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceDate.class, "${swagger.model.user.birthDate}" )));
 
     }
-
 
     private Schema getSchemaWithDifferentDescription(Class className, String description){
         ResolvedSchema resolvedSchema = ModelConverters.getInstance()
@@ -65,5 +71,6 @@ class SwaggerConfig {
                         new AnnotatedType(className).resolveAsRef(false));
         return resolvedSchema.schema.description(description);
     }
+
 
 }
