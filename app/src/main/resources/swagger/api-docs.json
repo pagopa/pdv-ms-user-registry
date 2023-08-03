@@ -1,29 +1,23 @@
 {
-  "openapi" : "3.0.3",
+  "openapi" : "3.0.1",
   "info" : {
-    "title" : "pdv-ms-user-registry",
     "description" : "User Registry API documentation",
+    "title" : "pdv-ms-user-registry",
     "version" : "1.0-SNAPSHOT"
   },
   "servers" : [ {
-    "url" : "http://localhost:80",
-    "description" : "Inferred Url"
-  } ],
-  "tags" : [ {
-    "name" : "user",
-    "description" : "User operations"
+    "url" : "http://localhost",
+    "description" : "Generated server url"
   } ],
   "paths" : {
     "/users" : {
       "patch" : {
-        "tags" : [ "user" ],
-        "summary" : "Upsert user",
         "description" : "Update the given subset fields of an existing user by its fiscal code, if not present create a new one. The fiscal code will always be converted in uppercase.",
-        "operationId" : "saveUsingPATCH",
+        "operationId" : "save",
         "parameters" : [ {
-          "name" : "x-pagopa-namespace",
-          "in" : "header",
           "description" : "Caller visibility context",
+          "in" : "header",
+          "name" : "x-pagopa-namespace",
           "required" : true,
           "schema" : {
             "type" : "string"
@@ -36,76 +30,78 @@
                 "$ref" : "#/components/schemas/SaveUserDto"
               }
             }
-          }
+          },
+          "required" : true
         },
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/UserId"
                 }
               }
-            }
+            },
+            "description" : "OK"
           },
           "400" : {
-            "description" : "Bad Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Problem"
                 }
               }
-            }
+            },
+            "description" : "Bad Request"
           },
           "409" : {
-            "description" : "Conflict",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Problem"
                 }
               }
-            }
+            },
+            "description" : "Conflict"
           },
           "500" : {
-            "description" : "Internal Server Error",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Problem"
                 }
               }
-            }
+            },
+            "description" : "Internal Server Error"
           }
-        }
+        },
+        "summary" : "Upsert user",
+        "tags" : [ "user" ]
       }
     },
     "/users/search" : {
       "post" : {
-        "tags" : [ "user" ],
-        "summary" : "Search user",
         "description" : "Search a user given its fiscal code. The fiscal code will always be converted in uppercase.",
-        "operationId" : "searchUsingPOST",
+        "operationId" : "search",
         "parameters" : [ {
-          "name" : "x-pagopa-namespace",
-          "in" : "header",
           "description" : "Caller visibility context",
+          "in" : "header",
+          "name" : "x-pagopa-namespace",
           "required" : true,
           "schema" : {
             "type" : "string"
           }
         }, {
-          "name" : "fl",
-          "in" : "query",
           "description" : "Field list. Subset of fields to be retrieved for the requested resource",
+          "in" : "query",
+          "name" : "fl",
           "required" : true,
-          "style" : "form",
-          "explode" : true,
           "schema" : {
-            "type" : "string",
-            "enum" : [ "birthDate", "email", "familyName", "fiscalCode", "name", "workContacts" ]
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "enum" : [ "fiscalCode", "name", "familyName", "email", "birthDate", "workContacts" ]
+            }
           }
         } ],
         "requestBody" : {
@@ -115,142 +111,64 @@
                 "$ref" : "#/components/schemas/UserSearchDto"
               }
             }
-          }
+          },
+          "required" : true
         },
         "responses" : {
           "200" : {
-            "description" : "OK",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/UserResource"
                 }
               }
-            }
+            },
+            "description" : "OK"
           },
           "400" : {
-            "description" : "Bad Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Problem"
                 }
               }
-            }
+            },
+            "description" : "Bad Request"
           },
           "404" : {
-            "description" : "Not Found",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Problem"
                 }
               }
-            }
+            },
+            "description" : "Not Found"
           },
           "500" : {
-            "description" : "Internal Server Error",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Problem"
                 }
               }
-            }
+            },
+            "description" : "Internal Server Error"
           }
-        }
+        },
+        "summary" : "Search user",
+        "tags" : [ "user" ]
       }
     },
     "/users/{id}" : {
-      "get" : {
-        "tags" : [ "user" ],
-        "summary" : "Find user",
-        "description" : "Retrieve the user by its internal id",
-        "operationId" : "findByIdUsingGET",
-        "parameters" : [ {
-          "name" : "x-pagopa-namespace",
-          "in" : "header",
-          "description" : "Caller visibility context",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "User internal id",
-          "required" : true,
-          "style" : "simple",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        }, {
-          "name" : "fl",
-          "in" : "query",
-          "description" : "Field list. Subset of fields to be retrieved for the requested resource",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "enum" : [ "birthDate", "email", "familyName", "fiscalCode", "name", "workContacts" ]
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/UserResource"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "404" : {
-            "description" : "Not Found",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "500" : {
-            "description" : "Internal Server Error",
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        }
-      },
       "delete" : {
-        "tags" : [ "user" ],
-        "summary" : "Delete user",
         "description" : "Delete the user by its internal id",
-        "operationId" : "deleteByIdUsingDELETE",
+        "operationId" : "deleteById",
         "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
           "description" : "User internal id",
+          "in" : "path",
+          "name" : "id",
           "required" : true,
-          "style" : "simple",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -261,46 +179,123 @@
             "description" : "No Content"
           },
           "400" : {
-            "description" : "Bad Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Problem"
                 }
               }
-            }
+            },
+            "description" : "Bad Request"
           },
           "500" : {
-            "description" : "Internal Server Error",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Problem"
                 }
               }
-            }
+            },
+            "description" : "Internal Server Error"
           }
-        }
+        },
+        "summary" : "Delete user",
+        "tags" : [ "user" ]
       },
-      "patch" : {
-        "tags" : [ "user" ],
-        "summary" : "Update user",
-        "description" : "Update the given subset fields of an existing user by its internal id, if not present an error is returned",
-        "operationId" : "updateUsingPATCH",
+      "get" : {
+        "description" : "Retrieve the user by its internal id",
+        "operationId" : "findById",
         "parameters" : [ {
-          "name" : "x-pagopa-namespace",
-          "in" : "header",
           "description" : "Caller visibility context",
+          "in" : "header",
+          "name" : "x-pagopa-namespace",
           "required" : true,
           "schema" : {
             "type" : "string"
           }
         }, {
-          "name" : "id",
-          "in" : "path",
           "description" : "User internal id",
+          "in" : "path",
+          "name" : "id",
           "required" : true,
-          "style" : "simple",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "description" : "Field list. Subset of fields to be retrieved for the requested resource",
+          "in" : "query",
+          "name" : "fl",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "enum" : [ "fiscalCode", "name", "familyName", "email", "birthDate", "workContacts" ]
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserResource"
+                }
+              }
+            },
+            "description" : "OK"
+          },
+          "400" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Bad Request"
+          },
+          "404" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Not Found"
+          },
+          "500" : {
+            "content" : {
+              "application/problem+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description" : "Internal Server Error"
+          }
+        },
+        "summary" : "Find user",
+        "tags" : [ "user" ]
+      },
+      "patch" : {
+        "description" : "Update the given subset fields of an existing user by its internal id, if not present an error is returned",
+        "operationId" : "update",
+        "parameters" : [ {
+          "description" : "Caller visibility context",
+          "in" : "header",
+          "name" : "x-pagopa-namespace",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "description" : "User internal id",
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -313,52 +308,54 @@
                 "$ref" : "#/components/schemas/MutableUserFieldsDto"
               }
             }
-          }
+          },
+          "required" : true
         },
         "responses" : {
           "204" : {
             "description" : "No Content"
           },
           "400" : {
-            "description" : "Bad Request",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Problem"
                 }
               }
-            }
+            },
+            "description" : "Bad Request"
           },
           "409" : {
-            "description" : "Conflict",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Problem"
                 }
               }
-            }
+            },
+            "description" : "Conflict"
           },
           "500" : {
-            "description" : "Internal Server Error",
             "content" : {
               "application/problem+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Problem"
                 }
               }
-            }
+            },
+            "description" : "Internal Server Error"
           }
-        }
+        },
+        "summary" : "Update user",
+        "tags" : [ "user" ]
       }
     }
   },
   "components" : {
     "schemas" : {
-      "CertifiableFieldResourceOfLocalDate" : {
-        "title" : "CertifiableFieldResourceOfLocalDate",
-        "required" : [ "certification", "value" ],
+      "BirthDateCertifiableSchema" : {
         "type" : "object",
+        "description" : "User date of birth",
         "properties" : {
           "certification" : {
             "type" : "string",
@@ -370,12 +367,12 @@
             "description" : "Field value",
             "format" : "date"
           }
-        }
+        },
+        "required" : [ "certification", "value" ]
       },
-      "CertifiableFieldResourceOfstring" : {
-        "title" : "CertifiableFieldResourceOfstring",
-        "required" : [ "certification", "value" ],
+      "EmailCertifiableSchema" : {
         "type" : "object",
+        "description" : "User email",
         "properties" : {
           "certification" : {
             "type" : "string",
@@ -386,10 +383,26 @@
             "type" : "string",
             "description" : "Field value"
           }
-        }
+        },
+        "required" : [ "certification", "value" ]
+      },
+      "FamilyNameCertifiableSchema" : {
+        "type" : "object",
+        "description" : "User family name",
+        "properties" : {
+          "certification" : {
+            "type" : "string",
+            "description" : "Certified source of information",
+            "enum" : [ "NONE", "SPID" ]
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "Field value"
+          }
+        },
+        "required" : [ "certification", "value" ]
       },
       "InvalidParam" : {
-        "title" : "InvalidParam",
         "required" : [ "name", "reason" ],
         "type" : "object",
         "properties" : {
@@ -401,27 +414,23 @@
             "type" : "string",
             "description" : "Invalid parameter reason."
           }
-        }
+        },
+        "description" : "A list of invalid parameters details."
       },
       "MutableUserFieldsDto" : {
-        "title" : "MutableUserFieldsDto",
         "type" : "object",
         "properties" : {
           "birthDate" : {
-            "description" : "User date of birth",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfLocalDate"
+            "$ref" : "#/components/schemas/BirthDateCertifiableSchema"
           },
           "email" : {
-            "description" : "User email",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfstring"
+            "$ref" : "#/components/schemas/EmailCertifiableSchema"
           },
           "familyName" : {
-            "description" : "User family name",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfstring"
+            "$ref" : "#/components/schemas/FamilyNameCertifiableSchema"
           },
           "name" : {
-            "description" : "User name",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfstring"
+            "$ref" : "#/components/schemas/NameCertifiableSchema"
           },
           "workContacts" : {
             "type" : "object",
@@ -432,8 +441,23 @@
           }
         }
       },
+      "NameCertifiableSchema" : {
+        "type" : "object",
+        "description" : "User name",
+        "properties" : {
+          "certification" : {
+            "type" : "string",
+            "description" : "Certified source of information",
+            "enum" : [ "NONE", "SPID" ]
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "Field value"
+          }
+        },
+        "required" : [ "certification", "value" ]
+      },
       "Problem" : {
-        "title" : "Problem",
         "required" : [ "status", "title" ],
         "type" : "object",
         "properties" : {
@@ -453,6 +477,8 @@
             }
           },
           "status" : {
+            "maximum" : 599,
+            "minimum" : 100,
             "type" : "integer",
             "description" : "The HTTP status code.",
             "format" : "int32",
@@ -470,29 +496,24 @@
         "description" : "A \"problem detail\" as a way to carry machine-readable details of errors (https://datatracker.ietf.org/doc/html/rfc7807)"
       },
       "SaveUserDto" : {
-        "title" : "SaveUserDto",
         "required" : [ "fiscalCode" ],
         "type" : "object",
         "properties" : {
           "birthDate" : {
-            "description" : "User date of birth",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfLocalDate"
+            "$ref" : "#/components/schemas/BirthDateCertifiableSchema"
           },
           "email" : {
-            "description" : "User email",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfstring"
+            "$ref" : "#/components/schemas/EmailCertifiableSchema"
           },
           "familyName" : {
-            "description" : "User family name",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfstring"
+            "$ref" : "#/components/schemas/FamilyNameCertifiableSchema"
           },
           "fiscalCode" : {
             "type" : "string",
             "description" : "User fiscal code"
           },
           "name" : {
-            "description" : "User name",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfstring"
+            "$ref" : "#/components/schemas/NameCertifiableSchema"
           },
           "workContacts" : {
             "type" : "object",
@@ -504,7 +525,6 @@
         }
       },
       "UserId" : {
-        "title" : "UserId",
         "required" : [ "id" ],
         "type" : "object",
         "properties" : {
@@ -516,21 +536,17 @@
         }
       },
       "UserResource" : {
-        "title" : "UserResource",
         "required" : [ "id" ],
         "type" : "object",
         "properties" : {
           "birthDate" : {
-            "description" : "User date of birth",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfLocalDate"
+            "$ref" : "#/components/schemas/BirthDateCertifiableSchema"
           },
           "email" : {
-            "description" : "User email",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfstring"
+            "$ref" : "#/components/schemas/EmailCertifiableSchema"
           },
           "familyName" : {
-            "description" : "User family name",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfstring"
+            "$ref" : "#/components/schemas/FamilyNameCertifiableSchema"
           },
           "fiscalCode" : {
             "type" : "string",
@@ -542,8 +558,7 @@
             "format" : "uuid"
           },
           "name" : {
-            "description" : "User name",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfstring"
+            "$ref" : "#/components/schemas/NameCertifiableSchema"
           },
           "workContacts" : {
             "type" : "object",
@@ -555,7 +570,6 @@
         }
       },
       "UserSearchDto" : {
-        "title" : "UserSearchDto",
         "required" : [ "fiscalCode" ],
         "type" : "object",
         "properties" : {
@@ -566,14 +580,13 @@
         }
       },
       "WorkContactResource" : {
-        "title" : "WorkContactResource",
         "type" : "object",
         "properties" : {
           "email" : {
-            "description" : "User work email",
-            "$ref" : "#/components/schemas/CertifiableFieldResourceOfstring"
+            "$ref" : "#/components/schemas/EmailCertifiableSchema"
           }
-        }
+        },
+        "description" : "User work contacts"
       }
     }
   }
