@@ -28,6 +28,12 @@ info:
     description: "@project.description@"
     version: "@project.version@"
 
+springdoc:
+  api-docs:
+    resolve-schema-properties: true
+  writer-with-order-by-keys: true
+
 logging:
   level:
     it.pagopa.pdv.user_registry: ${APP_LOG_LEVEL:DEBUG}
+

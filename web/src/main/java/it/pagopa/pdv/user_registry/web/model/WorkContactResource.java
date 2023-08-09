@@ -1,6 +1,6 @@
 package it.pagopa.pdv.user_registry.web.model;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -8,7 +8,7 @@ import javax.validation.Valid;
 @Data
 public class WorkContactResource {
 
-    @ApiModelProperty(value = "${swagger.model.user.workContact.email}")
+    @Schema(ref = "EmailCertifiableSchema")
     @Valid
     private CertifiableFieldResource<String> email;
 
