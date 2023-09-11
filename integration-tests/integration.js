@@ -93,7 +93,7 @@ export default function () {
   {
     method: 'POST',
     url: `https://${hostName}/user-registry/v1/users/search?fl=birthDate,email`,
-    body: JSON.stringify({fiscalCode: 'string'}),
+    body: JSON.stringify({fiscalCode: 'AAAABBBBB'}),
     params: {
       headers: { 
         'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export default function () {
   {
     method: 'POST',
     url: `https://${hostName}/user-registry/v1/users/search`,
-    body: JSON.stringify({invalid_parameter: 'string'}),
+    body: JSON.stringify({invalid_parameter: 'AAAABBBBB'}),
     params: {
       headers: { 
         'Content-Type': 'application/json',
