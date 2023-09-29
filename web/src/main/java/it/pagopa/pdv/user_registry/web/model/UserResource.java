@@ -1,11 +1,11 @@
 package it.pagopa.pdv.user_registry.web.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.UUID;

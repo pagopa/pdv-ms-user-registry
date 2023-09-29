@@ -12,13 +12,13 @@ import it.pagopa.pdv.user_registry.core.model.User;
 import it.pagopa.pdv.user_registry.web.annotations.CommonApiResponsesWrapper;
 import it.pagopa.pdv.user_registry.web.model.*;
 import it.pagopa.pdv.user_registry.web.model.mapper.UserMapper;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.EnumSet;
 import java.util.UUID;
 
