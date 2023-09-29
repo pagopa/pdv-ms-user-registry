@@ -1,10 +1,9 @@
 package it.pagopa.pdv.user_registry.web.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor

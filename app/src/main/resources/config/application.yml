@@ -17,9 +17,6 @@ spring:
       - swaggerEN
   zipkin:
     enabled: false
-  sleuth:
-    propagation:
-      type: AWS
 
 info:
   build:
@@ -32,6 +29,10 @@ springdoc:
   api-docs:
     resolve-schema-properties: true
   writer-with-order-by-keys: true
+
+management:
+  sampling:
+    probability: 1.0
 
 logging:
   level:
