@@ -31,6 +31,13 @@ springdoc:
   writer-with-order-by-keys: true
 
 management:
+  tracing:
+    baggage:
+      correlation:
+        fields:
+          - x-amzn-trace-id
+      remote-fields:
+        - x-amzn-trace-id
   sampling:
     probability: 1.0
 
