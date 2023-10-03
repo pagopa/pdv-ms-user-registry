@@ -15,8 +15,6 @@ spring:
     include:
       # TO enable specific-language documentations
       - swaggerEN
-  zipkin:
-    enabled: false
 
 info:
   build:
@@ -38,8 +36,6 @@ management:
           - x-amzn-trace-id
       remote-fields:
         - x-amzn-trace-id
-  sampling:
-    probability: 1.0
 
 logging:
   level:
