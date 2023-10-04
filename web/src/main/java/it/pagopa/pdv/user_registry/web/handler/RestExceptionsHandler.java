@@ -3,6 +3,8 @@ package it.pagopa.pdv.user_registry.web.handler;
 import feign.FeignException;
 import it.pagopa.pdv.user_registry.web.model.Problem;
 import it.pagopa.pdv.user_registry.web.model.mapper.ProblemMapper;
+import jakarta.servlet.ServletException;
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +18,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
-import javax.servlet.ServletException;
-import javax.validation.ValidationException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

@@ -22,7 +22,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.cloud.commons.httpclient.HttpClientConfiguration;
 import org.springframework.cloud.openfeign.FeignAutoConfiguration;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -43,8 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
                 TokenizerRestClientTest.Config.class,
                 TokenizerRestClientTestConfig.class,
                 FeignAutoConfiguration.class,
-                HttpMessageConvertersAutoConfiguration.class,
-                HttpClientConfiguration.class})
+                HttpMessageConvertersAutoConfiguration.class})
 @TestPropertySource(
         properties = {
                 "logging.level.it.pagopa.pdv.user_registry.connector.rest=DEBUG",

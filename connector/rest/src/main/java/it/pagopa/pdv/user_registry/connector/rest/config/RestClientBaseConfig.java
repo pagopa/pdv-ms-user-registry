@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.RequestInterceptor;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
+import feign.okhttp.OkHttpClient;
 import it.pagopa.pdv.user_registry.connector.rest.interceptor.QueryParamsPlusEncoderInterceptor;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,14 @@ public class RestClientBaseConfig {
 
         return new SpringEncoder(objectFactory);
     }
+
+    @Configuration
+    public class FeignConfiguration {
+        @Bean
+        public OkHttpClient client() {
+            return new OkHttpClient();
+        }
+    }
+
 
 }
