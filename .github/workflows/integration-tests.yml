@@ -9,8 +9,8 @@ on:
         required: true
         default: dev
         options:
-          - dev
-          - uat
+         - dev
+         - uat
 
 permissions:
   contents: read
