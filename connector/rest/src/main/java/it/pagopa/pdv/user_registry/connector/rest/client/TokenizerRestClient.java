@@ -1,5 +1,6 @@
 package it.pagopa.pdv.user_registry.connector.rest.client;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import it.pagopa.pdv.user_registry.connector.TokenizerConnector;
 import it.pagopa.pdv.user_registry.connector.model.CreateTokenDto;
 import it.pagopa.pdv.user_registry.connector.model.PiiResource;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "${rest-client.tokenizer.serviceCode}", url = "${rest-client.tokenizer.base-url}")
+@XRayEnabled
 public interface TokenizerRestClient extends TokenizerConnector {
 
     String NAMESPACE_HEADER_NAME = "x-pagopa-namespace";

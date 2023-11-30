@@ -1,5 +1,6 @@
 package it.pagopa.pdv.user_registry.web.controller;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -28,6 +29,7 @@ import static it.pagopa.pdv.user_registry.core.logging.LogUtils.CONFIDENTIAL_MAR
 @RestController
 @RequestMapping(value = "users", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "user")
+@XRayEnabled
 public class UserController {
 
     private static final String NAMESPACE_HEADER_NAME = "x-pagopa-namespace";
