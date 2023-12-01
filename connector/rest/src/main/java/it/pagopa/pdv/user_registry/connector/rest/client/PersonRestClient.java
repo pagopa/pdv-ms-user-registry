@@ -1,5 +1,6 @@
 package it.pagopa.pdv.user_registry.connector.rest.client;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import it.pagopa.pdv.user_registry.connector.PersonConnector;
 import it.pagopa.pdv.user_registry.connector.model.PersonGlobalId;
 import it.pagopa.pdv.user_registry.connector.model.PersonResource;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "${rest-client.person.serviceCode}", url = "${rest-client.person.base-url}")
+@XRayEnabled
 public interface PersonRestClient extends PersonConnector {
 
     @PutMapping(value = "${rest-client.person.saveNamespacedId.path}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
