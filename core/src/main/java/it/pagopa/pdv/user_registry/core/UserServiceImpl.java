@@ -1,5 +1,6 @@
 package it.pagopa.pdv.user_registry.core;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import it.pagopa.pdv.user_registry.connector.PersonConnector;
 import it.pagopa.pdv.user_registry.connector.TokenizerConnector;
 import it.pagopa.pdv.user_registry.connector.model.*;
@@ -13,6 +14,7 @@ import org.springframework.util.Assert;
 
 @Slf4j
 @Service
+@XRayEnabled
 class UserServiceImpl implements UserService {
 
     private final PersonConnector personConnector;
