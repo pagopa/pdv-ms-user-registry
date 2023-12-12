@@ -56,6 +56,7 @@ class WebConfig implements WebMvcConfigurer {
     public Filter TracingFilter() {
         return new AWSXRayServletFilter(SegmentNamingStrategy.dynamic(this.applicationContext.getId()));
     }
+
     //    @Bean
 //    @Primary
     public ObjectMapper objectMapper() {
