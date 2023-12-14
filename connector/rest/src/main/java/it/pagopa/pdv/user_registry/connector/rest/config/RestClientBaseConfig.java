@@ -1,15 +1,25 @@
 package it.pagopa.pdv.user_registry.connector.rest.config;
 
+import com.amazonaws.http.apache.client.impl.ApacheHttpClientFactory;
 import com.amazonaws.xray.proxies.apache.http.HttpClientBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.Client;
 import feign.RequestInterceptor;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
-import feign.okhttp.OkHttpClient;
+import feign.httpclient.ApacheHttpClient;
 import it.pagopa.pdv.user_registry.connector.rest.interceptor.QueryParamsPlusEncoderInterceptor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.conn.HttpClientConnectionManager;
+import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.cloud.openfeign.support.FeignHttpClientProperties;
 import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
 import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.cloud.openfeign.support.SpringEncoder;
@@ -18,8 +28,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-@Configuration
+@Slf4j
+@Configuration(proxyBeanMethods = false)
 @PropertySource("classpath:config/default-rest-client.properties")
+@ConditionalOnClass(ApacheHttpClient.class)
+@ConditionalOnMissingClass("com.netflix.loadbalancer.ILoadBalancer")
+@ConditionalOnProperty(value = "feign.httpclient.enabled", matchIfMissing = true)
 public class RestClientBaseConfig {
 
     @Autowired
@@ -48,20 +62,27 @@ public class RestClientBaseConfig {
 
         return new SpringEncoder(objectFactory);
     }
-
-
     @Bean
-    public HttpClientBuilder xrayHttpClientBuilder() {
-
-        return HttpClientBuilder.create();
+    public ApacheHttpClientFactory httpClientFactory() {
+        return new ApacheHttpClientFactory();
     }
-    @Configuration
-    public class FeignConfiguration {
-        @Bean
-        public OkHttpClient client() {
-            return new OkHttpClient();
-        }
+    @Bean
+    public HttpClientConnectionManager httpClientConnectionManager() {
+        return new BasicHttpClientConnectionManager();
     }
-
-
+    @Bean
+    public Client client(ApacheHttpClientFactory httpClientFactory,
+                         HttpClientConnectionManager httpClientConnectionManager,
+                         FeignHttpClientProperties httpClientProperties) {
+        RequestConfig defaultRequestConfig = RequestConfig.custom()
+                .setConnectTimeout(httpClientProperties.getConnectionTimeout())
+                .setRedirectsEnabled(httpClientProperties.isFollowRedirects())
+                .build();
+        return new ApacheHttpClient(
+                HttpClientBuilder.create()
+                        .setConnectionManager(httpClientConnectionManager)
+                        .setDefaultRequestConfig(defaultRequestConfig)
+                        .build()
+        );
+    }
 }
