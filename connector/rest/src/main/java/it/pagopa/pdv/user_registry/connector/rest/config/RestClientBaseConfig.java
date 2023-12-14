@@ -47,7 +47,6 @@ public class RestClientBaseConfig {
 
         return new SpringEncoder(objectFactory);
     }
-
     @Configuration
     public class FeignConfiguration {
         @Bean
