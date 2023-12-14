@@ -1,5 +1,6 @@
 package it.pagopa.pdv.user_registry.connector.rest.config;
 
+import com.amazonaws.xray.proxies.apache.http.HttpClientBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.RequestInterceptor;
 import feign.codec.Decoder;
@@ -48,6 +49,12 @@ public class RestClientBaseConfig {
         return new SpringEncoder(objectFactory);
     }
 
+
+    @Bean
+    public HttpClientBuilder xrayHttpClientBuilder() {
+
+        return HttpClientBuilder.create();
+    }
     @Configuration
     public class FeignConfiguration {
         @Bean
