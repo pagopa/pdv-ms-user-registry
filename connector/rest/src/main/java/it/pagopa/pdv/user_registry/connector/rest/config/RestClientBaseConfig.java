@@ -8,7 +8,6 @@ import feign.okhttp.OkHttpClient;
 import it.pagopa.pdv.user_registry.connector.rest.interceptor.QueryParamsPlusEncoderInterceptor;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
 import org.springframework.cloud.openfeign.support.SpringDecoder;
@@ -25,11 +24,6 @@ public class RestClientBaseConfig {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Value("${feign.client.config.default.connectTimeout}")
-    private int connectTimeout;
-
-    @Value("${feign.client.config.default.readTimeout}")
-    private int readTimeout;
 
     @Bean
     public RequestInterceptor queryParamsPlusEncoderInterceptor() {
@@ -53,11 +47,6 @@ public class RestClientBaseConfig {
 
         return new SpringEncoder(objectFactory);
     }
-    /*@Bean # TODO set this HttpClientBuilder
-    public HttpClientBuilder xrayHttpClientBuilder() {
-
-        return HttpClientBuilder.create();
-    }*/
     @Configuration
     public class FeignConfiguration {
         @Bean
@@ -65,5 +54,6 @@ public class RestClientBaseConfig {
             return new OkHttpClient();
         }
     }
+
 
 }
