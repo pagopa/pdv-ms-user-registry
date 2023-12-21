@@ -1,15 +1,20 @@
 package it.pagopa.pdv.user_registry.connector.rest.config;
 
+import com.amazonaws.xray.proxies.apache.http.HttpClientBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.Client;
 import feign.RequestInterceptor;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
-import feign.okhttp.OkHttpClient;
+import feign.httpclient.ApacheHttpClient;
 import it.pagopa.pdv.user_registry.connector.rest.interceptor.QueryParamsPlusEncoderInterceptor;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.cloud.openfeign.support.FeignHttpClientProperties;
 import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
 import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.cloud.openfeign.support.SpringEncoder;
@@ -53,17 +58,38 @@ public class RestClientBaseConfig {
 
         return new SpringEncoder(objectFactory);
     }
-    /*@Bean # TODO set this HttpClientBuilder
+    @Bean
     public HttpClientBuilder xrayHttpClientBuilder() {
 
         return HttpClientBuilder.create();
-    }*/
+    }
     @Configuration
     public class FeignConfiguration {
         @Bean
-        public OkHttpClient client() {
-            return new OkHttpClient();
+        public Client client(HttpClientBuilder httpClientBuilder, FeignHttpClientProperties httpClientProperties) {
+
+            httpClientBuilder = httpClientBuilder != null ? httpClientBuilder : HttpClientBuilder.create();
+
+            final PoolingHttpClientConnectionManager poolingHttpClientConnectionManager =
+                    new PoolingHttpClientConnectionManager();
+            poolingHttpClientConnectionManager.setDefaultMaxPerRoute(500);
+            poolingHttpClientConnectionManager.setMaxTotal(500);
+
+            final RequestConfig defaultRequestConfig = RequestConfig.custom()
+                    .setConnectionRequestTimeout(connectTimeout)
+                    .setConnectTimeout(httpClientProperties.getConnectionTimeout())
+                    .setSocketTimeout(readTimeout)
+                    .setRedirectsEnabled(httpClientProperties.isFollowRedirects())
+                    .build();
+
+            return new ApacheHttpClient(
+                    httpClientBuilder
+                            .setConnectionManager(poolingHttpClientConnectionManager)
+                            .setDefaultRequestConfig(defaultRequestConfig)
+                            .build()
+            );
         }
     }
+
 
 }
