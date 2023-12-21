@@ -72,8 +72,8 @@ public class RestClientBaseConfig {
 
             final PoolingHttpClientConnectionManager poolingHttpClientConnectionManager =
                     new PoolingHttpClientConnectionManager();
-            poolingHttpClientConnectionManager.setDefaultMaxPerRoute(200);
-            poolingHttpClientConnectionManager.setMaxTotal(200);
+            poolingHttpClientConnectionManager.setDefaultMaxPerRoute(1000);
+            poolingHttpClientConnectionManager.setMaxTotal(1000);
 
             final RequestConfig defaultRequestConfig = RequestConfig.custom()
                     .setConnectionRequestTimeout(connectTimeout)
