@@ -52,7 +52,7 @@ jobs:
       - name: Set Dynamic Env Matrix
         id: setmatrix
         run: |
-          if [ ${{ github.ref	 == 'refs/heads/main' }} == true && ${{ github.event_name != 'workflow_dispatch' }} == true ]; then 
+          if [ ${{ github.ref	 == 'refs/heads/main' }} == true ] && [ ${{ github.event_name != 'workflow_dispatch' }} == true ]; then 
             matrixStringifiedObject="{\"include\":[{\"environment\": \"prod\", \"env_short\": \"p\"},{\"environment\": \"uat\", \"env_short\": \"u\"}]}"
           else
             matrixStringifiedObject="{\"include\":[{\"environment\":\"dev\", \"env_short\": \"d\"}]}"
