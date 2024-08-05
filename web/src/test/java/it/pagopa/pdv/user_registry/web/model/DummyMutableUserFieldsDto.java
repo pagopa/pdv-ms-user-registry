@@ -19,6 +19,8 @@ public class DummyMutableUserFieldsDto extends MutableUserFieldsDto {
 
         public DummyWorkContact() {
             setEmail(new DummyCertifiableFieldResource<>(String.class));
+            setMobilePhone(new DummyCertifiableFieldResource<>(String.class));
+            setTelephone(new DummyCertifiableFieldResource<>(String.class));
         }
     }
 }

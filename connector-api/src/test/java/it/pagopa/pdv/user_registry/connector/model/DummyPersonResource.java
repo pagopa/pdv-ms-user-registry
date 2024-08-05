@@ -20,6 +20,8 @@ public class DummyPersonResource extends PersonResource {
 
         public DummyWorkContact() {
             setEmail(new DummyCertifiableField<>(String.class));
+            setMobilePhone(new DummyCertifiableField<>(String.class));
+            setTelephone(new DummyCertifiableField<>(String.class));
         }
     }
 
