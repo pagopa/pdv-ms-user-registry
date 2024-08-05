@@ -133,7 +133,11 @@ class PersonRestClientTest {
         assertCertifiableFieldNotNull(response.getBirthDate());
         assertNotNull(response.getWorkContacts());
         assertFalse(response.getWorkContacts().isEmpty());
-        response.getWorkContacts().values().forEach(workContactResource -> assertCertifiableFieldNotNull(workContactResource.getEmail()));
+        response.getWorkContacts().values().forEach(workContactResource -> {
+            assertCertifiableFieldNotNull(workContactResource.getEmail());
+            assertCertifiableFieldNotNull(workContactResource.getMobilePhone());
+            assertCertifiableFieldNotNull(workContactResource.getTelephone());
+        });
     }
 
     @Test
@@ -151,7 +155,11 @@ class PersonRestClientTest {
         assertCertifiableFieldNotNull(response.getBirthDate());
         assertNotNull(response.getWorkContacts());
         assertFalse(response.getWorkContacts().isEmpty());
-        response.getWorkContacts().values().forEach(workContactResource -> assertCertifiableFieldNotNull(workContactResource.getEmail()));
+        response.getWorkContacts().values().forEach(workContactResource -> {
+            assertCertifiableFieldNotNull(workContactResource.getEmail());
+            assertCertifiableFieldNotNull(workContactResource.getMobilePhone());
+            assertCertifiableFieldNotNull(workContactResource.getTelephone());
+        });
     }
 
 
