@@ -149,6 +149,14 @@ export default function () {
             email: {
               certification: "NONE",
               value: "string"
+            },
+            mobilePhone: {
+              certification: "NONE",
+              value: "0000"
+            },
+            telephone: {
+              certification: "NONE",
+              value: "1111"
             }
           },
           additionalProp2: {
@@ -204,6 +212,14 @@ export default function () {
             email: {
               certification: "NONE",
               value: "string"
+            },
+            mobilePhone: {
+              certification: "NONE",
+              value: "0000"
+            },
+            telephone: {
+              certification: "NONE",
+              value: "1111"
             }
           },
           additionalProp2: {
