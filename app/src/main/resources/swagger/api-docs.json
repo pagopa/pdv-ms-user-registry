@@ -419,11 +419,12 @@
       },
       "MobilePhoneCertifiableSchema" : {
         "type" : "object",
-        "description" : "Person work mobile phone number",
+        "description" : "User work mobile phone number",
         "properties" : {
           "certification" : {
             "type" : "string",
-            "description" : "Certified source of information"
+            "description" : "Certified source of information",
+            "enum" : [ "NONE", "SPID" ]
           },
           "value" : {
             "type" : "string",
@@ -541,11 +542,12 @@
       },
       "TelephoneCertifiableSchema" : {
         "type" : "object",
-        "description" : "Person work telephone number",
+        "description" : "User work telephone number",
         "properties" : {
           "certification" : {
             "type" : "string",
-            "description" : "Certified source of information"
+            "description" : "Certified source of information",
+            "enum" : [ "NONE", "SPID" ]
           },
           "value" : {
             "type" : "string",

@@ -61,9 +61,9 @@ class SwaggerConfig {
                         .addSchemas("NameCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceString.class, "${swagger.model.user.name}" ))
                         .addSchemas("FamilyNameCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceString.class, "${swagger.model.user.familyName}" ))
                         .addSchemas("EmailCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceString.class, "${swagger.model.user.email}" ))
-                        .addSchemas("MobilePhoneCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceString.class, "${swagger.model.user.mobilePhone}" ))
-                        .addSchemas("TelephoneCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceString.class, "${swagger.model.user.telephone}" ))
-                        .addSchemas("BirthDateCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceDate.class, "${swagger.model.user.birthDate}" )));
+                        .addSchemas("BirthDateCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceDate.class, "${swagger.model.user.birthDate}" ))
+                        .addSchemas("MobilePhoneCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceString.class, "${swagger.model.user.workContact.mobilePhone}" ))
+                        .addSchemas("TelephoneCertifiableSchema", getSchemaWithDifferentDescription(CertifiableFieldResourceString.class, "${swagger.model.user.workContact.telephone}" )));
 
     }
 
