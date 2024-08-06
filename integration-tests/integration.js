@@ -149,18 +149,42 @@ export default function () {
             email: {
               certification: "NONE",
               value: "string"
+            },
+            mobilePhone: {
+              certification: "NONE",
+              value: "0000"
+            },
+            telephone: {
+              certification: "NONE",
+              value: "0000"
             }
           },
           additionalProp2: {
             email: {
               certification: "NONE",
               value: "string"
+            },
+            mobilePhone: {
+              certification: "NONE",
+              value: "1111"
+            },
+            telephone: {
+              certification: "NONE",
+              value: "1111"
             }
           },
           additionalProp3: {
             email: {
               certification: "NONE",
               value: "string"
+            },
+            mobilePhone: {
+              certification: "NONE",
+              value: "2222"
+            },
+            telephone: {
+              certification: "NONE",
+              value: "2222"
             }
           }
         }
@@ -204,18 +228,42 @@ export default function () {
             email: {
               certification: "NONE",
               value: "string"
+            },
+            mobilePhone: {
+              certification: "NONE",
+              value: "0000"
+            },
+            telephone: {
+              certification: "NONE",
+              value: "0000"
             }
           },
           additionalProp2: {
             email: {
               certification: "NONE",
               value: "string"
+            },
+            mobilePhone: {
+              certification: "NONE",
+              value: "1111"
+            },
+            telephone: {
+              certification: "NONE",
+              value: "1111"
             }
           },
           additionalProp3: {
             email: {
               certification: "NONE",
               value: "string"
+            },
+            mobilePhone: {
+              certification: "NONE",
+              value: "2222"
+            },
+            telephone: {
+              certification: "NONE",
+              value: "2222"
             }
           }
         }
