@@ -74,7 +74,15 @@ class UserMapperTest {
         assertCertifiableFieldEquals(personResource.getEmail(), result.getEmail());
         assertCertifiableFieldEquals(personResource.getBirthDate(), result.getBirthDate());
         assertNotNull(result.getWorkContacts());
-        personResource.getWorkContacts().forEach((s, wc) -> assertCertifiableFieldEquals(wc.getEmail(), result.getWorkContacts().get(s).getEmail()));
+        personResource.getWorkContacts().forEach((s, wc) -> {
+
+            assertCertifiableFieldEquals(wc.getEmail(),
+                result.getWorkContacts().get(s).getEmail());
+            assertCertifiableFieldEquals(wc.getMobilePhone(),
+                result.getWorkContacts().get(s).getMobilePhone());
+            assertCertifiableFieldEquals(wc.getTelephone(),
+                result.getWorkContacts().get(s).getTelephone());
+    });
     }
 
     @Test

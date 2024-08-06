@@ -61,6 +61,8 @@ public class UserMapper {
         if (workContactResource != null) {
             workContact = new WorkContactResource();
             workContact.setEmail(workContactResource.getEmail());
+            workContact.setMobilePhone(workContactResource.getMobilePhone());
+            workContact.setTelephone(workContactResource.getTelephone());
         }
         return workContact;
     }

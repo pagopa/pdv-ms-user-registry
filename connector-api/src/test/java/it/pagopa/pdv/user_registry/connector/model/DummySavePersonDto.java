@@ -19,6 +19,8 @@ public class DummySavePersonDto extends SavePersonDto {
 
         public DummyWorkContact() {
             setEmail(new DummyCertifiableField<>(String.class));
+            setMobilePhone(new DummyCertifiableField<>(String.class));
+            setTelephone(new DummyCertifiableField<>(String.class));
         }
     }
 

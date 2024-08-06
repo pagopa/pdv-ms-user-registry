@@ -67,7 +67,12 @@ class UserMapperTest {
         assertCertifiableFieldEquals(user.getEmail(), result.getEmail());
         assertCertifiableFieldEquals(user.getBirthDate(), result.getBirthDate());
         assertNotNull(result.getWorkContacts());
-        user.getWorkContacts().forEach((s, wc) -> assertCertifiableFieldEquals(wc.getEmail(), result.getWorkContacts().get(s).getEmail()));
+        user.getWorkContacts().forEach((s, wc) ->
+        {
+            assertCertifiableFieldEquals(wc.getEmail(), result.getWorkContacts().get(s).getEmail());
+            assertCertifiableFieldEquals(wc.getMobilePhone(), result.getWorkContacts().get(s).getMobilePhone());
+            assertCertifiableFieldEquals(wc.getTelephone(), result.getWorkContacts().get(s).getTelephone());
+        });
     }
 
 
@@ -103,7 +108,11 @@ class UserMapperTest {
         assertCertifiableFieldEquals(mutableUserFieldsDto.getEmail(), result.getEmail());
         assertCertifiableFieldEquals(mutableUserFieldsDto.getBirthDate(), result.getBirthDate());
         assertNotNull(result.getWorkContacts());
-        mutableUserFieldsDto.getWorkContacts().forEach((s, wc) -> assertCertifiableFieldEquals(wc.getEmail(), result.getWorkContacts().get(s).getEmail()));
+        mutableUserFieldsDto.getWorkContacts().forEach((s, wc) -> {
+            assertCertifiableFieldEquals(wc.getEmail(), result.getWorkContacts().get(s).getEmail());
+            assertCertifiableFieldEquals(wc.getMobilePhone(), result.getWorkContacts().get(s).getMobilePhone());
+            assertCertifiableFieldEquals(wc.getTelephone(), result.getWorkContacts().get(s).getTelephone());
+        });
     }
 
 
@@ -139,7 +148,11 @@ class UserMapperTest {
         assertCertifiableFieldEquals(saveUserDto.getEmail(), result.getEmail());
         assertCertifiableFieldEquals(saveUserDto.getBirthDate(), result.getBirthDate());
         assertNotNull(result.getWorkContacts());
-        saveUserDto.getWorkContacts().forEach((s, wc) -> assertCertifiableFieldEquals(wc.getEmail(), result.getWorkContacts().get(s).getEmail()));
+        saveUserDto.getWorkContacts().forEach((s, wc) -> {
+            assertCertifiableFieldEquals(wc.getEmail(), result.getWorkContacts().get(s).getEmail());
+            assertCertifiableFieldEquals(wc.getMobilePhone(), result.getWorkContacts().get(s).getMobilePhone());
+            assertCertifiableFieldEquals(wc.getTelephone(), result.getWorkContacts().get(s).getTelephone());
+        });
     }
 
 }

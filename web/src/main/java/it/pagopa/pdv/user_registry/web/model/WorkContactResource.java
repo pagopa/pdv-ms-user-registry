@@ -10,5 +10,11 @@ public class WorkContactResource {
     @Schema(ref = "EmailCertifiableSchema")
     @Valid
     private CertifiableFieldResource<String> email;
+    @Schema(ref = "MobilePhoneCertifiableSchema")
+    @Valid
+    private CertifiableFieldResource<String> mobilePhone;
+    @Schema(ref = "TelephoneCertifiableSchema")
+    @Valid
+    private CertifiableFieldResource<String> telephone;
 
 }

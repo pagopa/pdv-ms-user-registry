@@ -35,6 +35,18 @@
       },
       {
         "matchesJsonPath": "$.workContacts..email.value"
+      },
+      {
+        "matchesJsonPath": "$.workContacts..mobilePhone.certification"
+      },
+      {
+        "matchesJsonPath": "$.workContacts..mobilePhone.value"
+      },
+      {
+        "matchesJsonPath": "$.workContacts..telephone.certification"
+      },
+      {
+        "matchesJsonPath": "$.workContacts..telephone.value"
       }
     ]
   },

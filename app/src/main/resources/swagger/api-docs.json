@@ -417,6 +417,22 @@
         },
         "description" : "A list of invalid parameters details."
       },
+      "MobilePhoneCertifiableSchema" : {
+        "type" : "object",
+        "description" : "User work mobile phone number",
+        "properties" : {
+          "certification" : {
+            "type" : "string",
+            "description" : "Certified source of information",
+            "enum" : [ "NONE", "SPID" ]
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "Field value"
+          }
+        },
+        "required" : [ "certification", "value" ]
+      },
       "MutableUserFieldsDto" : {
         "type" : "object",
         "properties" : {
@@ -524,6 +540,22 @@
           }
         }
       },
+      "TelephoneCertifiableSchema" : {
+        "type" : "object",
+        "description" : "User work telephone number",
+        "properties" : {
+          "certification" : {
+            "type" : "string",
+            "description" : "Certified source of information",
+            "enum" : [ "NONE", "SPID" ]
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "Field value"
+          }
+        },
+        "required" : [ "certification", "value" ]
+      },
       "UserId" : {
         "required" : [ "id" ],
         "type" : "object",
@@ -584,6 +616,12 @@
         "properties" : {
           "email" : {
             "$ref" : "#/components/schemas/EmailCertifiableSchema"
+          },
+          "mobilePhone" : {
+            "$ref" : "#/components/schemas/MobilePhoneCertifiableSchema"
+          },
+          "telephone" : {
+            "$ref" : "#/components/schemas/TelephoneCertifiableSchema"
           }
         },
         "description" : "User work contacts"

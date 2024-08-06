@@ -57,6 +57,8 @@ public class UserMapper {
         if (workContact != null) {
             workContactResource = new WorkContactResource();
             workContactResource.setEmail(map(workContact.getEmail()));
+            workContactResource.setMobilePhone(map(workContact.getMobilePhone()));
+            workContactResource.setTelephone(map(workContact.getTelephone()));
         }
         return workContactResource;
     }
@@ -67,6 +69,8 @@ public class UserMapper {
         if (workContact != null) {
             workContactResource = new it.pagopa.pdv.user_registry.connector.model.WorkContactResource();
             workContactResource.setEmail(map(workContact.getEmail()));
+            workContactResource.setMobilePhone(map(workContact.getMobilePhone()));
+            workContactResource.setTelephone(map(workContact.getTelephone()));
         }
         return workContactResource;
     }
