@@ -1,918 +1,1755 @@
 {
-  "openapi" : "3.0.1",
-  "info" : {
-    "description" : "User Registry API documentation",
-    "title" : "pdv-ms-user-registry",
-    "version" : "1.0-SNAPSHOT"
+  "openapi": "3.0.1",
+  "info": {
+    "description": "User Registry API documentation",
+    "title": "pdv-ms-user-registry",
+    "version": "1.0-SNAPSHOT"
   },
-  "servers" : [ {
-    "url" : "http://localhost",
-    "description" : "Generated server url"
-  } ],
-  "paths" : {
-    "/users" : {
-      "patch" : {
-        "description" : "Update the given subset fields of an existing user by its fiscal code, if not present create a new one. The fiscal code will always be converted in uppercase.",
-        "operationId" : "save",
-        "parameters" : [ {
-          "description" : "Caller visibility context",
-          "in" : "header",
-          "name" : "x-pagopa-namespace",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
+  "servers": [
+    {
+      "url": "http://localhost",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "patch": {
+        "description": "Update the given subset fields of an existing user by its fiscal code, if not present create a new one. The fiscal code will always be converted in uppercase.",
+        "operationId": "save",
+        "parameters": [
+          {
+            "description": "Caller visibility context",
+            "in": "header",
+            "name": "x-pagopa-namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SaveUserDto"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveUserDto"
               }
             }
           },
-          "required" : true
+          "required": true
         },
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/UserId"
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserId"
                 }
               }
             },
-            "description" : "OK"
+            "description": "OK"
           },
-          "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
                 }
               }
             },
-            "description" : "Bad Request"
+            "description": "Bad Request"
           },
-          "409" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
                 }
               }
             },
-            "description" : "Conflict"
+            "description": "Conflict"
           },
-          "500" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
                 }
               }
             },
-            "description" : "Internal Server Error"
+            "description": "Internal Server Error"
           }
         },
-        "summary" : "Upsert user",
-        "tags" : [ "user" ]
+        "summary": "Upsert user",
+        "tags": [
+          "user"
+        ]
       }
     },
-    "/users/search" : {
-      "post" : {
-        "description" : "Search a user given its fiscal code. The fiscal code will always be converted in uppercase.",
-        "operationId" : "search",
-        "parameters" : [ {
-          "description" : "Caller visibility context",
-          "in" : "header",
-          "name" : "x-pagopa-namespace",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "description" : "Field list. Subset of fields to be retrieved for the requested resource",
-          "in" : "query",
-          "name" : "fl",
-          "required" : true,
-          "schema" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string",
-              "enum" : [ "fiscalCode", "name", "familyName", "email", "birthDate", "spidCode", "placeOfBirth", "countyOfBirth", "gender", "companyName", "registeredOffice", "ivaCode", "idCard", "mobilePhone", "address", "expirationDate", "digitalAddress", "domicileAddress", "domicilePlace", "domicilePostalCode", "domicileProvince", "domicileCountry", "qualification", "commonName", "surname", "givenName", "preferredUsername", "title", "userCertificate", "employeeNumber", "orgUnitName", "preferredLanguage", "country", "stateOrProvince", "city", "postalCode", "street", "workContacts" ]
-            }
-          }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/UserSearchDto"
-              }
+    "/users/search": {
+      "post": {
+        "description": "Search a user given its fiscal code. The fiscal code will always be converted in uppercase.",
+        "operationId": "search",
+        "parameters": [
+          {
+            "description": "Caller visibility context",
+            "in": "header",
+            "name": "x-pagopa-namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           },
-          "required" : true
+          {
+            "description": "Field list. Subset of fields to be retrieved for the requested resource",
+            "in": "query",
+            "name": "fl",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "fiscalCode",
+                  "name",
+                  "familyName",
+                  "email",
+                  "birthDate",
+                  "spidCode",
+                  "placeOfBirth",
+                  "countyOfBirth",
+                  "gender",
+                  "companyName",
+                  "registeredOffice",
+                  "ivaCode",
+                  "idCard",
+                  "mobilePhone",
+                  "address",
+                  "expirationDate",
+                  "digitalAddress",
+                  "domicileAddress",
+                  "domicilePlace",
+                  "domicilePostalCode",
+                  "domicileProvince",
+                  "domicileCountry",
+                  "qualification",
+                  "commonName",
+                  "surname",
+                  "givenName",
+                  "preferredUsername",
+                  "title",
+                  "userCertificate",
+                  "employeeNumber",
+                  "orgUnitName",
+                  "preferredLanguage",
+                  "country",
+                  "stateOrProvince",
+                  "city",
+                  "postalCode",
+                  "street",
+                  "workContacts"
+                ]
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSearchDto"
+              }
+            }
+          },
+          "required": true
         },
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/UserResource"
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResource"
                 }
               }
             },
-            "description" : "OK"
+            "description": "OK"
           },
-          "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
                 }
               }
             },
-            "description" : "Bad Request"
+            "description": "Bad Request"
           },
-          "404" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
                 }
               }
             },
-            "description" : "Not Found"
+            "description": "Not Found"
           },
-          "500" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
                 }
               }
             },
-            "description" : "Internal Server Error"
+            "description": "Internal Server Error"
           }
         },
-        "summary" : "Search user",
-        "tags" : [ "user" ]
+        "summary": "Search user",
+        "tags": [
+          "user"
+        ]
       }
     },
-    "/users/{id}" : {
-      "delete" : {
-        "description" : "Delete the user by its internal id",
-        "operationId" : "deleteById",
-        "parameters" : [ {
-          "description" : "User internal id",
-          "in" : "path",
-          "name" : "id",
-          "required" : true,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
-        "responses" : {
-          "204" : {
-            "description" : "No Content"
-          },
-          "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Bad Request"
-          },
-          "500" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Internal Server Error"
-          }
-        },
-        "summary" : "Delete user",
-        "tags" : [ "user" ]
-      },
-      "get" : {
-        "description" : "Retrieve the user by its internal id",
-        "operationId" : "findById",
-        "parameters" : [ {
-          "description" : "Caller visibility context",
-          "in" : "header",
-          "name" : "x-pagopa-namespace",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "description" : "User internal id",
-          "in" : "path",
-          "name" : "id",
-          "required" : true,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        }, {
-          "description" : "Field list. Subset of fields to be retrieved for the requested resource",
-          "in" : "query",
-          "name" : "fl",
-          "required" : true,
-          "schema" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string",
-              "enum" : [ "fiscalCode", "name", "familyName", "email", "birthDate", "spidCode", "placeOfBirth", "countyOfBirth", "gender", "companyName", "registeredOffice", "ivaCode", "idCard", "mobilePhone", "address", "expirationDate", "digitalAddress", "domicileAddress", "domicilePlace", "domicilePostalCode", "domicileProvince", "domicileCountry", "qualification", "commonName", "surname", "givenName", "preferredUsername", "title", "userCertificate", "employeeNumber", "orgUnitName", "preferredLanguage", "country", "stateOrProvince", "city", "postalCode", "street", "workContacts" ]
+    "/users/{id}": {
+      "delete": {
+        "description": "Delete the user by its internal id",
+        "operationId": "deleteById",
+        "parameters": [
+          {
+            "description": "User internal id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
-        } ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/UserResource"
-                }
-              }
-            },
-            "description" : "OK"
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
           },
-          "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
                 }
               }
             },
-            "description" : "Bad Request"
+            "description": "Bad Request"
           },
-          "404" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
                 }
               }
             },
-            "description" : "Not Found"
-          },
-          "500" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description" : "Internal Server Error"
+            "description": "Internal Server Error"
           }
         },
-        "summary" : "Find user",
-        "tags" : [ "user" ]
+        "summary": "Delete user",
+        "tags": [
+          "user"
+        ]
       },
-      "patch" : {
-        "description" : "Update the given subset fields of an existing user by its internal id, if not present an error is returned",
-        "operationId" : "update",
-        "parameters" : [ {
-          "description" : "Caller visibility context",
-          "in" : "header",
-          "name" : "x-pagopa-namespace",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
+      "get": {
+        "description": "Retrieve the user by its internal id",
+        "operationId": "findById",
+        "parameters": [
+          {
+            "description": "Caller visibility context",
+            "in": "header",
+            "name": "x-pagopa-namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "User internal id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "description": "Field list. Subset of fields to be retrieved for the requested resource",
+            "in": "query",
+            "name": "fl",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "fiscalCode",
+                  "name",
+                  "familyName",
+                  "email",
+                  "birthDate",
+                  "spidCode",
+                  "placeOfBirth",
+                  "countyOfBirth",
+                  "gender",
+                  "companyName",
+                  "registeredOffice",
+                  "ivaCode",
+                  "idCard",
+                  "mobilePhone",
+                  "address",
+                  "expirationDate",
+                  "digitalAddress",
+                  "domicileAddress",
+                  "domicilePlace",
+                  "domicilePostalCode",
+                  "domicileProvince",
+                  "domicileCountry",
+                  "qualification",
+                  "commonName",
+                  "surname",
+                  "givenName",
+                  "preferredUsername",
+                  "title",
+                  "userCertificate",
+                  "employeeNumber",
+                  "orgUnitName",
+                  "preferredLanguage",
+                  "country",
+                  "stateOrProvince",
+                  "city",
+                  "postalCode",
+                  "street",
+                  "workContacts"
+                ]
+              }
+            }
           }
-        }, {
-          "description" : "User internal id",
-          "in" : "path",
-          "name" : "id",
-          "required" : true,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResource"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Internal Server Error"
           }
-        } ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/MutableUserFieldsDto"
+        },
+        "summary": "Find user",
+        "tags": [
+          "user"
+        ]
+      },
+      "patch": {
+        "description": "Update the given subset fields of an existing user by its internal id, if not present an error is returned",
+        "operationId": "update",
+        "parameters": [
+          {
+            "description": "Caller visibility context",
+            "in": "header",
+            "name": "x-pagopa-namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "User internal id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MutableUserFieldsDto"
               }
             }
           },
-          "required" : true
+          "required": true
         },
-        "responses" : {
-          "204" : {
-            "description" : "No Content"
+        "responses": {
+          "204": {
+            "description": "No Content"
           },
-          "400" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
                 }
               }
             },
-            "description" : "Bad Request"
+            "description": "Bad Request"
           },
-          "409" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
                 }
               }
             },
-            "description" : "Conflict"
+            "description": "Conflict"
           },
-          "500" : {
-            "content" : {
-              "application/problem+json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Problem"
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
                 }
               }
             },
-            "description" : "Internal Server Error"
+            "description": "Internal Server Error"
           }
         },
-        "summary" : "Update user",
-        "tags" : [ "user" ]
+        "summary": "Update user",
+        "tags": [
+          "user"
+        ]
       }
     }
   },
-  "components" : {
-    "schemas" : {
-      "BirthDateCertifiableSchema" : {
-        "type" : "object",
-        "description" : "User date of birth",
-        "properties" : {
-          "certification" : {
-            "type" : "string",
-            "description" : "Certified source of information",
-            "enum" : [ "NONE", "SPID" ]
+  "components": {
+    "schemas": {
+      "AddressCertifiableSchema": {
+        "type": "object",
+        "description": "User address",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "value" : {
-            "type" : "string",
-            "description" : "Field value",
-            "format" : "date"
+          "value": {
+            "type": "string",
+            "description": "Field value"
           }
         },
-        "required" : [ "certification", "value" ]
+        "required": [
+          "certification",
+          "value"
+        ]
       },
-      "EmailCertifiableSchema" : {
-        "type" : "object",
-        "description" : "User email",
-        "properties" : {
-          "certification" : {
-            "type" : "string",
-            "description" : "Certified source of information",
-            "enum" : [ "NONE", "SPID" ]
+      "BirthDateCertifiableSchema": {
+        "type": "object",
+        "description": "User date of birth",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "value" : {
-            "type" : "string",
-            "description" : "Field value"
+          "value": {
+            "type": "string",
+            "description": "Field value",
+            "format": "date"
           }
         },
-        "required" : [ "certification", "value" ]
+        "required": [
+          "certification",
+          "value"
+        ]
       },
-      "FamilyNameCertifiableSchema" : {
-        "type" : "object",
-        "description" : "User family name",
-        "properties" : {
-          "certification" : {
-            "type" : "string",
-            "description" : "Certified source of information",
-            "enum" : [ "NONE", "SPID" ]
+      "CityCertifiableSchema": {
+        "type": "object",
+        "description": "User city",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "value" : {
-            "type" : "string",
-            "description" : "Field value"
+          "value": {
+            "type": "string",
+            "description": "Field value"
           }
         },
-        "required" : [ "certification", "value" ]
+        "required": [
+          "certification",
+          "value"
+        ]
       },
-      "InvalidParam" : {
-        "required" : [ "name", "reason" ],
-        "type" : "object",
-        "properties" : {
-          "name" : {
-            "type" : "string",
-            "description" : "Invalid parameter name."
+      "CommonNameCertifiableSchema": {
+        "type": "object",
+        "description": "User common name",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "reason" : {
-            "type" : "string",
-            "description" : "Invalid parameter reason."
+          "value": {
+            "type": "string",
+            "description": "Field value"
           }
         },
-        "description" : "A list of invalid parameters details."
+        "required": [
+          "certification",
+          "value"
+        ]
       },
-      "MobilePhoneCertifiableSchema" : {
-        "type" : "object",
-        "description" : "User work mobile phone number",
-        "properties" : {
-          "certification" : {
-            "type" : "string",
-            "description" : "Certified source of information",
-            "enum" : [ "NONE", "SPID" ]
+      "CompanyNameCertifiableSchema": {
+        "type": "object",
+        "description": "User company name",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "value" : {
-            "type" : "string",
-            "description" : "Field value"
+          "value": {
+            "type": "string",
+            "description": "Field value"
           }
         },
-        "required" : [ "certification", "value" ]
+        "required": [
+          "certification",
+          "value"
+        ]
       },
-      "MutableUserFieldsDto" : {
-        "type" : "object",
-        "properties" : {
-          "address" : {
-            "$ref" : "#/components/schemas/AddressCertifiableSchema"
+      "CountryCertifiableSchema": {
+        "type": "object",
+        "description": "User country",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "birthDate" : {
-            "$ref" : "#/components/schemas/BirthDateCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "CountyOfBirthCertifiableSchema": {
+        "type": "object",
+        "description": "User county of birth",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "city" : {
-            "$ref" : "#/components/schemas/CityCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "DigitalAddressCertifiableSchema": {
+        "type": "object",
+        "description": "User digital address",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "commonName" : {
-            "$ref" : "#/components/schemas/CommonNameCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "DomicileAddressCertifiableSchema": {
+        "type": "object",
+        "description": "User domicile address",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "companyName" : {
-            "$ref" : "#/components/schemas/CompanyNameCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "DomicileCountryCertifiableSchema": {
+        "type": "object",
+        "description": "User domicile country",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "country" : {
-            "$ref" : "#/components/schemas/CountryCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "DomicilePlaceCertifiableSchema": {
+        "type": "object",
+        "description": "User domicile place",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "countyOfBirth" : {
-            "$ref" : "#/components/schemas/CountyOfBirthCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "DomicilePostalCodeCertifiableSchema": {
+        "type": "object",
+        "description": "User domicile postal code",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "digitalAddress" : {
-            "$ref" : "#/components/schemas/DigitalAddressCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "DomicileProvinceCertifiableSchema": {
+        "type": "object",
+        "description": "User domicile province",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "domicileAddress" : {
-            "$ref" : "#/components/schemas/DomicileAddressCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "EmailCertifiableSchema": {
+        "type": "object",
+        "description": "User email",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "domicileCountry" : {
-            "$ref" : "#/components/schemas/DomicileCountryCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "EmployeeNumberCertifiableSchema": {
+        "type": "object",
+        "description": "User employee number",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "domicilePlace" : {
-            "$ref" : "#/components/schemas/DomicilePlaceCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "ExpirationDateCertifiableSchema": {
+        "type": "object",
+        "description": "User expiration date",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "domicilePostalCode" : {
-            "$ref" : "#/components/schemas/DomicilePostalCodeCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value",
+            "format": "date"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "FamilyNameCertifiableSchema": {
+        "type": "object",
+        "description": "User family name",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "domicileProvince" : {
-            "$ref" : "#/components/schemas/DomicileProvinceCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "GenderCertifiableSchema": {
+        "type": "object",
+        "description": "User gender",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "email" : {
-            "$ref" : "#/components/schemas/EmailCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "GivenNameCertifiableSchema": {
+        "type": "object",
+        "description": "User given name",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "employeeNumber" : {
-            "$ref" : "#/components/schemas/EmployeeNumberCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "IdCardCertifiableSchema": {
+        "type": "object",
+        "description": "User ID card",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "expirationDate" : {
-            "$ref" : "#/components/schemas/ExpirationDateCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "InvalidParam": {
+        "required": [
+          "name",
+          "reason"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Invalid parameter name."
           },
-          "familyName" : {
-            "$ref" : "#/components/schemas/FamilyNameCertifiableSchema"
+          "reason": {
+            "type": "string",
+            "description": "Invalid parameter reason."
+          }
+        },
+        "description": "A list of invalid parameters details."
+      },
+      "IvaCodeCertifiableSchema": {
+        "type": "object",
+        "description": "User IVA code",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "gender" : {
-            "$ref" : "#/components/schemas/GenderCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "MobilePhoneCertifiableSchema": {
+        "type": "object",
+        "description": "User mobile phone number",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "givenName" : {
-            "$ref" : "#/components/schemas/GivenNameCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "MutableUserFieldsDto": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/AddressCertifiableSchema"
           },
-          "idCard" : {
-            "$ref" : "#/components/schemas/IdCardCertifiableSchema"
+          "birthDate": {
+            "$ref": "#/components/schemas/BirthDateCertifiableSchema"
           },
-          "ivaCode" : {
-            "$ref" : "#/components/schemas/IvaCodeCertifiableSchema"
+          "city": {
+            "$ref": "#/components/schemas/CityCertifiableSchema"
           },
-          "mobilePhone" : {
-            "$ref" : "#/components/schemas/MobilePhoneCertifiableSchema"
+          "commonName": {
+            "$ref": "#/components/schemas/CommonNameCertifiableSchema"
           },
-          "name" : {
-            "$ref" : "#/components/schemas/NameCertifiableSchema"
+          "companyName": {
+            "$ref": "#/components/schemas/CompanyNameCertifiableSchema"
           },
-          "orgUnitName" : {
-            "$ref" : "#/components/schemas/OrgUnitNameCertifiableSchema"
+          "country": {
+            "$ref": "#/components/schemas/CountryCertifiableSchema"
           },
-          "placeOfBirth" : {
-            "$ref" : "#/components/schemas/PlaceOfBirthCertifiableSchema"
+          "countyOfBirth": {
+            "$ref": "#/components/schemas/CountyOfBirthCertifiableSchema"
           },
-          "postalCode" : {
-            "$ref" : "#/components/schemas/PostalCodeCertifiableSchema"
+          "digitalAddress": {
+            "$ref": "#/components/schemas/DigitalAddressCertifiableSchema"
           },
-          "preferredLanguage" : {
-            "$ref" : "#/components/schemas/PreferredLanguageCertifiableSchema"
+          "domicileAddress": {
+            "$ref": "#/components/schemas/DomicileAddressCertifiableSchema"
           },
-          "preferredUsername" : {
-            "$ref" : "#/components/schemas/PreferredUsernameCertifiableSchema"
+          "domicileCountry": {
+            "$ref": "#/components/schemas/DomicileCountryCertifiableSchema"
           },
-          "qualification" : {
-            "$ref" : "#/components/schemas/QualificationCertifiableSchema"
+          "domicilePlace": {
+            "$ref": "#/components/schemas/DomicilePlaceCertifiableSchema"
           },
-          "registeredOffice" : {
-            "$ref" : "#/components/schemas/RegisteredOfficeCertifiableSchema"
+          "domicilePostalCode": {
+            "$ref": "#/components/schemas/DomicilePostalCodeCertifiableSchema"
           },
-          "spidCode" : {
-            "$ref" : "#/components/schemas/SpidCodeCertifiableSchema"
+          "domicileProvince": {
+            "$ref": "#/components/schemas/DomicileProvinceCertifiableSchema"
           },
-          "stateOrProvince" : {
-            "$ref" : "#/components/schemas/StateOrProvinceCertifiableSchema"
+          "email": {
+            "$ref": "#/components/schemas/EmailCertifiableSchema"
           },
-          "street" : {
-            "$ref" : "#/components/schemas/StreetCertifiableSchema"
+          "employeeNumber": {
+            "$ref": "#/components/schemas/EmployeeNumberCertifiableSchema"
           },
-          "surname" : {
-            "$ref" : "#/components/schemas/SurnameCertifiableSchema"
+          "expirationDate": {
+            "$ref": "#/components/schemas/ExpirationDateCertifiableSchema"
           },
-          "title" : {
-            "$ref" : "#/components/schemas/TitleCertifiableSchema"
+          "familyName": {
+            "$ref": "#/components/schemas/FamilyNameCertifiableSchema"
           },
-          "userCertificate" : {
-            "$ref" : "#/components/schemas/UserCertificateCertifiableSchema"
+          "gender": {
+            "$ref": "#/components/schemas/GenderCertifiableSchema"
           },
-          "workContacts" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "$ref" : "#/components/schemas/WorkContactResource"
+          "givenName": {
+            "$ref": "#/components/schemas/GivenNameCertifiableSchema"
+          },
+          "idCard": {
+            "$ref": "#/components/schemas/IdCardCertifiableSchema"
+          },
+          "ivaCode": {
+            "$ref": "#/components/schemas/IvaCodeCertifiableSchema"
+          },
+          "mobilePhone": {
+            "$ref": "#/components/schemas/MobilePhoneCertifiableSchema"
+          },
+          "name": {
+            "$ref": "#/components/schemas/NameCertifiableSchema"
+          },
+          "orgUnitName": {
+            "$ref": "#/components/schemas/OrgUnitNameCertifiableSchema"
+          },
+          "placeOfBirth": {
+            "$ref": "#/components/schemas/PlaceOfBirthCertifiableSchema"
+          },
+          "postalCode": {
+            "$ref": "#/components/schemas/PostalCodeCertifiableSchema"
+          },
+          "preferredLanguage": {
+            "$ref": "#/components/schemas/PreferredLanguageCertifiableSchema"
+          },
+          "preferredUsername": {
+            "$ref": "#/components/schemas/PreferredUsernameCertifiableSchema"
+          },
+          "qualification": {
+            "$ref": "#/components/schemas/QualificationCertifiableSchema"
+          },
+          "registeredOffice": {
+            "$ref": "#/components/schemas/RegisteredOfficeCertifiableSchema"
+          },
+          "spidCode": {
+            "$ref": "#/components/schemas/SpidCodeCertifiableSchema"
+          },
+          "stateOrProvince": {
+            "$ref": "#/components/schemas/StateOrProvinceCertifiableSchema"
+          },
+          "street": {
+            "$ref": "#/components/schemas/StreetCertifiableSchema"
+          },
+          "surname": {
+            "$ref": "#/components/schemas/SurnameCertifiableSchema"
+          },
+          "title": {
+            "$ref": "#/components/schemas/TitleCertifiableSchema"
+          },
+          "userCertificate": {
+            "$ref": "#/components/schemas/UserCertificateCertifiableSchema"
+          },
+          "workContacts": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/WorkContactResource"
             },
-            "description" : "User work contacts"
+            "description": "User work contacts"
           }
         }
       },
-      "NameCertifiableSchema" : {
-        "type" : "object",
-        "description" : "User name",
-        "properties" : {
-          "certification" : {
-            "type" : "string",
-            "description" : "Certified source of information",
-            "enum" : [ "NONE", "SPID" ]
+      "NameCertifiableSchema": {
+        "type": "object",
+        "description": "User name",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "value" : {
-            "type" : "string",
-            "description" : "Field value"
+          "value": {
+            "type": "string",
+            "description": "Field value"
           }
         },
-        "required" : [ "certification", "value" ]
+        "required": [
+          "certification",
+          "value"
+        ]
       },
-      "Problem" : {
-        "required" : [ "status", "title" ],
-        "type" : "object",
-        "properties" : {
-          "detail" : {
-            "type" : "string",
-            "description" : "Human-readable description of this specific problem."
+      "OrgUnitNameCertifiableSchema": {
+        "type": "object",
+        "description": "User organization unit name",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "instance" : {
-            "type" : "string",
-            "description" : "A URI that describes where the problem occurred."
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "PlaceOfBirthCertifiableSchema": {
+        "type": "object",
+        "description": "User place of birth",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "invalidParams" : {
-            "type" : "array",
-            "description" : "A list of invalid parameters details.",
-            "items" : {
-              "$ref" : "#/components/schemas/InvalidParam"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "PostalCodeCertifiableSchema": {
+        "type": "object",
+        "description": "User postal code",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "PreferredLanguageCertifiableSchema": {
+        "type": "object",
+        "description": "User preferred language",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "PreferredUsernameCertifiableSchema": {
+        "type": "object",
+        "description": "User preferred username",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "Problem": {
+        "required": [
+          "status",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string",
+            "description": "Human-readable description of this specific problem."
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI that describes where the problem occurred."
+          },
+          "invalidParams": {
+            "type": "array",
+            "description": "A list of invalid parameters details.",
+            "items": {
+              "$ref": "#/components/schemas/InvalidParam"
             }
           },
-          "status" : {
-            "maximum" : 599,
-            "minimum" : 100,
-            "type" : "integer",
-            "description" : "The HTTP status code.",
-            "format" : "int32",
-            "example" : 500
+          "status": {
+            "maximum": 599,
+            "minimum": 100,
+            "type": "integer",
+            "description": "The HTTP status code.",
+            "format": "int32",
+            "example": 500
           },
-          "title" : {
-            "type" : "string",
-            "description" : "Short human-readable summary of the problem."
+          "title": {
+            "type": "string",
+            "description": "Short human-readable summary of the problem."
           },
-          "type" : {
-            "type" : "string",
-            "description" : "A URL to a page with more details regarding the problem."
+          "type": {
+            "type": "string",
+            "description": "A URL to a page with more details regarding the problem."
           }
         },
-        "description" : "A \"problem detail\" as a way to carry machine-readable details of errors (https://datatracker.ietf.org/doc/html/rfc7807)"
+        "description": "A \"problem detail\" as a way to carry machine-readable details of errors (https://datatracker.ietf.org/doc/html/rfc7807)"
       },
-      "SaveUserDto" : {
-        "required" : [ "fiscalCode" ],
-        "type" : "object",
-        "properties" : {
-          "address" : {
-            "$ref" : "#/components/schemas/AddressCertifiableSchema"
+      "QualificationCertifiableSchema": {
+        "type": "object",
+        "description": "User qualification",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "birthDate" : {
-            "$ref" : "#/components/schemas/BirthDateCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "RegisteredOfficeCertifiableSchema": {
+        "type": "object",
+        "description": "User registered office",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "city" : {
-            "$ref" : "#/components/schemas/CityCertifiableSchema"
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "SaveUserDto": {
+        "required": [
+          "fiscalCode"
+        ],
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/AddressCertifiableSchema"
           },
-          "commonName" : {
-            "$ref" : "#/components/schemas/CommonNameCertifiableSchema"
+          "birthDate": {
+            "$ref": "#/components/schemas/BirthDateCertifiableSchema"
           },
-          "companyName" : {
-            "$ref" : "#/components/schemas/CompanyNameCertifiableSchema"
+          "city": {
+            "$ref": "#/components/schemas/CityCertifiableSchema"
           },
-          "country" : {
-            "$ref" : "#/components/schemas/CountryCertifiableSchema"
+          "commonName": {
+            "$ref": "#/components/schemas/CommonNameCertifiableSchema"
           },
-          "countyOfBirth" : {
-            "$ref" : "#/components/schemas/CountyOfBirthCertifiableSchema"
+          "companyName": {
+            "$ref": "#/components/schemas/CompanyNameCertifiableSchema"
           },
-          "digitalAddress" : {
-            "$ref" : "#/components/schemas/DigitalAddressCertifiableSchema"
+          "country": {
+            "$ref": "#/components/schemas/CountryCertifiableSchema"
           },
-          "domicileAddress" : {
-            "$ref" : "#/components/schemas/DomicileAddressCertifiableSchema"
+          "countyOfBirth": {
+            "$ref": "#/components/schemas/CountyOfBirthCertifiableSchema"
           },
-          "domicileCountry" : {
-            "$ref" : "#/components/schemas/DomicileCountryCertifiableSchema"
+          "digitalAddress": {
+            "$ref": "#/components/schemas/DigitalAddressCertifiableSchema"
           },
-          "domicilePlace" : {
-            "$ref" : "#/components/schemas/DomicilePlaceCertifiableSchema"
+          "domicileAddress": {
+            "$ref": "#/components/schemas/DomicileAddressCertifiableSchema"
           },
-          "domicilePostalCode" : {
-            "$ref" : "#/components/schemas/DomicilePostalCodeCertifiableSchema"
+          "domicileCountry": {
+            "$ref": "#/components/schemas/DomicileCountryCertifiableSchema"
           },
-          "domicileProvince" : {
-            "$ref" : "#/components/schemas/DomicileProvinceCertifiableSchema"
+          "domicilePlace": {
+            "$ref": "#/components/schemas/DomicilePlaceCertifiableSchema"
           },
-          "email" : {
-            "$ref" : "#/components/schemas/EmailCertifiableSchema"
+          "domicilePostalCode": {
+            "$ref": "#/components/schemas/DomicilePostalCodeCertifiableSchema"
           },
-          "employeeNumber" : {
-            "$ref" : "#/components/schemas/EmployeeNumberCertifiableSchema"
+          "domicileProvince": {
+            "$ref": "#/components/schemas/DomicileProvinceCertifiableSchema"
           },
-          "expirationDate" : {
-            "$ref" : "#/components/schemas/ExpirationDateCertifiableSchema"
+          "email": {
+            "$ref": "#/components/schemas/EmailCertifiableSchema"
           },
-          "familyName" : {
-            "$ref" : "#/components/schemas/FamilyNameCertifiableSchema"
+          "employeeNumber": {
+            "$ref": "#/components/schemas/EmployeeNumberCertifiableSchema"
           },
-          "fiscalCode" : {
-            "type" : "string",
-            "description" : "User fiscal code"
+          "expirationDate": {
+            "$ref": "#/components/schemas/ExpirationDateCertifiableSchema"
           },
-          "gender" : {
-            "$ref" : "#/components/schemas/GenderCertifiableSchema"
+          "familyName": {
+            "$ref": "#/components/schemas/FamilyNameCertifiableSchema"
           },
-          "givenName" : {
-            "$ref" : "#/components/schemas/GivenNameCertifiableSchema"
+          "fiscalCode": {
+            "type": "string",
+            "description": "User fiscal code"
           },
-          "idCard" : {
-            "$ref" : "#/components/schemas/IdCardCertifiableSchema"
+          "gender": {
+            "$ref": "#/components/schemas/GenderCertifiableSchema"
           },
-          "ivaCode" : {
-            "$ref" : "#/components/schemas/IvaCodeCertifiableSchema"
+          "givenName": {
+            "$ref": "#/components/schemas/GivenNameCertifiableSchema"
           },
-          "mobilePhone" : {
-            "$ref" : "#/components/schemas/MobilePhoneCertifiableSchema"
+          "idCard": {
+            "$ref": "#/components/schemas/IdCardCertifiableSchema"
           },
-          "name" : {
-            "$ref" : "#/components/schemas/NameCertifiableSchema"
+          "ivaCode": {
+            "$ref": "#/components/schemas/IvaCodeCertifiableSchema"
           },
-          "orgUnitName" : {
-            "$ref" : "#/components/schemas/OrgUnitNameCertifiableSchema"
+          "mobilePhone": {
+            "$ref": "#/components/schemas/MobilePhoneCertifiableSchema"
           },
-          "placeOfBirth" : {
-            "$ref" : "#/components/schemas/PlaceOfBirthCertifiableSchema"
+          "name": {
+            "$ref": "#/components/schemas/NameCertifiableSchema"
           },
-          "postalCode" : {
-            "$ref" : "#/components/schemas/PostalCodeCertifiableSchema"
+          "orgUnitName": {
+            "$ref": "#/components/schemas/OrgUnitNameCertifiableSchema"
           },
-          "preferredLanguage" : {
-            "$ref" : "#/components/schemas/PreferredLanguageCertifiableSchema"
+          "placeOfBirth": {
+            "$ref": "#/components/schemas/PlaceOfBirthCertifiableSchema"
           },
-          "preferredUsername" : {
-            "$ref" : "#/components/schemas/PreferredUsernameCertifiableSchema"
+          "postalCode": {
+            "$ref": "#/components/schemas/PostalCodeCertifiableSchema"
           },
-          "qualification" : {
-            "$ref" : "#/components/schemas/QualificationCertifiableSchema"
+          "preferredLanguage": {
+            "$ref": "#/components/schemas/PreferredLanguageCertifiableSchema"
           },
-          "registeredOffice" : {
-            "$ref" : "#/components/schemas/RegisteredOfficeCertifiableSchema"
+          "preferredUsername": {
+            "$ref": "#/components/schemas/PreferredUsernameCertifiableSchema"
           },
-          "spidCode" : {
-            "$ref" : "#/components/schemas/SpidCodeCertifiableSchema"
+          "qualification": {
+            "$ref": "#/components/schemas/QualificationCertifiableSchema"
           },
-          "stateOrProvince" : {
-            "$ref" : "#/components/schemas/StateOrProvinceCertifiableSchema"
+          "registeredOffice": {
+            "$ref": "#/components/schemas/RegisteredOfficeCertifiableSchema"
           },
-          "street" : {
-            "$ref" : "#/components/schemas/StreetCertifiableSchema"
+          "spidCode": {
+            "$ref": "#/components/schemas/SpidCodeCertifiableSchema"
           },
-          "surname" : {
-            "$ref" : "#/components/schemas/SurnameCertifiableSchema"
+          "stateOrProvince": {
+            "$ref": "#/components/schemas/StateOrProvinceCertifiableSchema"
           },
-          "title" : {
-            "$ref" : "#/components/schemas/TitleCertifiableSchema"
+          "street": {
+            "$ref": "#/components/schemas/StreetCertifiableSchema"
           },
-          "userCertificate" : {
-            "$ref" : "#/components/schemas/UserCertificateCertifiableSchema"
+          "surname": {
+            "$ref": "#/components/schemas/SurnameCertifiableSchema"
           },
-          "workContacts" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "$ref" : "#/components/schemas/WorkContactResource"
+          "title": {
+            "$ref": "#/components/schemas/TitleCertifiableSchema"
+          },
+          "userCertificate": {
+            "$ref": "#/components/schemas/UserCertificateCertifiableSchema"
+          },
+          "workContacts": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/WorkContactResource"
             },
-            "description" : "User work contacts"
+            "description": "User work contacts"
           }
         }
       },
-      "TelephoneCertifiableSchema" : {
-        "type" : "object",
-        "description" : "User work telephone number",
-        "properties" : {
-          "certification" : {
-            "type" : "string",
-            "description" : "Certified source of information",
-            "enum" : [ "NONE", "SPID" ]
+      "SpidCodeCertifiableSchema": {
+        "type": "object",
+        "description": "User SPID code",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
           },
-          "value" : {
-            "type" : "string",
-            "description" : "Field value"
+          "value": {
+            "type": "string",
+            "description": "Field value"
           }
         },
-        "required" : [ "certification", "value" ]
+        "required": [
+          "certification",
+          "value"
+        ]
       },
-      "UserId" : {
-        "required" : [ "id" ],
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "string",
-            "description" : "User internal id",
-            "format" : "uuid"
+      "StateOrProvinceCertifiableSchema": {
+        "type": "object",
+        "description": "User state or province",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "StreetCertifiableSchema": {
+        "type": "object",
+        "description": "User street",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "SurnameCertifiableSchema": {
+        "type": "object",
+        "description": "User surname",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "TelephoneCertifiableSchema": {
+        "type": "object",
+        "description": "User work telephone number",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "TitleCertifiableSchema": {
+        "type": "object",
+        "description": "User title",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "UserCertificateCertifiableSchema": {
+        "type": "object",
+        "description": "User certificate",
+        "properties": {
+          "certification": {
+            "type": "string",
+            "description": "Certified source of information",
+            "enum": [
+              "NONE",
+              "SPID"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Field value"
+          }
+        },
+        "required": [
+          "certification",
+          "value"
+        ]
+      },
+      "UserId": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User internal id",
+            "format": "uuid"
           }
         }
       },
-      "UserResource" : {
-        "required" : [ "id" ],
-        "type" : "object",
-        "properties" : {
-          "address" : {
-            "$ref" : "#/components/schemas/AddressCertifiableSchema"
+      "UserResource": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/AddressCertifiableSchema"
           },
-          "birthDate" : {
-            "$ref" : "#/components/schemas/BirthDateCertifiableSchema"
+          "birthDate": {
+            "$ref": "#/components/schemas/BirthDateCertifiableSchema"
           },
-          "city" : {
-            "$ref" : "#/components/schemas/CityCertifiableSchema"
+          "city": {
+            "$ref": "#/components/schemas/CityCertifiableSchema"
           },
-          "commonName" : {
-            "$ref" : "#/components/schemas/CommonNameCertifiableSchema"
+          "commonName": {
+            "$ref": "#/components/schemas/CommonNameCertifiableSchema"
           },
-          "companyName" : {
-            "$ref" : "#/components/schemas/CompanyNameCertifiableSchema"
+          "companyName": {
+            "$ref": "#/components/schemas/CompanyNameCertifiableSchema"
           },
-          "country" : {
-            "$ref" : "#/components/schemas/CountryCertifiableSchema"
+          "country": {
+            "$ref": "#/components/schemas/CountryCertifiableSchema"
           },
-          "countyOfBirth" : {
-            "$ref" : "#/components/schemas/CountyOfBirthCertifiableSchema"
+          "countyOfBirth": {
+            "$ref": "#/components/schemas/CountyOfBirthCertifiableSchema"
           },
-          "digitalAddress" : {
-            "$ref" : "#/components/schemas/DigitalAddressCertifiableSchema"
+          "digitalAddress": {
+            "$ref": "#/components/schemas/DigitalAddressCertifiableSchema"
           },
-          "domicileAddress" : {
-            "$ref" : "#/components/schemas/DomicileAddressCertifiableSchema"
+          "domicileAddress": {
+            "$ref": "#/components/schemas/DomicileAddressCertifiableSchema"
           },
-          "domicileCountry" : {
-            "$ref" : "#/components/schemas/DomicileCountryCertifiableSchema"
+          "domicileCountry": {
+            "$ref": "#/components/schemas/DomicileCountryCertifiableSchema"
           },
-          "domicilePlace" : {
-            "$ref" : "#/components/schemas/DomicilePlaceCertifiableSchema"
+          "domicilePlace": {
+            "$ref": "#/components/schemas/DomicilePlaceCertifiableSchema"
           },
-          "domicilePostalCode" : {
-            "$ref" : "#/components/schemas/DomicilePostalCodeCertifiableSchema"
+          "domicilePostalCode": {
+            "$ref": "#/components/schemas/DomicilePostalCodeCertifiableSchema"
           },
-          "domicileProvince" : {
-            "$ref" : "#/components/schemas/DomicileProvinceCertifiableSchema"
+          "domicileProvince": {
+            "$ref": "#/components/schemas/DomicileProvinceCertifiableSchema"
           },
-          "email" : {
-            "$ref" : "#/components/schemas/EmailCertifiableSchema"
+          "email": {
+            "$ref": "#/components/schemas/EmailCertifiableSchema"
           },
-          "employeeNumber" : {
-            "$ref" : "#/components/schemas/EmployeeNumberCertifiableSchema"
+          "employeeNumber": {
+            "$ref": "#/components/schemas/EmployeeNumberCertifiableSchema"
           },
-          "expirationDate" : {
-            "$ref" : "#/components/schemas/ExpirationDateCertifiableSchema"
+          "expirationDate": {
+            "$ref": "#/components/schemas/ExpirationDateCertifiableSchema"
           },
-          "familyName" : {
-            "$ref" : "#/components/schemas/FamilyNameCertifiableSchema"
+          "familyName": {
+            "$ref": "#/components/schemas/FamilyNameCertifiableSchema"
           },
-          "fiscalCode" : {
-            "type" : "string",
-            "description" : "User fiscal code"
+          "fiscalCode": {
+            "type": "string",
+            "description": "User fiscal code"
           },
-          "gender" : {
-            "$ref" : "#/components/schemas/GenderCertifiableSchema"
+          "gender": {
+            "$ref": "#/components/schemas/GenderCertifiableSchema"
           },
-          "givenName" : {
-            "$ref" : "#/components/schemas/GivenNameCertifiableSchema"
+          "givenName": {
+            "$ref": "#/components/schemas/GivenNameCertifiableSchema"
           },
-          "id" : {
-            "type" : "string",
-            "description" : "User internal id",
-            "format" : "uuid"
+          "id": {
+            "type": "string",
+            "description": "User internal id",
+            "format": "uuid"
           },
-          "idCard" : {
-            "$ref" : "#/components/schemas/IdCardCertifiableSchema"
+          "idCard": {
+            "$ref": "#/components/schemas/IdCardCertifiableSchema"
           },
-          "ivaCode" : {
-            "$ref" : "#/components/schemas/IvaCodeCertifiableSchema"
+          "ivaCode": {
+            "$ref": "#/components/schemas/IvaCodeCertifiableSchema"
           },
-          "mobilePhone" : {
-            "$ref" : "#/components/schemas/MobilePhoneCertifiableSchema"
+          "mobilePhone": {
+            "$ref": "#/components/schemas/MobilePhoneCertifiableSchema"
           },
-          "name" : {
-            "$ref" : "#/components/schemas/NameCertifiableSchema"
+          "name": {
+            "$ref": "#/components/schemas/NameCertifiableSchema"
           },
-          "orgUnitName" : {
-            "$ref" : "#/components/schemas/OrgUnitNameCertifiableSchema"
+          "orgUnitName": {
+            "$ref": "#/components/schemas/OrgUnitNameCertifiableSchema"
           },
-          "placeOfBirth" : {
-            "$ref" : "#/components/schemas/PlaceOfBirthCertifiableSchema"
+          "placeOfBirth": {
+            "$ref": "#/components/schemas/PlaceOfBirthCertifiableSchema"
           },
-          "postalCode" : {
-            "$ref" : "#/components/schemas/PostalCodeCertifiableSchema"
+          "postalCode": {
+            "$ref": "#/components/schemas/PostalCodeCertifiableSchema"
           },
-          "preferredLanguage" : {
-            "$ref" : "#/components/schemas/PreferredLanguageCertifiableSchema"
+          "preferredLanguage": {
+            "$ref": "#/components/schemas/PreferredLanguageCertifiableSchema"
           },
-          "preferredUsername" : {
-            "$ref" : "#/components/schemas/PreferredUsernameCertifiableSchema"
+          "preferredUsername": {
+            "$ref": "#/components/schemas/PreferredUsernameCertifiableSchema"
           },
-          "qualification" : {
-            "$ref" : "#/components/schemas/QualificationCertifiableSchema"
+          "qualification": {
+            "$ref": "#/components/schemas/QualificationCertifiableSchema"
           },
-          "registeredOffice" : {
-            "$ref" : "#/components/schemas/RegisteredOfficeCertifiableSchema"
+          "registeredOffice": {
+            "$ref": "#/components/schemas/RegisteredOfficeCertifiableSchema"
           },
-          "spidCode" : {
-            "$ref" : "#/components/schemas/SpidCodeCertifiableSchema"
+          "spidCode": {
+            "$ref": "#/components/schemas/SpidCodeCertifiableSchema"
           },
-          "stateOrProvince" : {
-            "$ref" : "#/components/schemas/StateOrProvinceCertifiableSchema"
+          "stateOrProvince": {
+            "$ref": "#/components/schemas/StateOrProvinceCertifiableSchema"
           },
-          "street" : {
-            "$ref" : "#/components/schemas/StreetCertifiableSchema"
+          "street": {
+            "$ref": "#/components/schemas/StreetCertifiableSchema"
           },
-          "surname" : {
-            "$ref" : "#/components/schemas/SurnameCertifiableSchema"
+          "surname": {
+            "$ref": "#/components/schemas/SurnameCertifiableSchema"
           },
-          "title" : {
-            "$ref" : "#/components/schemas/TitleCertifiableSchema"
+          "title": {
+            "$ref": "#/components/schemas/TitleCertifiableSchema"
           },
-          "userCertificate" : {
-            "$ref" : "#/components/schemas/UserCertificateCertifiableSchema"
+          "userCertificate": {
+            "$ref": "#/components/schemas/UserCertificateCertifiableSchema"
           },
-          "workContacts" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "$ref" : "#/components/schemas/WorkContactResource"
+          "workContacts": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/WorkContactResource"
             },
-            "description" : "User work contacts"
+            "description": "User work contacts"
           }
         }
       },
-      "UserSearchDto" : {
-        "required" : [ "fiscalCode" ],
-        "type" : "object",
-        "properties" : {
-          "fiscalCode" : {
-            "type" : "string",
-            "description" : "User fiscal code"
+      "UserSearchDto": {
+        "required": [
+          "fiscalCode"
+        ],
+        "type": "object",
+        "properties": {
+          "fiscalCode": {
+            "type": "string",
+            "description": "User fiscal code"
           }
         }
       },
-      "WorkContactResource" : {
-        "type" : "object",
-        "properties" : {
-          "email" : {
-            "$ref" : "#/components/schemas/EmailCertifiableSchema"
+      "WorkContactResource": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "$ref": "#/components/schemas/EmailCertifiableSchema"
           },
-          "mobilePhone" : {
-            "$ref" : "#/components/schemas/MobilePhoneCertifiableSchema"
+          "mobilePhone": {
+            "$ref": "#/components/schemas/MobilePhoneCertifiableSchema"
           },
-          "telephone" : {
-            "$ref" : "#/components/schemas/TelephoneCertifiableSchema"
+          "telephone": {
+            "$ref": "#/components/schemas/TelephoneCertifiableSchema"
           }
         },
-        "description" : "User work contacts"
+        "description": "User work contacts"
       }
     }
   }

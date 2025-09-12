@@ -36,149 +36,219 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ContextConfiguration(initializers = PersonRestClientTest.RandomPortInitializer.class,
-        classes = {
-                PersonRestClientTest.Config.class,
-                PersonRestClientTestConfig.class,
-                FeignAutoConfiguration.class,
-                HttpMessageConvertersAutoConfiguration.class})
+    classes = {
+        PersonRestClientTest.Config.class,
+        PersonRestClientTestConfig.class,
+        FeignAutoConfiguration.class,
+        HttpMessageConvertersAutoConfiguration.class})
 @TestPropertySource(
-        properties = {
-                "logging.level.it.pagopa.pdv.user_registry.connector.rest=DEBUG",
-                "spring.application.name=pdv-ms-user-registry-connector-rest"
-        })
+    properties = {
+        "logging.level.it.pagopa.pdv.user_registry.connector.rest=DEBUG",
+        "spring.application.name=pdv-ms-user-registry-connector-rest"
+    })
 class PersonRestClientTest {
 
-    @TestConfiguration
-    public static class Config {
-        @Bean
-        @Primary
-        public ObjectMapper objectMapper() {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new JavaTimeModule());
-            mapper.registerModule(new Jdk8Module());
-            mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-            mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
-            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-            mapper.setTimeZone(TimeZone.getDefault());
-            return mapper;
-        }
+  @TestConfiguration
+  public static class Config {
+
+    @Bean
+    @Primary
+    public ObjectMapper objectMapper() {
+      ObjectMapper mapper = new ObjectMapper();
+      mapper.registerModule(new JavaTimeModule());
+      mapper.registerModule(new Jdk8Module());
+      mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+      mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+      mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+      mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+      mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+      mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+      mapper.setTimeZone(TimeZone.getDefault());
+      return mapper;
     }
+  }
 
-    public static class RandomPortInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        @SneakyThrows
-        @Override
-        public void initialize(ConfigurableApplicationContext applicationContext) {
-            TestPropertySourceUtils.addInlinedPropertiesToEnvironment(applicationContext,
-                    String.format("MS_PERSON_URL=%s",
-                            wm.getRuntimeInfo().getHttpBaseUrl())
-            );
-        }
+  public static class RandomPortInitializer implements
+      ApplicationContextInitializer<ConfigurableApplicationContext> {
+
+    @SneakyThrows
+    @Override
+    public void initialize(ConfigurableApplicationContext applicationContext) {
+      TestPropertySourceUtils.addInlinedPropertiesToEnvironment(applicationContext,
+          String.format("MS_PERSON_URL=%s",
+              wm.getRuntimeInfo().getHttpBaseUrl())
+      );
     }
+  }
 
-    @Order(1)
-    @RegisterExtension
-    static WireMockExtension wm = WireMockExtension.newInstance()
-            .options(RestTestUtils.getWireMockConfiguration("stubs/person"))
-            .build();
+  @Order(1)
+  @RegisterExtension
+  static WireMockExtension wm = WireMockExtension.newInstance()
+      .options(RestTestUtils.getWireMockConfiguration("stubs/person"))
+      .build();
 
-    @Order(2)
-    @RegisterExtension
-    static SpringExtension springExtension = new SpringExtension();
+  @Order(2)
+  @RegisterExtension
+  static SpringExtension springExtension = new SpringExtension();
 
-    @Autowired
-    private PersonRestClient restClient;
-
-
-    @Test
-    void saveNamespacedId() {
-        // given
-        String id = UUID.randomUUID().toString();
-        String namespace = "selfcare";
-        SavePersonNamespaceDto request = new SavePersonNamespaceDto();
-        request.setNamespacedId("namespaceId");
-        // when
-        restClient.saveNamespacedId(id, namespace, request);
-        // then do nothing
-    }
+  @Autowired
+  private PersonRestClient restClient;
 
 
-    @Test
-    void save() {
-        // given
-        String id = UUID.randomUUID().toString();
-        SavePersonDto request = new DummySavePersonDto();
-        // when
-        final Executable executable = () -> restClient.save(id, request);
-        // then do nothing
-        assertDoesNotThrow(executable);
-    }
+  @Test
+  void saveNamespacedId() {
+    // given
+    String id = UUID.randomUUID().toString();
+    String namespace = "selfcare";
+    SavePersonNamespaceDto request = new SavePersonNamespaceDto();
+    request.setNamespacedId("namespaceId");
+    // when
+    restClient.saveNamespacedId(id, namespace, request);
+    // then do nothing
+  }
 
 
-    @Test
-    void findById() {
-        // given
-        String id = UUID.randomUUID().toString();
-        String namespace = "namespace";
-        // when
-        PersonResource response = restClient.findById(id, true, namespace);
-        // then
-        assertNotNull(response);
-        assertNotNull(response.getId());
-        assertCertifiableFieldNotNull(response.getName());
-        assertCertifiableFieldNotNull(response.getFamilyName());
-        assertCertifiableFieldNotNull(response.getEmail());
-        assertCertifiableFieldNotNull(response.getBirthDate());
-        assertNotNull(response.getWorkContacts());
-        assertFalse(response.getWorkContacts().isEmpty());
-        response.getWorkContacts().values().forEach(workContactResource -> {
-            assertCertifiableFieldNotNull(workContactResource.getEmail());
-            assertCertifiableFieldNotNull(workContactResource.getMobilePhone());
-            assertCertifiableFieldNotNull(workContactResource.getTelephone());
-        });
-    }
-
-    @Test
-    void findById_nullNamespace() {
-        // given
-        String id = UUID.randomUUID().toString();
-        // when
-        PersonResource response = restClient.findById(id, true);
-        // then
-        assertNotNull(response);
-        assertNotNull(response.getId());
-        assertCertifiableFieldNotNull(response.getName());
-        assertCertifiableFieldNotNull(response.getFamilyName());
-        assertCertifiableFieldNotNull(response.getEmail());
-        assertCertifiableFieldNotNull(response.getBirthDate());
-        assertNotNull(response.getWorkContacts());
-        assertFalse(response.getWorkContacts().isEmpty());
-        response.getWorkContacts().values().forEach(workContactResource -> {
-            assertCertifiableFieldNotNull(workContactResource.getEmail());
-            assertCertifiableFieldNotNull(workContactResource.getMobilePhone());
-            assertCertifiableFieldNotNull(workContactResource.getTelephone());
-        });
-    }
+  @Test
+  void save() {
+    // given
+    String id = UUID.randomUUID().toString();
+    SavePersonDto request = new DummySavePersonDto();
+    // when
+    final Executable executable = () -> restClient.save(id, request);
+    // then do nothing
+    assertDoesNotThrow(executable);
+  }
 
 
-    private void assertCertifiableFieldNotNull(CertifiableField<?> actual) {
-        assertNotNull(actual.getCertification());
-        assertNotNull(actual.getValue());
-    }
+  @Test
+  void findById() {
+    // given
+    String id = UUID.randomUUID().toString();
+    String namespace = "namespace";
+
+    // when
+    PersonResource response = restClient.findById(id, true, namespace);
+
+    // then
+    assertNotNull(response);
+    assertNotNull(response.getId());
+    assertCertifiableFieldNotNull(response.getName());
+    assertCertifiableFieldNotNull(response.getFamilyName());
+    assertCertifiableFieldNotNull(response.getEmail());
+    assertCertifiableFieldNotNull(response.getBirthDate());
+    assertCertifiableFieldNotNull(response.getSpidCode());
+    assertCertifiableFieldNotNull(response.getPlaceOfBirth());
+    assertCertifiableFieldNotNull(response.getCountyOfBirth());
+    assertCertifiableFieldNotNull(response.getGender());
+    assertCertifiableFieldNotNull(response.getCompanyName());
+    assertCertifiableFieldNotNull(response.getRegisteredOffice());
+    assertCertifiableFieldNotNull(response.getIvaCode());
+    assertCertifiableFieldNotNull(response.getIdCard());
+    assertCertifiableFieldNotNull(response.getMobilePhone());
+    assertCertifiableFieldNotNull(response.getAddress());
+    assertCertifiableFieldNotNull(response.getExpirationDate());
+    assertCertifiableFieldNotNull(response.getDigitalAddress());
+    assertCertifiableFieldNotNull(response.getDomicileAddress());
+    assertCertifiableFieldNotNull(response.getDomicilePlace());
+    assertCertifiableFieldNotNull(response.getDomicilePostalCode());
+    assertCertifiableFieldNotNull(response.getDomicileProvince());
+    assertCertifiableFieldNotNull(response.getDomicileCountry());
+    assertCertifiableFieldNotNull(response.getQualification());
+    assertCertifiableFieldNotNull(response.getCommonName());
+    assertCertifiableFieldNotNull(response.getSurname());
+    assertCertifiableFieldNotNull(response.getGivenName());
+    assertCertifiableFieldNotNull(response.getPreferredUsername());
+    assertCertifiableFieldNotNull(response.getTitle());
+    assertCertifiableFieldNotNull(response.getUserCertificate());
+    assertCertifiableFieldNotNull(response.getEmployeeNumber());
+    assertCertifiableFieldNotNull(response.getOrgUnitName());
+    assertCertifiableFieldNotNull(response.getPreferredLanguage());
+    assertCertifiableFieldNotNull(response.getCountry());
+    assertCertifiableFieldNotNull(response.getStateOrProvince());
+    assertCertifiableFieldNotNull(response.getCity());
+    assertCertifiableFieldNotNull(response.getPostalCode());
+    assertCertifiableFieldNotNull(response.getStreet());
+
+    assertNotNull(response.getWorkContacts());
+    assertFalse(response.getWorkContacts().isEmpty());
+    response.getWorkContacts().values().forEach(workContactResource -> {
+      assertCertifiableFieldNotNull(workContactResource.getEmail());
+      assertCertifiableFieldNotNull(workContactResource.getMobilePhone());
+      assertCertifiableFieldNotNull(workContactResource.getTelephone());
+    });
+  }
+
+  @Test
+  void findById_nullNamespace() {
+    // given
+    String id = UUID.randomUUID().toString();
+    // when
+    PersonResource response = restClient.findById(id, true);
+    // then
+    assertNotNull(response);
+    assertNotNull(response.getId());
+    assertCertifiableFieldNotNull(response.getName());
+    assertCertifiableFieldNotNull(response.getFamilyName());
+    assertCertifiableFieldNotNull(response.getEmail());
+    assertCertifiableFieldNotNull(response.getBirthDate());
+    assertCertifiableFieldNotNull(response.getSpidCode());
+    assertCertifiableFieldNotNull(response.getPlaceOfBirth());
+    assertCertifiableFieldNotNull(response.getCountyOfBirth());
+    assertCertifiableFieldNotNull(response.getGender());
+    assertCertifiableFieldNotNull(response.getCompanyName());
+    assertCertifiableFieldNotNull(response.getRegisteredOffice());
+    assertCertifiableFieldNotNull(response.getIvaCode());
+    assertCertifiableFieldNotNull(response.getIdCard());
+    assertCertifiableFieldNotNull(response.getMobilePhone());
+    assertCertifiableFieldNotNull(response.getAddress());
+    assertCertifiableFieldNotNull(response.getExpirationDate());
+    assertCertifiableFieldNotNull(response.getDigitalAddress());
+    assertCertifiableFieldNotNull(response.getDomicileAddress());
+    assertCertifiableFieldNotNull(response.getDomicilePlace());
+    assertCertifiableFieldNotNull(response.getDomicilePostalCode());
+    assertCertifiableFieldNotNull(response.getDomicileProvince());
+    assertCertifiableFieldNotNull(response.getDomicileCountry());
+    assertCertifiableFieldNotNull(response.getQualification());
+    assertCertifiableFieldNotNull(response.getCommonName());
+    assertCertifiableFieldNotNull(response.getSurname());
+    assertCertifiableFieldNotNull(response.getGivenName());
+    assertCertifiableFieldNotNull(response.getPreferredUsername());
+    assertCertifiableFieldNotNull(response.getTitle());
+    assertCertifiableFieldNotNull(response.getUserCertificate());
+    assertCertifiableFieldNotNull(response.getEmployeeNumber());
+    assertCertifiableFieldNotNull(response.getOrgUnitName());
+    assertCertifiableFieldNotNull(response.getPreferredLanguage());
+    assertCertifiableFieldNotNull(response.getCountry());
+    assertCertifiableFieldNotNull(response.getStateOrProvince());
+    assertCertifiableFieldNotNull(response.getCity());
+    assertCertifiableFieldNotNull(response.getPostalCode());
+    assertCertifiableFieldNotNull(response.getStreet());
+    assertNotNull(response.getWorkContacts());
+    assertFalse(response.getWorkContacts().isEmpty());
+    response.getWorkContacts().values().forEach(workContactResource -> {
+      assertCertifiableFieldNotNull(workContactResource.getEmail());
+      assertCertifiableFieldNotNull(workContactResource.getMobilePhone());
+      assertCertifiableFieldNotNull(workContactResource.getTelephone());
+    });
+  }
 
 
-    @Test
-    void findIdByNamespacedId() {
-        // given
-        String namespacedId = UUID.randomUUID().toString();
-        String namespace = "namespace";
-        // when
-        PersonGlobalId response = restClient.findIdByNamespacedId(namespacedId, namespace);
-        // then
-        assertNotNull(response);
-        assertNotNull(response.getId());
-    }
+  private void assertCertifiableFieldNotNull(CertifiableField<?> actual) {
+    assertNotNull(actual.getCertification());
+    assertNotNull(actual.getValue());
+  }
+
+
+  @Test
+  void findIdByNamespacedId() {
+    // given
+    String namespacedId = UUID.randomUUID().toString();
+    String namespace = "namespace";
+    // when
+    PersonGlobalId response = restClient.findIdByNamespacedId(namespacedId, namespace);
+    // then
+    assertNotNull(response);
+    assertNotNull(response.getId());
+  }
 
 }
