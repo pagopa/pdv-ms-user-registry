@@ -29,6 +29,34 @@
         "certification": "NONE",
         "value": "string"
       }
+    },
+    "additionalProp2": {
+      "email": {
+        "certification": "NONE",
+        "value": "string"
+      },
+      "mobilePhone": {
+        "certification": "NONE",
+        "value": "string"
+      },
+      "telephone": {
+        "certification": "NONE",
+        "value": "string"
+      }
+    },
+    "additionalProp3": {
+      "email": {
+        "certification": "NONE",
+        "value": "string"
+      },
+      "mobilePhone": {
+        "certification": "NONE",
+        "value": "string"
+      },
+      "telephone": {
+        "certification": "NONE",
+        "value": "string"
+      }
     }
   },
   "spidCode": {
