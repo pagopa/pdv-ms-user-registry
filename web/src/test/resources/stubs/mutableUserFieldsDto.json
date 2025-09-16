@@ -1,9 +1,5 @@
 {
-  "birthDate": {
-    "certification": "NONE",
-    "value": "2022-05-01"
-  },
-  "email": {
+  "name": {
     "certification": "NONE",
     "value": "string"
   },
@@ -11,13 +7,25 @@
     "certification": "NONE",
     "value": "string"
   },
-  "name": {
+  "email": {
     "certification": "NONE",
     "value": "string"
+  },
+  "birthDate": {
+    "certification": "NONE",
+    "value": "2022-05-02"
   },
   "workContacts": {
     "additionalProp1": {
       "email": {
+        "certification": "NONE",
+        "value": "string"
+      },
+      "mobilePhone": {
+        "certification": "NONE",
+        "value": "string"
+      },
+      "telephone": {
         "certification": "NONE",
         "value": "string"
       }
@@ -26,13 +34,157 @@
       "email": {
         "certification": "NONE",
         "value": "string"
+      },
+      "mobilePhone": {
+        "certification": "NONE",
+        "value": "string"
+      },
+      "telephone": {
+        "certification": "NONE",
+        "value": "string"
       }
     },
     "additionalProp3": {
       "email": {
         "certification": "NONE",
         "value": "string"
+      },
+      "mobilePhone": {
+        "certification": "NONE",
+        "value": "string"
+      },
+      "telephone": {
+        "certification": "NONE",
+        "value": "string"
       }
     }
+  },
+  "spidCode": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "placeOfBirth": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "countyOfBirth": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "gender": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "companyName": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "registeredOffice": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "ivaCode": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "idCard": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "mobilePhone": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "address": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "expirationDate": {
+    "certification": "NONE",
+    "value": "2022-05-02"
+  },
+  "digitalAddress": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "domicileAddress": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "domicilePlace": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "domicilePostalCode": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "domicileProvince": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "domicileCountry": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "qualification": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "commonName": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "surname": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "givenName": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "preferredUsername": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "title": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "userCertificate": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "employeeNumber": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "orgUnitName": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "preferredLanguage": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "country": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "stateOrProvince": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "city": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "postalCode": {
+    "certification": "NONE",
+    "value": "string"
+  },
+  "street": {
+    "certification": "NONE",
+    "value": "string"
   }
 }

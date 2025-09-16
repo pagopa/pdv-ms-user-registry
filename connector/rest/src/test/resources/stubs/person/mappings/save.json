@@ -28,6 +28,198 @@
         "matchesJsonPath": "$.birthDate.value"
       },
       {
+        "matchesJsonPath": "$.spidCode.certification"
+      },
+      {
+        "matchesJsonPath": "$.spidCode.value"
+      },
+      {
+        "matchesJsonPath": "$.placeOfBirth.certification"
+      },
+      {
+        "matchesJsonPath": "$.placeOfBirth.value"
+      },
+      {
+        "matchesJsonPath": "$.countyOfBirth.certification"
+      },
+      {
+        "matchesJsonPath": "$.countyOfBirth.value"
+      },
+      {
+        "matchesJsonPath": "$.gender.certification"
+      },
+      {
+        "matchesJsonPath": "$.gender.value"
+      },
+      {
+        "matchesJsonPath": "$.companyName.certification"
+      },
+      {
+        "matchesJsonPath": "$.companyName.value"
+      },
+      {
+        "matchesJsonPath": "$.registeredOffice.certification"
+      },
+      {
+        "matchesJsonPath": "$.registeredOffice.value"
+      },
+      {
+        "matchesJsonPath": "$.ivaCode.certification"
+      },
+      {
+        "matchesJsonPath": "$.ivaCode.value"
+      },
+      {
+        "matchesJsonPath": "$.idCard.certification"
+      },
+      {
+        "matchesJsonPath": "$.idCard.value"
+      },
+      {
+        "matchesJsonPath": "$.mobilePhone.certification"
+      },
+      {
+        "matchesJsonPath": "$.mobilePhone.value"
+      },
+      {
+        "matchesJsonPath": "$.address.certification"
+      },
+      {
+        "matchesJsonPath": "$.address.value"
+      },
+      {
+        "matchesJsonPath": "$.expirationDate.certification"
+      },
+      {
+        "matchesJsonPath": "$.expirationDate.value"
+      },
+      {
+        "matchesJsonPath": "$.digitalAddress.certification"
+      },
+      {
+        "matchesJsonPath": "$.digitalAddress.value"
+      },
+      {
+        "matchesJsonPath": "$.domicileAddress.certification"
+      },
+      {
+        "matchesJsonPath": "$.domicileAddress.value"
+      },
+      {
+        "matchesJsonPath": "$.domicilePlace.certification"
+      },
+      {
+        "matchesJsonPath": "$.domicilePlace.value"
+      },
+      {
+        "matchesJsonPath": "$.domicilePostalCode.certification"
+      },
+      {
+        "matchesJsonPath": "$.domicilePostalCode.value"
+      },
+      {
+        "matchesJsonPath": "$.domicileProvince.certification"
+      },
+      {
+        "matchesJsonPath": "$.domicileProvince.value"
+      },
+      {
+        "matchesJsonPath": "$.domicileCountry.certification"
+      },
+      {
+        "matchesJsonPath": "$.domicileCountry.value"
+      },
+      {
+        "matchesJsonPath": "$.qualification.certification"
+      },
+      {
+        "matchesJsonPath": "$.qualification.value"
+      },
+      {
+        "matchesJsonPath": "$.commonName.certification"
+      },
+      {
+        "matchesJsonPath": "$.commonName.value"
+      },
+      {
+        "matchesJsonPath": "$.surname.certification"
+      },
+      {
+        "matchesJsonPath": "$.surname.value"
+      },
+      {
+        "matchesJsonPath": "$.givenName.certification"
+      },
+      {
+        "matchesJsonPath": "$.givenName.value"
+      },
+      {
+        "matchesJsonPath": "$.preferredUsername.certification"
+      },
+      {
+        "matchesJsonPath": "$.preferredUsername.value"
+      },
+      {
+        "matchesJsonPath": "$.title.certification"
+      },
+      {
+        "matchesJsonPath": "$.title.value"
+      },
+      {
+        "matchesJsonPath": "$.userCertificate.certification"
+      },
+      {
+        "matchesJsonPath": "$.userCertificate.value"
+      },
+      {
+        "matchesJsonPath": "$.employeeNumber.certification"
+      },
+      {
+        "matchesJsonPath": "$.employeeNumber.value"
+      },
+      {
+        "matchesJsonPath": "$.orgUnitName.certification"
+      },
+      {
+        "matchesJsonPath": "$.orgUnitName.value"
+      },
+      {
+        "matchesJsonPath": "$.preferredLanguage.certification"
+      },
+      {
+        "matchesJsonPath": "$.preferredLanguage.value"
+      },
+      {
+        "matchesJsonPath": "$.country.certification"
+      },
+      {
+        "matchesJsonPath": "$.country.value"
+      },
+      {
+        "matchesJsonPath": "$.stateOrProvince.certification"
+      },
+      {
+        "matchesJsonPath": "$.stateOrProvince.value"
+      },
+      {
+        "matchesJsonPath": "$.city.certification"
+      },
+      {
+        "matchesJsonPath": "$.city.value"
+      },
+      {
+        "matchesJsonPath": "$.postalCode.certification"
+      },
+      {
+        "matchesJsonPath": "$.postalCode.value"
+      },
+      {
+        "matchesJsonPath": "$.street.certification"
+      },
+      {
+        "matchesJsonPath": "$.street.value"
+      },
+      {
         "matchesJsonPath": "$.workContacts"
       },
       {
@@ -51,10 +243,9 @@
     ]
   },
   "response": {
-    "status": "204",
+    "status": 204,
     "headers": {
       "Content-Type": "application/json"
     }
   }
 }
-
